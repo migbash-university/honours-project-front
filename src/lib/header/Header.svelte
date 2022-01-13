@@ -33,6 +33,7 @@
 		position: absolute;
 		top: 28px;
 		left: 31px;
+		z-index: 50000;
 	} 
 
 	/* 

@@ -74,9 +74,7 @@
 =================== -->
 
 <section>
-    <!-- 
-    ~~~~~~~~
-    website introduction -->
+    <!-- ... website introduction ... -->
     <div id='intro-hero'
         class='column-space-center'>
         <img 
@@ -131,12 +129,11 @@
         href="/welcome-info"
         >
         <button class='continuation-btn'>
-            <h1 class='s-18'>
-                <b>START</b>
+            <h1 class='s-18 color-white'>
+                <b>NEXT</b>
             </h1>
         </button>
     </a>
-   
 </section>
 
 <!-- ===================
@@ -173,6 +170,7 @@
         background-image: url('/assets/svg/arrow-btn.svg');
         background-repeat: no-repeat;
         background-position: 95% 50%;
+        background-color: #676767 !important;
         background-size: auto;
     }
 </style>

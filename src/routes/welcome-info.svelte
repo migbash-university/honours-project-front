@@ -77,7 +77,8 @@
     <!-- 
     ~~~~~~~~
     website introduction -->
-    <div id='intro-hero'
+    <div 
+        id='intro-hero'
         class='column-space-start m-b-55'
         style="width: fit-content;"
         >
@@ -90,7 +91,8 @@
             <b>STAR-<span class='color-secondary'>BASED</span></b>
         </h1>
         <hr />
-        <p class='s-16'> 
+        <p 
+            class='s-16'> 
             Learn <b>space</b> using
             <br /> 
             artificial intelligence and 3D models
@@ -99,11 +101,15 @@
 
     <!-- ... further-in-depth-infromation ... -->
 
-    <p class='s-14 m-b-30' style="color: #FF6464; letter-spacing: 0.05em;">
+    <p 
+        class='s-14 m-b-30' 
+        style="color: #FF6464; letter-spacing: 0.05em;">
         <b>What is S T A R - B A S E D ?</b>
     </p>
 
-    <p class='s-14 m-b-15' style="letter-spacing: 0.05em;">
+    <p 
+        class='s-14 m-b-15' 
+        style="letter-spacing: 0.05em;">
         It is a technological approach to identify the most preferred method of online-learning using a mix of visual interctive 3D space models, 
         simple passage reading and conversational agents (AI) to deliver knowledge on the topic of outer space. 
         <br />
@@ -117,7 +123,9 @@
         As a base-skeleton for these procedures, each test will have the same general outline procedure:
     </p>
 
-    <p class='m-l-30 s-14 m-b-40' style="letter-spacing: 0.05em;">
+    <p 
+        class='m-l-30 s-14 m-b-40' 
+        style="letter-spacing: 0.05em;">
         1. Spend 15 minutes interacting with the test and learning on a given nice topic on Mars & Titan,
         <br/>
         2. Answer end of topic questions curated for the learned material,
@@ -126,10 +134,16 @@
     </p>
 
     <!-- ... test-reminder ... -->
-    <div id='test-id-container'>
-        <p class='s-14'>
+    <div
+        id='test-id-container'>
+        <p 
+            class='s-14'>
             <b>THIS IS TEST NUMBER</b>
-            <span>
+            <span
+                style='
+                color: black;
+                background-color: #00FFB2;
+                padding: 9px 5px;'>
                 1
             </span>
             <span>
@@ -142,12 +156,15 @@
     </div>
 
     <!-- ... continuation button ... -->
-    <a sveltekit:prefetch
+    <a 
+        sveltekit:prefetch
         href="/1st-test"
         >
-        <button class='continuation-btn'>
-            <h1 class='s-18'>
-                <b>START</b>
+        <button 
+            class='continuation-btn'>
+            <h1 
+                class='s-18 color-white'>
+                <b>BEGIN</b>
             </h1>
         </button>
     </a>
@@ -171,6 +188,7 @@
     #test-id-container {
         background-color: #000000;
         padding: 9px 14px;
+        width: fit-content;
     }
 
     /* 
@@ -184,6 +202,7 @@
         background-image: url('/assets/svg/arrow-btn.svg');
         background-repeat: no-repeat;
         background-position: 95% 50%;
+        background-color: #676767 !important;
         background-size: auto;
     }
 </style>

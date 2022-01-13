@@ -16,7 +16,7 @@
 <script lang="ts">
     // ...
 	import { amp, browser, dev, mode, prerendering } from '$app/env'
-    import { fade } from 'svelte/transition'
+    import { fade, slide } from 'svelte/transition'
     import { onMount } from 'svelte'
 
     import starbased_logo from '$lib/starbased-icon.svg'
@@ -24,9 +24,25 @@
 
     import { first_test_data } from '$lib/data/1st-test'
 
-    // ~~~~~~~~~~~~~~
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // USER-ACTIONS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    let helpTipsShow: boolean = false;
+
+    function toggleHelpTips() {
+        helpTipsShow = !helpTipsShow
+    }
+
+    let viewMode: string = 'interactive'
+
+    function toggleViewMode(viewSet: string) {
+        viewMode = viewSet;
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // SPACEKIT-JS SIMULATION INTEGRATION
-    // ~~~~~~~~~~~~~~
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     let viz, n;
     let viz_option;
@@ -170,8 +186,63 @@
             id='main-container' 
         />
         <!-- ... change view types ... -->
-        <div>
-
+        <div
+            id='change-interactive-views'
+            class='row-space-out'>
+            <!-- ... interactive toggle ... -->
+            <button
+                on:click={() => toggleViewMode('interactive')}
+                class:selectedView={viewMode === 'interactive'}
+                class='toggle-view-btn column-space-center m-r-10'>
+                <!-- ... image-asset ... -->
+                {#if viewMode === 'interactive'}
+                    <img 
+                        src="./assets/svg/3D-icon-selected.svg" 
+                        alt="" 
+                        class='m-b-10'
+                        width="39.38px" height="39.38px"
+                    />
+                {:else}
+                    <img 
+                        src="./assets/svg/3D-icon-idle.svg" 
+                        alt="" 
+                        class='m-b-10'
+                        width="39.38px" height="39.38px"
+                    />
+                {/if}
+                <!-- ... button-text-action ... -->
+                <p>
+                    interactive 3D 
+                    <br/>
+                    model
+                </p>
+            </button>
+            <!-- ... photo gallery toggle ... -->
+            <button
+                on:click={() => toggleViewMode('photo')}
+                class:selectedView={viewMode === 'photo'}
+                class='toggle-view-btn column-space-center'>
+                <!-- ... image-asset ... -->
+                {#if viewMode === 'photo'}
+                    <img 
+                        src="./assets/svg/photo-gallery-icon-selected.svg" 
+                        alt=""
+                        class='m-b-10'
+                        width="38px" height="32px"
+                    />
+                {:else}
+                    <img 
+                        src="./assets/svg/photo-gallery-icon-idle.svg" 
+                        alt="" 
+                        class='m-b-10'
+                        width="38px" height="32px"
+                    />
+                {/if}
+                <!-- ... button-text-action ... -->
+                <p>
+                    photo gallery
+                </p>
+            </button>
         </div>
     </div>
 
@@ -182,17 +253,50 @@
         <!-- ... info / help btn ... -->
         <div 
             id='more-info-container'>
+            <!-- ... action-btn ... -->
             <button 
+                on:click={() => toggleHelpTips()}
                 class='help-btn'>
                 <h1 
-                    class='s-18'>
+                    class='s-18 color-white'>
                     <b>HELP</b>
                 </h1>
             </button>
+            <!-- ... action-display-btn-data ... -->
+            {#if helpTipsShow}
+                <div
+                    id='helpTipsContainer'
+                    transition:slide>
+                    <p
+                        class='s-14 color-white text-center m-b-15'>
+                        <b>
+                            here to help 🤗
+                        </b>
+                    </p>
+                    <p
+                        class='s-14 color-primary m-b-15'>
+                        <b>
+                            YOUR TASKS
+                        </b>
+                    </p>
+                    <p
+                        class='color-white s-14'>
+                        please read through the given passage / information on the planet TITAN below
+                        and identify information that you believe to be critical,
+                        <br />
+                        <br />
+                        when ready, proceed to the next page to answer some end of test questions based on the passage below
+                        <br />
+                        <br />
+                        once you complete the end of topic test, you will be promted to answering a simple 4 question questionnaire on your experience.
+                    </p>
+                </div>
+            {/if}
         </div>
 
         <!-- ... INFORMATION START ... -->
         <h1 
+            id='test-title'
             class='s-42'> 
             { first_test_data.title } 
         </h1>
@@ -204,19 +308,32 @@
 
     </div>
 
-    <!-- ... continuation button ... -->
-    <a 
-        sveltekit:prefetch
-        href="/1st-test/quiz"
-        >
-        <button 
-            class='continuation-btn'>
-            <h1 
-                class='s-18'>
-                <b>BEGIN TEST</b>
-            </h1>
-        </button>
-    </a>
+    <!-- ... container `div` next step ... -->
+    <div
+        id='contuniation-container'
+        class='row-space-start'>
+        <!-- ... text btn procedure ... -->
+        <p
+            class='m-r-20 s-14 color-white'>
+            Are you ready to undertake a 
+            <br/> 
+            end of reading test ?
+        </p>
+        <!-- ... continuation button ... -->
+        <a 
+            sveltekit:prefetch
+            href="/1st-test/quiz"
+            >
+            <button 
+                class='continuation-btn'>
+                <h1 
+                    class='s-18'>
+                    <b>BEGIN TEST</b>
+                </h1>
+            </button>
+        </a>
+    </div>
+    
 
 </section>
 
@@ -233,6 +350,7 @@
         background-color: #000000;
         width: 50vw;
         height: 100vh;
+        position: relative;
     } section #model-galaxy #main-container {
 		height: 100vh;
     }
@@ -243,21 +361,67 @@
         padding: 31px 62px;
     }
 
+    div#helpTipsContainer {
+        background: #4D4D4D;
+        border-radius: 0px 2.5px 2.5px 2.5px;
+        padding: 15px;
+    }
+
+    div#contuniation-container {
+        position: absolute;
+        bottom: 45px;
+        right: 135px;
+        width: fit-content;
+    }
+
+    div#change-interactive-views {
+        position: absolute;
+        bottom: 27px;
+        margin: auto;
+        right: 0;
+        left: 0;
+        width: fit-content;
+    }
+
+    h1#test-title {
+        font-style: normal;
+        font-weight: bold;
+        line-height: 49px;
+        letter-spacing: 0.17em;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
     /* 
     buttton */
+    button.toggle-view-btn {
+        background-color: transparent;
+        border: 1px solid #FFFFFF !important;
+        border-radius: 5px;
+        padding: 10px;
+        width: 109px;
+        height: 98px;
+    }
+    button.toggle-view-btn.selectedView,
+    button.toggle-view-btn:hover {
+        border: none !important;
+        background-color: #252525;
+    }
+    button.toggle-view-btn.selectedView p,
+    button.toggle-view-btn:hover p {
+        color: #00FFB2;
+    }
+
     button.help-btn {
         height: 44px;
         padding: 0 52px 0 8px !important;
-        background-image: url('/assets/svg/arrow-btn.svg');
+        background-image: url('/assets/svg/help-icon.svg');
         background-repeat: no-repeat;
         background-position: 95% 50%;
+        background-color: #676767 !important;
         background-size: auto;
     }
 
     button.continuation-btn {
-        position: absolute;
-        bottom: 45px;
-        right: 135px;
         height: 44px;
         padding: 0 52px 0 8px !important;
         background-image: url('/assets/svg/arrow-btn.svg');

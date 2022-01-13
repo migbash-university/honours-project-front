@@ -1,0 +1,14 @@
+{
+	"short_name": "starbased-project",
+	"name": "starbased-project",
+	"start_url": "/",
+	"icons": [
+		
+	],
+	"background_color": "#000000",
+	"display": "standalone",
+	"scope": "/",
+	"theme_color": "#000000",
+	"shortcuts": [],
+	"description": "starbased-project-honours-degree"
+}

@@ -4,9 +4,38 @@
 =================== -->
 
 <script lang="ts">
-	import Footer from '$lib/footer/Footer.svelte';
-	import Header from '$lib/header/Header.svelte';
+    import { browser } from '$app/env';
+    import { onMount } from 'svelte';
+
+    import TouchDeviceView from '$lib/components/_TouchDeviceView.svelte';
+
 	import '../app.css';
+
+    let touchDevice: boolean = false
+
+    // ~~~~~~~~~~~~~~~~~~~~~
+	// VIEWPORT CHANGES
+	// ~~~~~~~~~~~~~~~~~~~~~
+
+    // ... validation that the user does not have a touch screen enabled;
+	onMount(async () => {
+		var wInit = document.documentElement.clientWidth;
+		// INACESSIBLE DEVICE
+		if (wInit > 1023) {
+			touchDevice = false;
+		} else {
+			touchDevice = true;
+		}
+		window.addEventListener('resize', function () {
+			var w = document.documentElement.clientWidth;
+		    // INACESSIBLE DEVICE
+            if (w > 1023) {
+				touchDevice = false;
+			} else {
+				touchDevice = true;
+			}
+		});
+	});
 </script>
 
 <!-- ===================
@@ -15,9 +44,16 @@
 
 <!-- <Header /> -->
 
-<main>
-	<slot />
-</main>
+{#if !touchDevice}
+    <main>
+        <slot />
+    </main>
+{:else}
+    <main>
+        <TouchDeviceView />
+    </main>
+{/if}
+
 
 <!-- <Footer /> -->
 
