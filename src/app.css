@@ -109,11 +109,17 @@ FONT COLOURS
 .color-primary {
     color: #FF5555;
 }
+.color-black {
+    color: black;
+}
 .color-secondary {
     color: var(--secondary);
 }
 .color-red {
     color: var(--red);
+}
+.color-grey {
+    color: #A4A0A0;
 }
 .color-white {
     color: var(--white)
@@ -151,6 +157,17 @@ FONT EXTRA STYLES
 }
 .uppercase {
     text-transform: uppercase;
+}
+.text-center {
+	text-align: center;
+	text-align: -webkit-center;
+}
+.text-left {
+	text-align: left;
+	text-align: -webkit-left;
+}
+.place-center {
+	place-self: center;
 }
 /* 
 ~~~~~~~~~~~~

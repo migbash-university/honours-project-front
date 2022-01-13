@@ -23,84 +23,6 @@
     import Header from '$lib/header/Header.svelte'
 
     import { first_test_data } from '$lib/data/1st-test'
-
-    // ~~~~~~~~~~~~~~
-    // SPACEKIT-JS SIMULATION INTEGRATION
-    // ~~~~~~~~~~~~~~
-
-    let viz, n;
-    let viz_option;
-    let earthPinsView = false;
-
-    // ... re-draw the simulation onMount() PAGE;
-    onMount(async () => {
-        recreateSimulation()
-        toggleGalaxy()
-        toggleEarth()
-    });
-
-    // ... 
-    const recreateSimulation = () => {
-        // ... create the visualization and put it in our div.
-        viz = new Spacekit.Simulation(document.getElementById('main-container'), {
-            basePath: 'https://typpo.github.io/spacekit/src',
-            jdPerSecond: 1
-        });
-        viz.createStars();
-    }
-
-    let earth;       // ... global paramater for satellite selection and targeting,
-    let all_obj = [] // ... all visualization objects,
-    let planet_info;
-    let sat_info;
-    let sat_counter = 0;
-
-    /**
-     * Function - Renders the Earth alone
-     */
-    const toggleEarth = () => {
-        viz_option = 'earth'
-        clearSimulation()
-        earth = viz.createSphere('earth', {
-            textureUrl: './assets/img/planets/earth-spread.jpg',
-            rotation: {
-                speed: 0.25
-            },
-            debug: {
-                showAxes: false,
-            },
-        });
-        all_obj.push(earth)
-        earth.startRotation();
-    }
-    
-    /**
-     * Function - Renders the Galaxy (Solar System) Visualization
-     */
-    const toggleGalaxy = () => {
-        viz_option = 'solar_sys'
-        clearSimulation()
-        const earth =  viz.createObject('earth', Spacekit.SpaceObjectPresets.EARTH);
-        all_obj.push(earth)
-    }
-
-    /**
-     * clear off the current interactive SpaceKitJs Simulation of off the
-     * planets visualized and their images, ready for the next visualizations,
-     */
-    const clearSimulation = () => {
-        for (n in all_obj) {
-            viz.removeObject(all_obj[n])
-        }
-        planet_info = undefined
-        // Make sure that the other simulation is hidden:
-        if (earthPinsView != false) {
-            earthPinsView = false
-            setTimeout(() => {
-                recreateSimulation()
-            }, 2000)
-        }
-    }
 </script>
 
 <!-- ===================
@@ -163,12 +85,6 @@
     <!-- ... interactive-model-galaxy ... -->
     <div 
         id='model-galaxy'>
-        <!-- ... canvas for interactive visualization ... -->
-        <div 
-            in:fade
-            out:fade 
-            id='main-container' 
-        />
         <!-- ... change view types ... -->
         <div>
 

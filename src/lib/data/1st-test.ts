@@ -13,5 +13,26 @@ export const first_test_data = {
         methane. Titan’s subsurface water could be a place to harbor life as we know it, while its surface lakes and seas of liquid hydrocarbons 
         could conceivably harbor life that uses different chemistry than we’re used to—that is, life as we don’t yet know it. Titan could also 
         be a lifeless world.
-    `
+    `,
+    
+    quiz: {
+        test_id: `Test 1.3`,
+        questions: [
+            {
+                question_num: 1,
+                question_title: `What was the distance between the Earth and Mars at the shortest distance from one another ?`,
+                question_hint: `please select one of the following:`,
+                question_type: `radio check`,
+                options: [
+                    '12.6 million kilometers',
+                    '54.6 million kilometers',
+                    '98.6 million kilometers'
+                ]
+            }
+        ]
+    },
+
+    questionnaire: {
+        
+    }
 }

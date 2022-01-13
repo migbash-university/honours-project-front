@@ -6,6 +6,10 @@
 
 We are building the first open-source live results and statistics platform with community involvement features for data insertion. The project includes a blockchain component that will allow participants to receive rewards based on their participation and also to stake the future Token of the platform.
 
+### Live Version
+
+[live-version](https://starbased-front.herokuapp.com/1st-test)
+
 ### Developing
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
