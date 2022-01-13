@@ -1,14 +1,26 @@
+![image](https://user-images.githubusercontent.com/20924663/149317090-2482101c-87f2-4fdc-aecc-80e088b66f30.png)
+
+---
+
 ![example workflow](https://github.com/Betarena/scores/actions/workflows/docker-image.yml/badge.svg)
 
-# S T A R - B A S E D
+## Description
 
-### About
+This is an Edinburgh Napier University Honours Project for (BSc.) Computer Science Degree. 
 
-We are building the first open-source live results and statistics platform with community involvement features for data insertion. The project includes a blockchain component that will allow participants to receive rewards based on their participation and also to stake the future Token of the platform.
+This Honours Project revolves around Conversational A.I. Agents to be used in the Educational System for the correct interaction with humans to pass across knowledge. However, due to the lack of existing real-world literature and research on `multi-modal` learning approaches, such as: visual - audio and interactive charts methods of learning, this honours project aims to understand the imapct of the use of a Conversational A.I. Agent to pass across knowledge to the user on a scientific topic and companre it with standard and more common methods of learning.
 
-### Live Version
+This repository is only half-of the project. It focuses on the development of the `conversational AI` agent and the outline of its development. The `UI/UX` in a web-app format can be accessed on the following link -> [insert-link-here] and for the open-source code for it can be found here -> [insert-link-here]
+
+## Project Graph
+
+[insert-project-chart-here]
+
+## Live Version
 
 [live-version](https://starbased-front.herokuapp.com/1st-test)
+
+## Developemnt
 
 ### Developing
 
