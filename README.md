@@ -14,6 +14,8 @@ This repository is only half-of the project. It focuses on the development of th
 
 ## Project Graph
 
+https://whimsical.com/honours-project-development-graph-E62ncTCRaqLE5rMWiwMjVw
+
 [insert-project-chart-here]
 
 ## Live Version
