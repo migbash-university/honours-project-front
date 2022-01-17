@@ -16,6 +16,10 @@ This repository is only half-of the project. It focuses on the development of th
 
 https://whimsical.com/honours-project-development-graph-E62ncTCRaqLE5rMWiwMjVw
 
+## 🎨 Project Design
+
+The project has been created and designed from scratch using `Figma` and can be accessed for live view on the link [here](https://www.figma.com/file/9zxxXhVpci3uLjJy5o5Y3N/Honors-Project?node-id=0%3A1).
+
 [insert-project-chart-here]
 
 ## Live Version
