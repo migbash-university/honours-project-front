@@ -4,7 +4,7 @@
 
 ![example workflow](https://github.com/Betarena/scores/actions/workflows/docker-image.yml/badge.svg)
 
-## Description
+## 📄 Description
 
 This is an Edinburgh Napier University Honours Project for (BSc.) Computer Science Degree. 
 
@@ -12,15 +12,25 @@ This Honours Project revolves around Conversational A.I. Agents to be used in th
 
 This repository is only half-of the project. It focuses on the development of the `conversational AI` agent and the outline of its development. The `UI/UX` in a web-app format can be accessed on the following link -> [insert-link-here] and for the open-source code for it can be found here -> [insert-link-here]
 
-## Project Graph
+https://typpo.github.io/spacekit/docs/interfaces/SpaceObjectOptions.html
+
+## 📊 Project Graph
 
 [insert-project-chart-here]
 
-## Live Version
+## ♨ Live Version
 
 [live-version](https://starbased-front.herokuapp.com/1st-test)
 
-## Developemnt
+## ⚙ Developemnt
+
+### Libraries In  Use
+
+This project `frontend` makes use of the following libraries:
+
+- `spacekit-js`
+- `three.js`
+- [`cypress.io`](https://www.cypress.io/)
 
 ### Developing
 

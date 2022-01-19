@@ -6,13 +6,21 @@
 
 <script lang="ts">
 
+    import Header from '$lib/header/Header.svelte'
+
+    let question_1: number = 1;
+    let checked: boolean = true;
+
 </script>
 
 <!-- ===================
 	COMPONENT HTML
 =================== -->
 
+<Header />
+
 <section>
+
     <!-- ... title-section-h1 ... -->
     <h1  
         id='quiz-title'
@@ -33,7 +41,7 @@
                 <div
                     class='circle-question-number m-r-20'>
                     <p
-                        class='s-18 bold color-black'>
+                        class='s-32 bold color-black'>
                         1
                     </p>
                 </div>
@@ -47,10 +55,67 @@
                     </p>
                     <!-- ... question hint ... -->
                     <p
-                        class='s-12 color-grey'>
+                        class='s-12 color-grey m-b-15'>
                         please select one of the following:
                     </p>
                     <!-- ... question input ... -->
+                    <form 
+                        action="">
+                        <fieldset
+                            class='row-space-out'>
+                            <!-- ... label for the input ... -->
+                            <label 
+                                class="container">
+                                <p class='s-16'>
+                                    12.6 million kilometers
+                                </p>
+                                <input 
+                                    type=radio 
+                                    bind:group={question_1} 
+                                    name="question_1" 
+                                    value={1}
+                                    class='m-r-20' />
+                                <span class="checkmark"></span>
+                            </label>
+                        </fieldset>
+
+                        <fieldset
+                            class='row-space-out'>
+                            <!-- ... label for the input ... -->
+                            <label 
+                                class="container">
+                                <p class='s-16'>
+                                    54.6 million kilometers
+                                </p>
+                                <input 
+                                    type=radio 
+                                    bind:group={question_1} 
+                                    name="question_1" 
+                                    value={2}
+                                    class='m-r-20' />
+                                <span class="checkmark"></span>
+                            </label>
+                        </fieldset>
+
+                        <fieldset
+                            class='row-space-out'>
+                            <!-- ... label for the input ... -->
+                            <label 
+                                class="container">
+                                <p class='s-16'>
+                                    98.6 million kilometers
+                                </p>
+                                <input 
+                                    type=radio 
+                                    bind:group={question_1} 
+                                    name="question_1" 
+                                    value={3}
+                                    class='m-r-20' />
+                                <span class="checkmark"></span>
+                            </label>
+                        </fieldset>
+
+                    </form>
                 </div>
             </div>
         </div>
@@ -64,7 +129,7 @@
                 <div
                     class='circle-question-number m-r-20'>
                     <p
-                        class='s-18 bold color-black'>
+                        class='s-32 bold color-black'>
                         1
                     </p>
                 </div>
@@ -107,9 +172,9 @@
 =================== -->
 
 <style>
-    :global(body) {
+    /* :global(body) {
         background-color: white
-    }
+    } */
 
     h1#quiz-title {
         position: relative;
@@ -154,5 +219,61 @@
         background-position: 95% 50%;
         background-size: auto;
         background-color: #00AADF !important;
+    }
+
+    /* The container */
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Hide the browser's default radio button */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* Create a custom radio button */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 21px;
+        width: 21px;
+        border-radius: 50%;
+        background: #EFEFEF;
+        box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the radio button is checked, add a blue background */
+    .container input:checked ~ .checkmark {
+        background-color: #00AADF;
+        box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Create the indicator (the dot/circle - hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the indicator (dot/circle) when checked */
+    .container input:checked ~ .checkmark:after {
+        display: block;
     }
 </style>

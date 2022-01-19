@@ -5,12 +5,14 @@
 =================== -->
 
 <script lang="ts">
-
+    import Header from '$lib/header/Header.svelte'
 </script>
 
 <!-- ===================
 	COMPONENT HTML
 =================== -->
+
+<Header />
 
 <section>
     <!-- ... title-section-h1 ... -->
@@ -90,7 +92,7 @@
     <!-- ... termination-button ... -->
     <a 
         sveltekit:prefetch
-        href="/1st-test/questionnaire">
+        href="/1st-test/thank-you">
         <button 
             class='continuation-btn'>
             <h1 

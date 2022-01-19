@@ -4,12 +4,24 @@
 =================== -->
 
 <script lang="ts">
-    import { browser } from '$app/env';
     import { onMount } from 'svelte';
+    import { page } from '$app/stores';
+    import { dev } from '$app/env';
 
     import TouchDeviceView from '$lib/components/_TouchDeviceView.svelte';
 
 	import '../app.css';
+
+    if (dev) console.debug('page', $page)
+
+    let light_bg: boolean = false;
+    // ... check what page the user is on:
+    $: if ($page.path.includes('/quiz') || $page.path.includes('/questionnaire') || $page.path.includes('/thank-you')) {
+        // ... trigger the `class` for the `main` color-change;
+        light_bg = true
+    } else {
+        light_bg = false
+    }
 
     let touchDevice: boolean = false
 
@@ -45,7 +57,8 @@
 <!-- <Header /> -->
 
 {#if !touchDevice}
-    <main>
+    <main
+        class:light-bg={light_bg}>
         <slot />
     </main>
 {:else}
@@ -73,5 +86,9 @@
         /* 
         make sure the initial page height is always full-device-height as a minumim */
         min-height: 100vh;
+    }
+
+    .light-bg {
+        background-color: aliceblue;
     }
 </style>
