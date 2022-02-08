@@ -145,28 +145,25 @@ FONT EXTRA STYLES
 */
 .no-wrap {
     white-space: nowrap;
-}
-.underline {
+} .underline {
     text-decoration: underline !important;
-}
-.bold {
+} .bold {
     font-style: normal;
     font-weight: bold;
 } .not-bold {
     font-weight: normal;
-}
-.uppercase {
+} .uppercase {
     text-transform: uppercase;
-}
-.text-center {
+} .text-center {
 	text-align: center;
 	text-align: -webkit-center;
-}
-.text-left {
+} .text-left {
 	text-align: left;
 	text-align: -webkit-left;
-}
-.place-center {
+} .text-right {
+	text-align: right;
+	text-align: -webkit-right; 
+} .place-center {
 	place-self: center;
 }
 /* 
@@ -307,7 +304,7 @@ bottom-margins
     margin-bottom: 40px;
 }
 .m-b-55 {
-    margin-bottom: 55px;
+    margin-bottom: 55px !important;
 }
 
 /*
@@ -358,6 +355,24 @@ section {
     align-items: flex-start;
     align-content: center;
     justify-content: start;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.row-space-initial-start {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: start;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.row-space-end {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-end;
     width: 100%;
     flex-direction: row;
     flex-wrap: nowrap;
