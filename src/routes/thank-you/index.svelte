@@ -108,7 +108,7 @@
         <div>
             <p 
                 class='s-16 color-black'>
-                The next test will take place on the ?? / ?? / ??
+                The next test will take place on the ?? / ?? / ?? 
             </p>
             <p
                 class='s-16 color-black'>
