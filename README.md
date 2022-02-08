@@ -2,7 +2,7 @@
 
 ---
 
-![example workflow](https://github.com/Betarena/scores/actions/workflows/docker-image.yml/badge.svg)
+![example workflow](https://github.com/migbash-university/honours-project-front/actions/workflows/docker-image.yml/badge.svg)
 
 ## 📄 Description
 
@@ -18,32 +18,37 @@ https://typpo.github.io/spacekit/docs/interfaces/SpaceObjectOptions.html
 
 [insert-project-chart-here]
 
+## 🟢 Testing
+
+This project has been developed using `testing` for the frontend project using the [`cypress`](https://www.cypress.io/) library for the respective testing.
+
 ## ♨ Live Version
 
-[live-version](https://starbased-front.herokuapp.com/1st-test)
+The live version of the website for the project can be accessed on the link:
+
+[live-version](https://starbased-front.herokuapp.com/)
 
 ## ⚙ Developemnt
 
-### Libraries In  Use
+### 📚 Libraries in use
 
 This project `frontend` makes use of the following libraries:
 
-- `spacekit-js`
-- `three.js`
+- [`spacekit-js`](https://typpo.github.io/spacekit/)
+- [`three.js`](https://threejs.org/)
 - [`cypress.io`](https://www.cypress.io/)
 
-### Developing
+### 🚧 Developing
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
 npm run dev
-
 # or start the server and open the app in a new browser tab
 npm run dev -- --open
 ```
 
-### Building
+### 🏗 Building
 
 Before creating a production version of your app, install an [adapter](https://kit.svelte.dev/docs#adapters) for your target environment. Then:
 
@@ -52,3 +57,10 @@ npm run build
 ```
 
 > You can preview the built app with `npm run preview`, regardless of whether you installed an adapter. This should _not_ be used to serve your app in production.
+
+## 🧿 Miscelleneous
+
+This is a sample collection of code used on the progrss of the project:
+
+- https://codepen.io/mr-t77/pen/jRzmMZ
+- https://moderncss.dev/pure-css-custom-styled-radio-buttons/
