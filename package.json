@@ -1,6 +1,6 @@
 {
-  "name": "my-app",
-  "version": "0.0.1",
+  "name": "star-based",
+  "version": "1.0.0",
   "scripts": {
     "dev": "svelte-kit dev --host --port 5555",
     "build": "svelte-kit build",
