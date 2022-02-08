@@ -254,7 +254,26 @@ export const first_test_data = {
             // ... question-2
             {
                 question_num: 2,
-                question_title: `How difficult was it to obtain answers from the text ?`,
+                question_title: `How useful did you find the Conversational Agent ?`,
+                question_hint: `please select a number between 1-5`,
+                question_type: `radio-check`,
+                options_legend: [
+                    'Not Useful',
+                    'Very Useful',
+                ],
+                options: [
+                    '1',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                ]
+            }
+            ,
+            // ... question-3
+            {
+                question_num: 3,
+                question_title: `How easy did you find learning with the Conversational Agent than extracting information from text ?`,
                 question_hint: `please select a number between 1-5`,
                 question_type: `radio-check`,
                 options_legend: [
@@ -270,34 +289,15 @@ export const first_test_data = {
                 ]
             }
             ,
-            // ... question-3
-            {
-                question_num: 3,
-                question_title: `Has the visual interactive model made learning easier ?`,
-                question_hint: `please select a number between 1-5`,
-                question_type: `radio-check`,
-                options_legend: [
-                    'Definite no',
-                    'Definitely yes',
-                ],
-                options: [
-                    '1',
-                    '2',
-                    '3',
-                    '4',
-                    '5',
-                ]
-            }
-            ,
             // ... question-4
             {
                 question_num: 4,
-                question_title: `How familiar with this domain of space ?`,
+                question_title: `How friendly did you find the Conversational Agent ?`,
                 question_hint: `please select a number between 1-5`,
                 question_type: `radio-check`,
                 options_legend: [
-                    'Beginner',
-                    'Expert',
+                    'Very Unfriendly',
+                    'Very Friendly',
                 ],
                 options: [
                     '1',

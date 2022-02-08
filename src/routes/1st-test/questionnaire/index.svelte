@@ -5,8 +5,115 @@
 =================== -->
 
 <script lang="ts">
-    import Header from '$lib/header/Header.svelte'
+    import { goto } from '$app/navigation';
+    import { onDestroy, onMount } from 'svelte';
+    import { dev } from '$app/env';
+
+    import { starbased_user_settings } from '$lib/store/userData';
+    import { first_test_data } from '$lib/data/1st-test'
+
+    import Header from '$lib/components/header/Header.svelte'
+    import { post } from '$lib/utils/api';
+
+    let interval: NodeJS.Timer;
+    // ... user-time-to-interact-with-test;
+    onMount(() => {
+        // ... run every 1000ms (1-second)
+        interval = setInterval(() => {
+            // ... increment-QUIZ-timer;
+            starbased_user_settings.addTimer(
+                1,
+                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'questionnaire'
+            )
+            // ... increment-total-timer;
+            starbased_user_settings.addTimer(
+                1,
+                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'timer_total'
+            )
+        }, 1000)
+    })
+    // ... on page change;
+    onDestroy(() => {
+        // ... destroy setInterval()
+        clearInterval(interval)
+    })
+
+    // ... submit FORM DATA;
+    async function onSubmit(e) {
+        const formData = new FormData(e.target);
+        // ... DEBUGGING;
+        if (dev) console.info('formData', formData)
+
+        let data = {};
+        for (let field of formData) {
+            const [key, value] = field;
+            data[key] = value;
+        }
+        // ... DEBUGGING;
+        if (dev) console.info(data)
+        if (dev) console.info($starbased_user_settings)
+        // ... add other-data;
+        starbased_user_settings.setUserQA('test_1', 'questionnaire', data)
+        data = $starbased_user_settings
+        // ... pass-on-data;
+        const response = await post(`/api/record-test.json`, {
+            data
+        })
+        // ... navigate to the next page;
+        await goto('/thank-you');
+    }
 </script>
+
+<!-- ===================
+	SVELTE INJECTION TAGS
+=================== -->
+
+<!-- adding SEO title and meta-tags to the /basket page -->
+<svelte:head>
+    <!--
+    ~~~~~~~~~~~~
+    Primary Meta Tags;
+    https://metatags.io/ -->
+    <title> STAR-BASED | Questionnaire </title>
+    <meta name="title" content="STAR-BASED | Questionnaire">
+    <meta name="description" content="STAR-BASED | Questionnaire">
+    <meta name="keywords" content="STAR-BASED, 
+        conversational agent,
+        conversational ai,
+        conversational artificial intelligence,
+        artificial intelligence,
+        education,
+        education with conversational agent,
+        education with artificial intelligence,
+        education with ai,
+        space education,
+        space ai,
+        space interactive model,
+        space learning,
+        space learning with ai,
+        space,
+        online education,
+        ">
+    <meta name="author" content="Miguel Bacharov">
+    <!-- 
+    ~~~~~~~~~~~~
+    Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<link-goes-here>">
+    <meta property="og:title" content="STAR-BASED | Questionnaire">
+    <meta property="og:description" content="STAR-BASED | Questionnaire">
+	<meta property="og:image" content="<link-goes-here>">
+    <!--
+    ~~~~~~~~~~~~
+    Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<link-goes-here>">
+    <meta property="twitter:title" content="STAR-BASED | Questionnaire">
+    <meta property="twitter:description" content="STAR-BASED | Questionnaire">
+	<meta property="twitter:image" content="<link-goes-here>">
+</svelte:head>
 
 <!-- ===================
 	COMPONENT HTML
@@ -23,12 +130,12 @@
     </h1>
 
     <!-- ... questionnaire-grid ... -->
-    <div
-        id='quiz-grid'>
+    <form 
+        on:submit|preventDefault={(e) => onSubmit(e)}
+        id='questionnaire-grid'>
 
-        <!-- ... 1st column questions ... -->
-        <div>
-            <!-- ... [question-1] ... -->
+        {#each first_test_data.questionnaire.questions as item}
+            <!-- ... [question-X] ... -->
             <div
                 class='row-space-start'>
                 <!-- ... question-number ... -->
@@ -36,7 +143,7 @@
                     class='circle-question-number m-r-20'>
                     <p
                         class='s-18 bold color-black'>
-                        1
+                        {item.question_num}
                     </p>
                 </div>
                 <!-- ... question-card ... -->
@@ -45,62 +152,49 @@
                     <!-- ... question ... -->
                     <p
                         class='s-18 bold color-black m-b-10'>
-                        What was the distance between the Earth and Mars at the shortest distance from one another ?
+                        {item.question_title}
                     </p>
                     <!-- ... question hint ... -->
                     <p
-                        class='s-12 color-grey'>
-                        please select one of the following:
+                        class='s-12 color-grey m-b-15'>
+                        {item.question_hint}
                     </p>
                     <!-- ... question input ... -->
-                </div>
+                    <!-- ... likert-scale-input ... -->
+                    <ul 
+                        class='likert row-space-start'>
+                        {#each item.options as option}
+                            <li>
+                                <label 
+                                    class="container">
+                                    <input 
+                                        type="radio"
+                                        name={item.question_num.toString()} 
+                                        value={option}
+                                        required />
+                                    <span 
+                                        class="checkmark color-black">
+                                        {option}
+                                    </span>
+                                </label>
+                            </li>
+                        {/each}
+                    </ul>
             </div>
-        </div>
+            </div>
+        {/each}
 
-        <!-- ... 2nd column questions ... -->
-        <div>
-            <!-- ... [question-n] ... -->
-            <div
-                class='row-space-start'>
-                <!-- ... question-number ... -->
-                <div
-                    class='circle-question-number m-r-20'>
-                    <p
-                        class='s-18 bold color-black'>
-                        1
-                    </p>
-                </div>
-                <!-- ... question-card ... -->
-                <div 
-                    class='column-space-start'>
-                    <!-- ... question ... -->
-                    <p
-                        class='s-18 bold color-black m-b-10'>
-                        What was the distance between the Earth and Mars at the shortest distance from one another ?
-                    </p>
-                    <!-- ... question hint ... -->
-                    <p
-                        class='s-12 color-grey'>
-                        please select one of the following:
-                    </p>
-                    <!-- ... question input ... -->
-                </div>
-            </div>
-        </div>
-    </div>
+    </form>
 
     <!-- ... termination-button ... -->
-    <a 
-        sveltekit:prefetch
-        href="/1st-test/thank-you">
-        <button 
-            class='continuation-btn'>
-            <h1 
-                class='s-18 color-white'>
-                <b>FINISH</b>
-            </h1>
-        </button>
-    </a>
+    <button 
+        form="questionnaire-grid"
+        class='continuation-btn'>
+        <h1 
+            class='s-18 color-white'>
+            <b>FINISH</b>
+        </h1>
+    </button>
 
 </section>
 
@@ -126,11 +220,10 @@
         left: 0;
     }
     
-    div#quiz-grid {
+    form#questionnaire-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 200px;
-        grid-auto-flow: column;
+        gap: 36px;
     }
 
     div.circle-question-number {
@@ -156,5 +249,57 @@
         background-position: 95% 50%;
         background-size: auto;
         background-color: #FF0000 !important;
+    }
+
+    /* 
+    likert-scale */
+    form .likert {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    } form .likert li label {
+        width:100%;
+    }
+
+    /* ... the container ... */
+    .container {
+        position: relative;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    /* ... hide the browser's default radio button ... */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+    /* ... create a custom radio button ... */
+    .checkmark {
+        padding: 10px 18px;
+        background: #FAFAFA;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    /* ... on mouse-over, add a grey background color ... */
+    .container:hover input ~ .checkmark {
+        background-color: #cccccc;
+    }
+    /* ... when the radio button is checked, add a blue background ... */
+    .container input:checked ~ .checkmark {
+        background-color: #00FFB2;
+        box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    /* ... create the indicator (the dot/circle - hidden when not checked) ... */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+    /* ... show the indicator (dot/circle) when checked ... */
+    .container input:checked ~ .checkmark:after {
+        display: block;
     }
 </style>

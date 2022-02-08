@@ -16,13 +16,107 @@
 <script lang="ts">
     // ...
 	import { amp, browser, dev, mode, prerendering } from '$app/env'
-    import { fade } from 'svelte/transition'
-    import { onMount } from 'svelte'
+    import { fade, slide } from 'svelte/transition'
+    import { onDestroy, onMount } from 'svelte'
 
-    import starbased_logo from '$lib/starbased-icon.svg'
-    import Header from '$lib/header/Header.svelte'
+    import { post } from '$lib/utils/api'
+
+    import Header from '$lib/components/header/Header.svelte'
 
     import { first_test_data } from '$lib/data/1st-test'
+    import { starbased_user_settings } from '$lib/store/userData';
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // TIMER COUNTER [AUTO]
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    let interval;
+    // ... user-time-to-interact-with-test;
+    onMount(async() => {
+        // ... run every 1000ms (1-second)
+        interval = setInterval(() => {
+            // ... increment-QUIZ-timer;
+            starbased_user_settings.addTimer(
+                1,
+                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'reading'
+            )
+            // ... increment-total-timer;
+            starbased_user_settings.addTimer(
+                1,
+                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'timer_total'
+            )
+        }, 1000)
+    })
+    // ... on page change;
+    onDestroy(async() => {
+        // ... destroy setInterval()
+        clearInterval(interval)
+    })
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // PAGE USER-ACTIONS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    let helpTipsShow: boolean = false;
+    // ... toggle-hide-show-button-info;
+    function toggleHelpTips() {
+        helpTipsShow = !helpTipsShow
+    }
+
+    // ...
+    let processing: boolean = false
+    let user_input: string
+    let conversationData: ResponseData[] = []
+    interface ResponseData {
+        text: string
+        user: 'agent' | 'user'
+    }
+    let responseData: ResponseData;
+    // ... send-over-the-response-to-website-server;
+    // ... and further processing of data;
+    async function sendResponse(): Promise < void > {
+        // ...
+        processing = true
+        starbased_user_settings.incTotalMessagesExchanged('test_2')
+        // ...
+        responseData = {
+            text: user_input,
+            user: 'user'
+        }
+        conversationData = [...conversationData, responseData]
+        // ...
+        starbased_user_settings.addToConversationHistory('test_2', conversationData)
+        // ...
+        const resposne = await post(`http://192.168.0.40:9000/post_question`, {
+            user_input: user_input
+        })
+        // ... DEBUGGING;
+        if (dev) console.debug('resposne', resposne)
+        // ...
+        responseData = {
+            text: resposne['data'],
+            user: 'agent'
+        }
+        // ...
+        conversationData = [...conversationData, responseData]
+        starbased_user_settings.addToConversationHistory('test_2', conversationData)
+        // ...
+        processing = false
+    }
+
+    // ... re-load-conversation-if-stored-in-local-storage;
+    onMount(async() => {
+        if (browser) {
+            if ($starbased_user_settings['test_data']['test_2']['conversation_history']['history'].length != 0) {
+                conversationData = $starbased_user_settings['test_data']['test_2']['conversation_history']['history']
+                // ... TODO: Make the scroll of the container to the bottom on message input;
+                // var scrollingElement = (document.scrollingElement || document.body);
+                // scrollingElement.scrollTop = scrollingElement.scrollHeight;
+            }
+        }
+    })
 </script>
 
 <!-- ===================
@@ -80,59 +174,143 @@
 
 <Header />
 
-<section class='row-space-out'>
+<section 
+    class='row-space-out'>
 
     <!-- ... interactive-model-galaxy ... -->
     <div 
         id='model-galaxy'>
-        <!-- ... change view types ... -->
-        <div>
-
-        </div>
+        <!-- ... no visual galaxy interaction ... -->
+        <img 
+            id='no-visual-img'
+            src='/assets/svg/no-visual.svg' 
+            alt='no-visual'
+            aria-label='no-visual'
+            width="115.84px" height="114px"
+            />
     </div>
 
-    <!-- ... text-chunck-box-container ... -->
+    <!-- ... conversational-agent-interaction-chunck-box-container ... -->
     <div 
         id='text-learning-container'>
 
         <!-- ... info / help btn ... -->
         <div 
             id='more-info-container'>
+            <!-- ... action-btn ... -->
             <button 
+                on:click={() => toggleHelpTips()}
                 class='help-btn'>
                 <h1 
-                    class='s-18'>
+                    class='s-18 color-white'>
                     <b>HELP</b>
                 </h1>
             </button>
+            <!-- ... action-display-btn-data ... -->
+            {#if helpTipsShow}
+                <div
+                    id='helpTipsContainer'
+                    transition:slide>
+                    <p
+                        class='s-14 color-secondary m-b-15'
+                        style='
+                            background-color: #000000;
+                            padding: 3px 10px;
+                            width: fit-content;'>
+                        <b>
+                            YOUR TASKS
+                        </b>
+                    </p>
+                    <p
+                        class='color-white s-14'>
+                        please read through the given passage / information on the planet TITAN below
+                        and identify information that you believe to be critical,
+                        <br />
+                        <br />
+                        when ready, proceed to the next page to answer some end of test questions based on the passage below
+                        <br />
+                        <br />
+                        once you complete the end of topic test, you will be promted to answering a simple 4 question questionnaire on your experience.
+                    </p>
+                </div>
+            {/if}
         </div>
 
         <!-- ... INFORMATION START ... -->
         <h1 
+            id='test-title'
             class='s-42'> 
-            { first_test_data.title } 
+            Conversational Agent
         </h1>
 
-        <p 
-            class='s-14'>
-            {@html first_test_data.text}
-        </p>
+        <!-- ... conversational=agent-user-interaction ... -->
+        <div
+            id='conversation-grid'>
+            {#each conversationData as item}
+                <div
+                    class:user_chat_bubble={item.user === 'user'}
+                    class:agent_chat_bubble={item.user === 'agent'}>
+                    <p
+                        class='s-14 color-white'>
+                        {item.text} 
+                    </p>
+                </div>
+            {/each}
+        </div>
+    </div>    
 
+    <!-- ... container `div` next step ... -->
+    <div
+        id='contuniation-container'
+        class='column-space-stretch'>
+        <div
+            class='m-b-20 row-space-end'>
+            <!-- ... text btn procedure ... -->
+            <p
+                class='m-r-20 s-14 color-white'>
+                Are you ready to undertake a 
+                <br/> 
+                end of reading test ?
+            </p>
+            <!-- ... continuation button ... -->
+            <a 
+                sveltekit:prefetch
+                href='/2nd-test/quiz'>
+                <button 
+                    class='continuation-btn'>
+                    <h1 
+                        class='s-18'>
+                        <b>BEGIN TEST</b>
+                    </h1>
+                </button>
+            </a>
+        </div>
+        <!-- ... submit-user-input ... -->
+        <form 
+            action="" 
+            on:submit|preventDefault={sendResponse}
+            class='row-space-end'>
+            <fieldset
+                class='m-r-10'
+                style="width: -webkit-fill-available;">
+                <input 
+                    id='user-input'
+                    class="s-14 color-black bold"
+                    placeholder="Enter a question for the conversational agent..."
+                    bind:value={user_input}
+                    style='width: 100%'
+                    type="text" 
+                    required 
+                    autocomplete="off"/>
+            </fieldset>
+            <button
+                id='submit-response'
+                type="submit"
+                disabled={processing}
+                >
+            </button>
+        </form>
     </div>
-
-    <!-- ... continuation button ... -->
-    <a 
-        sveltekit:prefetch
-        href="/1st-test/quiz"
-        >
-        <button 
-            class='continuation-btn'>
-            <h1 
-                class='s-18'>
-                <b>BEGIN TEST</b>
-            </h1>
-        </button>
-    </a>
 
 </section>
 
@@ -146,39 +324,128 @@
     }
 
     section #model-galaxy {
-        background-color: #000000;
+        background: rgba(193, 189, 189, 0.5);
         width: 50vw;
         height: 100vh;
-    } section #model-galaxy #main-container {
-		height: 100vh;
+        position: relative;
+    } img#no-visual-img {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        right: 0;
+        left: 0;
+        width: 282px;
+        text-align: center;
     }
 
     section #text-learning-container {
         width: 50vw;
         height: 100vh;
-        padding: 31px 62px;
+        padding: 31px 62px 225px 62px;
+        overflow-y: scroll;
+        position: relative;
+    }
+
+    div#helpTipsContainer {
+        background: #4D4D4D;
+        border-radius: 0px 2.5px 2.5px 2.5px;
+        padding: 20px 15px;
+    }
+
+    div#contuniation-container {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 50vw;
+        z-index: 10;
+        padding: 45px 62px;
+        background-color: #2D2D2D;
+        box-shadow: 0px -5px 5px rgb(0 0 0 / 25%);
+    }
+
+    h1#test-title {
+        font-style: normal;
+        font-weight: bold;
+        line-height: 49px;
+        letter-spacing: 0.17em;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    div#conversation-grid {
+        gap: 5px;
+        grid-template-columns: 1fr;
+        display: grid;
+    }
+
+    div.user_chat_bubble {
+        padding: 16px;
+        background: rgba(0, 255, 178, 0.5);
+        border-radius: 5px;
+        text-align: right;
+    }
+    div.agent_chat_bubble {
+        padding: 16px;
+        background-color: none;
+        border-radius: 5px;
+    }
+
+    input#user-input {
+        background: #FFFFFF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+        height: 44px;
+        padding: 12px 18px;
+    }
+
+    /*
+    ~~~~~~~~~~~~~~~~ 
+    scrollbar STYLE */
+
+    ::-webkit-scrollbar {
+        width: 7px;
+        z-index: 1000;
+    } ::-webkit-scrollbar-track {
+        background-color: #574E4E;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        margin: 100px 0 200px 0;
+    } ::-webkit-scrollbar-thumb {
+        background-color: #C4C4C4;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
     }
 
     /* 
+    ~~~~~~~~~~~~~~~~ 
     buttton */
     button.help-btn {
         height: 44px;
         padding: 0 52px 0 8px !important;
-        background-image: url('/assets/svg/arrow-btn.svg');
+        background-image: url('/assets/svg/help-icon.svg');
+        background-repeat: no-repeat;
+        background-position: 95% 50%;
+        background-color: #676767 !important;
+        background-size: auto;
+    }
+
+    button.continuation-btn {
+        height: 44px;
+        padding: 0 52px 0 8px !important;
+        background-image: url('/assets/svg/arrow-red-btn.svg');
         background-repeat: no-repeat;
         background-position: 95% 50%;
         background-size: auto;
     }
 
-    button.continuation-btn {
-        position: absolute;
-        bottom: 45px;
-        right: 135px;
+    button#submit-response {
+        background: #FFFFFF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
         height: 44px;
-        padding: 0 52px 0 8px !important;
-        background-image: url('/assets/svg/arrow-btn.svg');
+        width: 50px;
+        background-image: url('/assets/svg/input-vector.svg');
+        background-position: 50% 50%;
         background-repeat: no-repeat;
-        background-position: 95% 50%;
-        background-size: auto;
     }
 </style>

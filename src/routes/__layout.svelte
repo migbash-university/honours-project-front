@@ -6,29 +6,55 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { page } from '$app/stores';
-    import { dev } from '$app/env';
+    import { browser, dev } from '$app/env';
+
+    import { get } from '$lib/utils/api';
 
     import TouchDeviceView from '$lib/components/_TouchDeviceView.svelte';
 
+    import { starbased_user_settings } from '$lib/store/userData'
+
 	import '../app.css';
 
-    if (dev) console.debug('page', $page)
+    // ... DEBUGGING;
+    // if (dev) console.debug('page', $page)
 
+    // ... on client-side-rendering;
+    $: if (browser) {
+        // ... kickstart the .localStorage();
+        starbased_user_settings.useLocalStorage();
+    }
+
+    // ... background-color-check;
     let light_bg: boolean = false;
     // ... check what page the user is on:
-    $: if ($page.path.includes('/quiz') || $page.path.includes('/questionnaire') || $page.path.includes('/thank-you')) {
+    $: if ($page.url.pathname.includes('/quiz') || 
+            $page.url.pathname.includes('/questionnaire') || 
+            $page.url.pathname.includes('/thank-you')) {
         // ... trigger the `class` for the `main` color-change;
         light_bg = true
     } else {
         light_bg = false
     }
 
-    let touchDevice: boolean = false
+    // ... assign-user-uid;
+    onMount(async() => {
+        if (browser) {
+            if ($starbased_user_settings.userUID === undefined) {
+                // ... assign user-UID;
+                const response = await get(`/api/assign-uid.json`)
+                // ... extract userUID;
+                let userUID: string = response.userUID;
+                // ... save value for user-UID;
+                starbased_user_settings.setUserUID(userUID)
+            }
+        }
+    })
 
     // ~~~~~~~~~~~~~~~~~~~~~
 	// VIEWPORT CHANGES
 	// ~~~~~~~~~~~~~~~~~~~~~
-
+    let touchDevice: boolean = false
     // ... validation that the user does not have a touch screen enabled;
 	onMount(async () => {
 		var wInit = document.documentElement.clientWidth;
@@ -58,7 +84,7 @@
 
 {#if !touchDevice}
     <main
-        class:light-bg={light_bg}>
+        class:light-bg={light_bg === true}>
         <slot />
     </main>
 {:else}
@@ -66,7 +92,6 @@
         <TouchDeviceView />
     </main>
 {/if}
-
 
 <!-- <Footer /> -->
 
@@ -89,6 +114,6 @@
     }
 
     .light-bg {
-        background-color: aliceblue;
+        background-color: white;
     }
 </style>

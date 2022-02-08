@@ -5,13 +5,109 @@
 =================== -->
 
 <script lang="ts">
+    import { dev } from '$app/env';
+    import { goto } from '$app/navigation';
+    import { onDestroy, onMount } from 'svelte';
 
-    import Header from '$lib/header/Header.svelte'
+    import { starbased_user_settings } from '$lib/store/userData';
+    import { first_test_data } from '$lib/data/1st-test'
 
-    let question_1: number = 1;
-    let checked: boolean = true;
+    import Header from '$lib/components/header/Header.svelte'
 
+    let interval: NodeJS.Timer;
+    // ... user-time-to-interact-with-test;
+    onMount(() => {
+        // ... run every 1000ms (1-second)
+        interval = setInterval(() => {
+            // ... increment-QUIZ-timer;
+            starbased_user_settings.addTimer(
+                1,
+                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'quiz'
+            )
+            // ... increment-total-timer;
+            starbased_user_settings.addTimer(
+                1,
+                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'timer_total'
+            )
+        }, 1000)
+    })
+    // ... on page change;
+    onDestroy(() => {
+        // ... destroy setInterval()
+        clearInterval(interval)
+    })
+
+    // ... submit FORM DATA;
+    async function onSubmit(e) {
+        // ... extract-form-data;
+        const formData = new FormData(e.target);
+        // ... DEBUGGING;
+        if (dev) console.info('formData', formData)
+        // ... pick-out-form-data;
+        const data = {};
+        for (let field of formData) {
+            const [key, value] = field;
+            data[key] = value;
+        }
+        // ... DEBUGGING;
+        if (dev) console.info(data)
+        // ... add other-data;
+        starbased_user_settings.setUserQA('test_1', 'quiz', data)
+        // ... navigate to the next page;
+        await goto('/1st-test/questionnaire');
+    }
 </script>
+
+<!-- ===================
+	SVELTE INJECTION TAGS
+=================== -->
+
+<!-- adding SEO title and meta-tags to the /basket page -->
+<svelte:head>
+    <!--
+    ~~~~~~~~~~~~
+    Primary Meta Tags;
+    https://metatags.io/ -->
+    <title> STAR-BASED | Quiz </title>
+    <meta name="title" content="STAR-BASED | Quiz">
+    <meta name="description" content="STAR-BASED | Quiz">
+    <meta name="keywords" content="STAR-BASED, 
+        conversational agent,
+        conversational ai,
+        conversational artificial intelligence,
+        artificial intelligence,
+        education,
+        education with conversational agent,
+        education with artificial intelligence,
+        education with ai,
+        space education,
+        space ai,
+        space interactive model,
+        space learning,
+        space learning with ai,
+        space,
+        online education,
+        ">
+    <meta name="author" content="Miguel Bacharov">
+    <!-- 
+    ~~~~~~~~~~~~
+    Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<link-goes-here>">
+    <meta property="og:title" content="STAR-BASED | Quiz">
+    <meta property="og:description" content="STAR-BASED | Quiz">
+	<meta property="og:image" content="<link-goes-here>">
+    <!--
+    ~~~~~~~~~~~~
+    Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<link-goes-here>">
+    <meta property="twitter:title" content="STAR-BASED | Quiz">
+    <meta property="twitter:description" content="STAR-BASED | Quiz">
+	<meta property="twitter:image" content="<link-goes-here>">
+</svelte:head>
 
 <!-- ===================
 	COMPONENT HTML
@@ -29,12 +125,14 @@
     </h1>
 
     <!-- ... queiz-grid ... -->
-    <div
+    <form 
+        on:submit|preventDefault={(e) => onSubmit(e)}
         id='quiz-grid'>
 
-        <!-- ... 1st column questions ... -->
-        <div>
-            <!-- ... [question-1] ... -->
+        {#each first_test_data.quiz.questions as item}
+            <!-- content here -->
+
+            <!-- ... [question-X] ... -->
             <div
                 class='row-space-start'>
                 <!-- ... question-number ... -->
@@ -42,7 +140,7 @@
                     class='circle-question-number m-r-20'>
                     <p
                         class='s-32 bold color-black'>
-                        1
+                        {item.question_num}
                     </p>
                 </div>
                 <!-- ... question-card ... -->
@@ -51,120 +149,50 @@
                     <!-- ... question ... -->
                     <p
                         class='s-18 bold color-black m-b-10'>
-                        What was the distance between the Earth and Mars at the shortest distance from one another ?
+                        {item.question_title}
                     </p>
                     <!-- ... question hint ... -->
                     <p
                         class='s-12 color-grey m-b-15'>
-                        please select one of the following:
+                        {item.question_hint}
                     </p>
                     <!-- ... question input ... -->
-                    <form 
-                        action="">
+                    {#each item.options as option}
+                        <!-- content here -->
                         <fieldset
                             class='row-space-out'>
                             <!-- ... label for the input ... -->
                             <label 
                                 class="container">
-                                <p class='s-16'>
-                                    12.6 million kilometers
+                                <p class='s-16 color-black'>
+                                    {option}
                                 </p>
                                 <input 
-                                    type=radio 
-                                    bind:group={question_1} 
-                                    name="question_1" 
-                                    value={1}
-                                    class='m-r-20' />
+                                    type='radio' 
+                                    name={item.question_num.toString()} 
+                                    value={option}
+                                    class='m-r-20' 
+                                    required />
                                 <span class="checkmark"></span>
                             </label>
                         </fieldset>
-
-                        <fieldset
-                            class='row-space-out'>
-                            <!-- ... label for the input ... -->
-                            <label 
-                                class="container">
-                                <p class='s-16'>
-                                    54.6 million kilometers
-                                </p>
-                                <input 
-                                    type=radio 
-                                    bind:group={question_1} 
-                                    name="question_1" 
-                                    value={2}
-                                    class='m-r-20' />
-                                <span class="checkmark"></span>
-                            </label>
-                        </fieldset>
-
-                        <fieldset
-                            class='row-space-out'>
-                            <!-- ... label for the input ... -->
-                            <label 
-                                class="container">
-                                <p class='s-16'>
-                                    98.6 million kilometers
-                                </p>
-                                <input 
-                                    type=radio 
-                                    bind:group={question_1} 
-                                    name="question_1" 
-                                    value={3}
-                                    class='m-r-20' />
-                                <span class="checkmark"></span>
-                            </label>
-                        </fieldset>
-
-                    </form>
+                    {/each}
                 </div>
             </div>
-        </div>
-
-        <!-- ... 2nd column questions ... -->
-        <div>
-            <!-- ... [question-n] ... -->
-            <div
-                class='row-space-start'>
-                <!-- ... question-number ... -->
-                <div
-                    class='circle-question-number m-r-20'>
-                    <p
-                        class='s-32 bold color-black'>
-                        1
-                    </p>
-                </div>
-                <!-- ... question-card ... -->
-                <div 
-                    class='column-space-start'>
-                    <!-- ... question ... -->
-                    <p
-                        class='s-18 bold color-black m-b-10'>
-                        What was the distance between the Earth and Mars at the shortest distance from one another ?
-                    </p>
-                    <!-- ... question hint ... -->
-                    <p
-                        class='s-12 color-grey'>
-                        please select one of the following:
-                    </p>
-                    <!-- ... question input ... -->
-                </div>
-            </div>
-        </div>
-    </div>
+        {/each}
+    </form>
 
     <!-- ... continuation button ... -->
-    <a 
-        sveltekit:prefetch
-        href="/1st-test/questionnaire">
-        <button 
-            class='continuation-btn'>
-            <h1 
-                class='s-18 color-white'>
-                <b>SUBMIT</b>
-            </h1>
-        </button>
-    </a>
-
+    <button
+        form="quiz-grid"
+        type='submit'
+        class='continuation-btn'>
+        <h1 
+            class='s-18 color-white'>
+            <b>SUBMIT</b>
+        </h1>
+    </button>
+    
 </section>
 
 <!-- ===================
@@ -189,11 +217,10 @@
         left: 0;
     }
     
-    div#quiz-grid {
+    form#quiz-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 200px;
-        grid-auto-flow: column;
+        gap: 36px;
     }
 
     div.circle-question-number {
@@ -234,14 +261,12 @@
         -ms-user-select: none;
         user-select: none;
     }
-
     /* Hide the browser's default radio button */
     .container input {
         position: absolute;
         opacity: 0;
         cursor: pointer;
     }
-
     /* Create a custom radio button */
     .checkmark {
         position: absolute;
@@ -253,25 +278,21 @@
         background: #EFEFEF;
         box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
-
     /* On mouse-over, add a grey background color */
     .container:hover input ~ .checkmark {
         background-color: #ccc;
     }
-
     /* When the radio button is checked, add a blue background */
     .container input:checked ~ .checkmark {
         background-color: #00AADF;
         box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
-
     /* Create the indicator (the dot/circle - hidden when not checked) */
     .checkmark:after {
         content: "";
         position: absolute;
         display: none;
     }
-
     /* Show the indicator (dot/circle) when checked */
     .container input:checked ~ .checkmark:after {
         display: block;
