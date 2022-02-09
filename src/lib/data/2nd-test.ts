@@ -1,4 +1,4 @@
-export const first_test_data = {
+export const second_test_data = {
     title: 'TITAN',
     text: `
         Saturn’s largest moon: an extraordinary and exceptional world. Among our solar system’s more than 150 known moons, Titan is the only one 
@@ -153,58 +153,6 @@ export const first_test_data = {
             // ... question-1
             {
                 question_num: 1,
-                question_title: `What is the approximate radius of Titan ?`,
-                question_hint: `please select one of the following:`,
-                question_type: `radio check`,
-                options: [
-                    '1,600 miles',
-                    '1,000 miles',
-                    '10,600 miles'
-                ]
-            }
-            ,
-            // ... question-2
-            {
-                question_num: 2,
-                question_title: `Which of the following statements is correct ?`,
-                question_hint: `please select one of the following:`,
-                question_type: `radio check`,
-                options: [
-                    'Titan is larger than the planet Mercury and is the second largest moon in our solar system.',
-                    'Titan is larger than the planet Earth and is the third largest moon in our solar system.',
-                    'Titan is larger than the planet Venus and is the second largest moon in our solar system.'
-                ]
-            }
-            ,
-            // ... question-3
-            {
-                question_num: 3,
-                question_title: `How long does Titan take to make a rotation around the Sun ?`,
-                question_hint: `please select one of the following:`,
-                question_type: `radio check`,
-                options: [
-                    '15.8 days',
-                    '12.2 days',
-                    '20.5 days'
-                ]
-            }
-            ,
-            // ... question-4
-            {
-                question_num: 4,
-                question_title: `The atmospheric pressure on Titan is roughly… ?`,
-                question_hint: `please select one of the following:`,
-                question_type: `radio check`,
-                options: [
-                    '45 percent greater than on Earth',
-                    '60 percent greater than on Earth',
-                    '75 percent greater than on Earth'
-                ]
-            }
-            ,
-            // ... question-5
-            {
-                question_num: 5,
                 question_title: `The surface temperature of Titan is:`,
                 question_hint: `please select one of the following:`,
                 question_type: `radio check`,
@@ -215,16 +163,54 @@ export const first_test_data = {
                 ]
             }
             ,
-            // ... question-6
+            // ... question-2
             {
-                question_num: 6,
-                question_title: `Titans atmosphere is mostly composed of:`,
+                question_num: 2,
+                question_title: `Is Titan larger than the planet Mercury ?`,
                 question_hint: `please select one of the following:`,
                 question_type: `radio check`,
                 options: [
-                    'nitrogen (about 95 percent) and methane (about 5 percent),',
-                    'oxygen (about 95 percent) and ethane (about 5 percent),',
-                    'helium (about 95 percent) and methane (about 5 percent),'
+                    'Yes',
+                    'No',
+                ]
+            }
+            ,
+            // ... question-2
+            {
+                question_num: 3,
+                question_title: `How long is the day on Titan (in Earth days) ?`,
+                question_hint: `please select one of the following:`,
+                question_type: `radio check`,
+                options: [
+                    '15 days',
+                    '12 days',
+                    '20 days'
+                ]
+            }
+            ,
+            // ... question-3
+            {
+                question_num: 4,
+                question_title: `What is the atmospheric pressure on Titan ? `,
+                question_hint: `please select one of the following:`,
+                question_type: `radio check`,
+                options: [
+                    '50 percent higher than Earth’s',
+                    '60 percent greater than on Earth',
+                    '75 percent greater than on Earth'
+                ]
+            }
+            ,
+            // ... question-5
+            {
+                question_num: 5,
+                question_title: `What is Titan's atmosphere composed of ?`,
+                question_hint: `please select one of the following:`,
+                question_type: `radio check`,
+                options: [
+                    'nitrogen',
+                    'oxygen',
+                    'helium'
                 ]
             }
         ]
@@ -308,6 +294,24 @@ export const first_test_data = {
                 ]
             }
             ,
+            // ... question-5
+            {
+                question_num: 5,
+                question_title: `How familiar with this domain of space ?`,
+                question_hint: `please select a number between 1-5`,
+                question_type: `radio-check`,
+                options_legend: [
+                    'Beginner',
+                    'Expert',
+                ],
+                options: [
+                    '1',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                ]
+            }
         ]
     }
 }

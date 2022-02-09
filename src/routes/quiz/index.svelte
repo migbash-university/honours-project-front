@@ -11,8 +11,20 @@
 
     import { starbased_user_settings } from '$lib/store/userData';
     import { first_test_data } from '$lib/data/1st-test'
+    import { second_test_data } from '$lib/data/2nd-test'
+    import { third_test_data } from '$lib/data/3rd-test'
 
     import Header from '$lib/components/header/Header.svelte'
+
+    // ... import data;
+    let data;
+    $: if (import.meta.env.VITE_TEST_NUMBER.toString() === '1') {
+        data = first_test_data
+    } else if (import.meta.env.VITE_TEST_NUMBER.toString() === '2') {
+        data = second_test_data
+    } else if (import.meta.env.VITE_TEST_NUMBER.toString() === '3') {
+        data = third_test_data
+    }
 
     let interval: NodeJS.Timer;
     // ... user-time-to-interact-with-test;
@@ -56,7 +68,7 @@
         // ... add other-data;
         starbased_user_settings.setUserQA('test_1', 'quiz', data)
         // ... navigate to the next page;
-        await goto('/2nd-test/questionnaire');
+        await goto('/questionnaire');
     }
 </script>
 
@@ -129,7 +141,7 @@
         on:submit|preventDefault={(e) => onSubmit(e)}
         id='quiz-grid'>
 
-        {#each first_test_data.quiz.questions as item}
+        {#each data.quiz.questions as item}
             <!-- content here -->
 
             <!-- ... [question-X] ... -->
@@ -180,7 +192,6 @@
                 </div>
             </div>
         {/each}
-
         
     </form>
 

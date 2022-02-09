@@ -5,14 +5,27 @@
 =================== -->
 
 <script lang="ts">
-    import { dev } from '$app/env';
     import { goto } from '$app/navigation';
     import { onDestroy, onMount } from 'svelte';
+    import { dev } from '$app/env';
+    import { post } from '$lib/utils/api';
 
     import { starbased_user_settings } from '$lib/store/userData';
     import { first_test_data } from '$lib/data/1st-test'
+    import { second_test_data } from '$lib/data/2nd-test'
+    import { third_test_data } from '$lib/data/3rd-test'
 
     import Header from '$lib/components/header/Header.svelte'
+
+    // ... import data;
+    let data;
+    $: if (import.meta.env.VITE_TEST_NUMBER.toString() === '1') {
+        data = first_test_data
+    } else if (import.meta.env.VITE_TEST_NUMBER.toString() === '2') {
+        data = second_test_data
+    } else if (import.meta.env.VITE_TEST_NUMBER.toString() === '3') {
+        data = third_test_data
+    }
 
     let interval: NodeJS.Timer;
     // ... user-time-to-interact-with-test;
@@ -23,7 +36,7 @@
             starbased_user_settings.addTimer(
                 1,
                 'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
-                'quiz'
+                'questionnaire'
             )
             // ... increment-total-timer;
             starbased_user_settings.addTimer(
@@ -41,22 +54,27 @@
 
     // ... submit FORM DATA;
     async function onSubmit(e) {
-        // ... extract-form-data;
         const formData = new FormData(e.target);
         // ... DEBUGGING;
         if (dev) console.info('formData', formData)
-        // ... pick-out-form-data;
-        const data = {};
+
+        let data = {};
         for (let field of formData) {
             const [key, value] = field;
             data[key] = value;
         }
         // ... DEBUGGING;
         if (dev) console.info(data)
+        if (dev) console.info($starbased_user_settings)
         // ... add other-data;
-        starbased_user_settings.setUserQA('test_1', 'quiz', data)
+        starbased_user_settings.setUserQA('test_1', 'questionnaire', data)
+        data = $starbased_user_settings
+        // ... pass-on-data;
+        const response = await post(`/api/record-test.json`, {
+            data
+        })
         // ... navigate to the next page;
-        await goto('/1st-test/questionnaire');
+        await goto('/thank-you');
     }
 </script>
 
@@ -70,9 +88,9 @@
     ~~~~~~~~~~~~
     Primary Meta Tags;
     https://metatags.io/ -->
-    <title> STAR-BASED | Quiz </title>
-    <meta name="title" content="STAR-BASED | Quiz">
-    <meta name="description" content="STAR-BASED | Quiz">
+    <title> STAR-BASED | Questionnaire </title>
+    <meta name="title" content="STAR-BASED | Questionnaire">
+    <meta name="description" content="STAR-BASED | Questionnaire">
     <meta name="keywords" content="STAR-BASED, 
         conversational agent,
         conversational ai,
@@ -96,16 +114,16 @@
     Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="<link-goes-here>">
-    <meta property="og:title" content="STAR-BASED | Quiz">
-    <meta property="og:description" content="STAR-BASED | Quiz">
+    <meta property="og:title" content="STAR-BASED | Questionnaire">
+    <meta property="og:description" content="STAR-BASED | Questionnaire">
 	<meta property="og:image" content="<link-goes-here>">
     <!--
     ~~~~~~~~~~~~
     Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="<link-goes-here>">
-    <meta property="twitter:title" content="STAR-BASED | Quiz">
-    <meta property="twitter:description" content="STAR-BASED | Quiz">
+    <meta property="twitter:title" content="STAR-BASED | Questionnaire">
+    <meta property="twitter:description" content="STAR-BASED | Questionnaire">
 	<meta property="twitter:image" content="<link-goes-here>">
 </svelte:head>
 
@@ -116,22 +134,19 @@
 <Header />
 
 <section>
-
     <!-- ... title-section-h1 ... -->
     <h1  
         id='quiz-title'
         class='s-42 color-black bold text-center m-b-55'>
-            Test | Knowledge 
+            End-Questionnaire 
     </h1>
 
-    <!-- ... queiz-grid ... -->
+    <!-- ... questionnaire-grid ... -->
     <form 
         on:submit|preventDefault={(e) => onSubmit(e)}
-        id='quiz-grid'>
+        id='questionnaire-grid'>
 
-        {#each first_test_data.quiz.questions as item}
-            <!-- content here -->
-
+        {#each data.questionnaire.questions as item}
             <!-- ... [question-X] ... -->
             <div
                 class='row-space-start'>
@@ -139,7 +154,7 @@
                 <div
                     class='circle-question-number m-r-20'>
                     <p
-                        class='s-32 bold color-black'>
+                        class='s-18 bold color-black'>
                         {item.question_num}
                     </p>
                 </div>
@@ -157,42 +172,42 @@
                         {item.question_hint}
                     </p>
                     <!-- ... question input ... -->
-                    {#each item.options as option}
-                        <!-- content here -->
-                        <fieldset
-                            class='row-space-out'>
-                            <!-- ... label for the input ... -->
-                            <label 
-                                class="container">
-                                <p class='s-16 color-black'>
-                                    {option}
-                                </p>
-                                <input 
-                                    type='radio' 
-                                    name={item.question_num.toString()} 
-                                    value={option}
-                                    class='m-r-20' 
-                                    required />
-                                <span class="checkmark"></span>
-                            </label>
-                        </fieldset>
-                    {/each}
-                </div>
+                    <!-- ... likert-scale-input ... -->
+                    <ul 
+                        class='likert row-space-start'>
+                        {#each item.options as option}
+                            <li>
+                                <label 
+                                    class="container">
+                                    <input 
+                                        type="radio"
+                                        name={item.question_num.toString()} 
+                                        value={option}
+                                        required />
+                                    <span 
+                                        class="checkmark color-black">
+                                        {option}
+                                    </span>
+                                </label>
+                            </li>
+                        {/each}
+                    </ul>
+            </div>
             </div>
         {/each}
+
     </form>
 
-    <!-- ... continuation button ... -->
-    <button
-        form="quiz-grid"
-        type='submit'
+    <!-- ... termination-button ... -->
+    <button 
+        form="questionnaire-grid"
         class='continuation-btn'>
         <h1 
             class='s-18 color-white'>
-            <b>SUBMIT</b>
+            <b>FINISH</b>
         </h1>
     </button>
-    
+
 </section>
 
 <!-- ===================
@@ -200,9 +215,9 @@
 =================== -->
 
 <style>
-    /* :global(body) {
+    :global(body) {
         background-color: white
-    } */
+    }
 
     h1#quiz-title {
         position: relative;
@@ -217,7 +232,7 @@
         left: 0;
     }
     
-    form#quiz-grid {
+    form#questionnaire-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 36px;
@@ -245,15 +260,22 @@
         background-repeat: no-repeat;
         background-position: 95% 50%;
         background-size: auto;
-        background-color: #00AADF !important;
+        background-color: #FF0000 !important;
     }
 
-    /* The container */
+    /* 
+    likert-scale */
+    form .likert {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    } form .likert li label {
+        width:100%;
+    }
+
+    /* ... the container ... */
     .container {
-        display: block;
         position: relative;
-        padding-left: 35px;
-        margin-bottom: 12px;
         cursor: pointer;
         font-size: 22px;
         -webkit-user-select: none;
@@ -261,39 +283,34 @@
         -ms-user-select: none;
         user-select: none;
     }
-    /* Hide the browser's default radio button */
+    /* ... hide the browser's default radio button ... */
     .container input {
         position: absolute;
         opacity: 0;
         cursor: pointer;
     }
-    /* Create a custom radio button */
+    /* ... create a custom radio button ... */
     .checkmark {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 21px;
-        width: 21px;
-        border-radius: 50%;
-        background: #EFEFEF;
-        box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+        padding: 10px 18px;
+        background: #FAFAFA;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
-    /* On mouse-over, add a grey background color */
+    /* ... on mouse-over, add a grey background color ... */
     .container:hover input ~ .checkmark {
-        background-color: #ccc;
+        background-color: #cccccc;
     }
-    /* When the radio button is checked, add a blue background */
+    /* ... when the radio button is checked, add a blue background ... */
     .container input:checked ~ .checkmark {
-        background-color: #00AADF;
+        background-color: #00FFB2;
         box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
-    /* Create the indicator (the dot/circle - hidden when not checked) */
+    /* ... create the indicator (the dot/circle - hidden when not checked) ... */
     .checkmark:after {
         content: "";
         position: absolute;
         display: none;
     }
-    /* Show the indicator (dot/circle) when checked */
+    /* ... show the indicator (dot/circle) when checked ... */
     .container input:checked ~ .checkmark:after {
         display: block;
     }

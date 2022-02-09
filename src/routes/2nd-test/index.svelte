@@ -275,7 +275,7 @@
             <!-- ... continuation button ... -->
             <a 
                 sveltekit:prefetch
-                href='/2nd-test/quiz'>
+                href='/quiz'>
                 <button 
                     class='continuation-btn'>
                     <h1 
