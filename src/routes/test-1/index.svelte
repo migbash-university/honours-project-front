@@ -17,27 +17,66 @@
     // ...
 	import { amp, browser, dev, mode, prerendering } from '$app/env'
     import { fade, slide } from 'svelte/transition'
-    import { onMount } from 'svelte'
+    import { onDestroy, onMount } from 'svelte'
+    import { goto } from '$app/navigation';
 
-    import starbased_logo from '$lib/starbased-icon.svg'
-    import Header from '$lib/header/Header.svelte'
+    import Header from '$lib/components/header/Header.svelte'
 
     import { first_test_data } from '$lib/data/1st-test'
+    import { starbased_user_settings } from '$lib/store/userData';
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // USER-ACTIONS
+    // TIMER COUNTER [AUTO]
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    let interval;
+    // ... user-time-to-interact-with-test;
+    onMount(async() => {
+        // ... run every 1000ms (1-second)
+        interval = setInterval(() => {
+            // ... increment-QUIZ-timer;
+            starbased_user_settings.addTimer(
+                1,
+                'test_1',
+                'reading'
+            )
+            // ... increment-total-timer;
+            starbased_user_settings.addTimer(
+                1,
+                'test_1',
+                'timer_total'
+            )
+        }, 1000)
+    })
+    // ... on page change;
+    onDestroy(async() => {
+        // ... destroy setInterval()
+        clearInterval(interval)
+    })
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // PAGE USER-ACTIONS
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     let helpTipsShow: boolean = false;
-
+    // ...
     function toggleHelpTips() {
         helpTipsShow = !helpTipsShow
     }
 
+    // ...
     let viewMode: string = 'interactive'
-
+    // ...
     function toggleViewMode(viewSet: string) {
         viewMode = viewSet;
+    }
+
+    // ...
+    async function nextPage() {
+        // ... update-last-page-visit;
+        starbased_user_settings.updateUserLastPage('/quiz')
+        // ... redirect
+        await goto('/quiz')
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,12 +112,12 @@
 
     /**
      * Function - Renders the Earth alone
-     */
+    */
     const toggleEarth = () => {
         viz_option = 'earth'
         clearSimulation()
         earth = viz.createSphere('earth', {
-            textureUrl: './assets/img/planets/earth-spread.jpg',
+            textureUrl: './assets/img/planets/titan-texture.png',
             rotation: {
                 speed: 0.25
             },
@@ -92,7 +131,7 @@
     
     /**
      * Function - Renders the Galaxy (Solar System) Visualization
-     */
+    */
     const toggleGalaxy = () => {
         viz_option = 'solar_sys'
         clearSimulation()
@@ -103,7 +142,7 @@
     /**
      * clear off the current interactive SpaceKitJs Simulation of off the
      * planets visualized and their images, ready for the next visualizations,
-     */
+    */
     const clearSimulation = () => {
         for (n in all_obj) {
             viz.removeObject(all_obj[n])
@@ -123,7 +162,6 @@
 	SVELTE INJECTION TAGS
 =================== -->
 
-<!-- adding SEO title and meta-tags to the /basket page -->
 <svelte:head>
     <!--
     ~~~~~~~~~~~~
@@ -174,7 +212,8 @@
 
 <Header />
 
-<section class='row-space-out'>
+<section 
+    class='row-space-out'>
 
     <!-- ... interactive-model-galaxy ... -->
     <div 
@@ -268,13 +307,11 @@
                     id='helpTipsContainer'
                     transition:slide>
                     <p
-                        class='s-14 color-white text-center m-b-15'>
-                        <b>
-                            here to help 🤗
-                        </b>
-                    </p>
-                    <p
-                        class='s-14 color-primary m-b-15'>
+                        class='s-14 color-secondary m-b-15'
+                        style='
+                            background-color: #000000;
+                            padding: 3px 10px;
+                            width: fit-content;'>
                         <b>
                             YOUR TASKS
                         </b>
@@ -305,13 +342,12 @@
             class='s-14'>
             {@html first_test_data.text}
         </p>
-
-    </div>
+    </div>    
 
     <!-- ... container `div` next step ... -->
     <div
         id='contuniation-container'
-        class='row-space-start'>
+        class='row-space-end'>
         <!-- ... text btn procedure ... -->
         <p
             class='m-r-20 s-14 color-white'>
@@ -320,20 +356,15 @@
             end of reading test ?
         </p>
         <!-- ... continuation button ... -->
-        <a 
-            sveltekit:prefetch
-            href="/1st-test/quiz"
-            >
-            <button 
-                class='continuation-btn'>
-                <h1 
-                    class='s-18'>
-                    <b>BEGIN TEST</b>
-                </h1>
-            </button>
-        </a>
+        <button 
+            class='continuation-btn'
+            on:click={() => nextPage()}>
+            <h1 
+                class='s-18'>
+                <b>BEGIN TEST</b>
+            </h1>
+        </button>
     </div>
-    
 
 </section>
 
@@ -358,20 +389,26 @@
     section #text-learning-container {
         width: 50vw;
         height: 100vh;
-        padding: 31px 62px;
+        padding: 31px 62px 150px 62px;
+        overflow-y: scroll;
+        position: relative;
     }
 
     div#helpTipsContainer {
         background: #4D4D4D;
         border-radius: 0px 2.5px 2.5px 2.5px;
-        padding: 15px;
+        padding: 20px 15px;
     }
 
     div#contuniation-container {
         position: absolute;
-        bottom: 45px;
-        right: 135px;
-        width: fit-content;
+        bottom: 0;
+        right: 0;
+        width: 50vw;
+        z-index: 10;
+        padding: 45px 62px 45px 0;
+        background-color: #4D4D4D;
+        box-shadow: 0px -5px 5px rgb(0 0 0 / 25%);
     }
 
     div#change-interactive-views {
@@ -391,7 +428,26 @@
         text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
 
+    /*
+    ~~~~~~~~~~~~~~~~ 
+    scrollbar STYLE */
+
+    ::-webkit-scrollbar {
+        width: 7px;
+        z-index: 1000;
+    } ::-webkit-scrollbar-track {
+        background-color: #574E4E;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        margin: 100px 0 200px 0;
+    } ::-webkit-scrollbar-thumb {
+        background-color: #C4C4C4;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+    }
+
     /* 
+    ~~~~~~~~~~~~~~~~ 
     buttton */
     button.toggle-view-btn {
         background-color: transparent;
@@ -424,7 +480,7 @@
     button.continuation-btn {
         height: 44px;
         padding: 0 52px 0 8px !important;
-        background-image: url('/assets/svg/arrow-btn.svg');
+        background-image: url('/assets/svg/arrow-red-btn.svg');
         background-repeat: no-repeat;
         background-position: 95% 50%;
         background-size: auto;

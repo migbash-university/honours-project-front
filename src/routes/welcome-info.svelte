@@ -14,17 +14,23 @@
 =================== -->
 
 <script lang="ts">
-    // ...
+    import { goto } from '$app/navigation';
 	import { amp, browser, dev, mode, prerendering } from '$app/env';
-    // ...
+    import { starbased_user_settings } from '$lib/store/userData';
     import starbased_logo from '$lib/starbased-icon.svg'
+
+    // ... next-page;
+    async function nextPage() {
+        let test_page: string = "/test-" + $starbased_user_settings.current_test_status.toString()
+        starbased_user_settings.updateUserLastPage(test_page)
+        await goto(test_page)
+    }
 </script>
 
 <!-- ===================
 	SVELTE INJECTION TAGS
 =================== -->
 
-<!-- adding SEO title and meta-tags to the /basket page -->
 <svelte:head>
     <!--
     ~~~~~~~~~~~~
@@ -74,9 +80,7 @@
 =================== -->
 
 <section>
-    <!-- 
-    ~~~~~~~~
-    website introduction -->
+    <!-- ... website introduction ... -->
     <div 
         id='intro-hero'
         class='column-space-start m-b-55'
@@ -100,7 +104,6 @@
     </div>
 
     <!-- ... further-in-depth-infromation ... -->
-
     <p 
         class='s-14 m-b-30' 
         style="color: #FF6464; letter-spacing: 0.05em;">
@@ -144,7 +147,8 @@
                 color: black;
                 background-color: #00FFB2;
                 padding: 9px 5px;'>
-                1
+                <!-- {import.meta.env.VITE_TEST_NUMBER.toString()} -->
+                {$starbased_user_settings.current_test_status.toString()}
             </span>
             <span>
                 /
@@ -156,18 +160,14 @@
     </div>
 
     <!-- ... continuation button ... -->
-    <a 
-        sveltekit:prefetch
-        href="/1st-test"
-        >
-        <button 
-            class='continuation-btn'>
-            <h1 
-                class='s-18 color-white'>
-                <b>BEGIN</b>
-            </h1>
-        </button>
-    </a>
+    <button 
+        class='continuation-btn'
+        on:click={() => nextPage()}>
+        <h1 
+            class='s-18 color-white'>
+            <b>BEGIN</b>
+        </h1>
+    </button>
 
 </section>
 
@@ -189,6 +189,8 @@
         background-color: #000000;
         padding: 9px 14px;
         width: fit-content;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 2.5px;
     }
 
     /* 

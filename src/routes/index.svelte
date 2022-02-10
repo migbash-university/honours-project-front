@@ -16,8 +16,14 @@
 <script lang="ts">
     // ...
 	import { amp, browser, dev, mode, prerendering } from '$app/env';
+    import { goto } from '$app/navigation';
     // ...
     import starbased_logo from '$lib/starbased-icon.svg'
+    
+    // ... submit FORM DATA;
+    async function onSubmit(e?) {
+        goto("/welcome-info")
+    }
 </script>
 
 <!-- ===================
@@ -75,8 +81,9 @@
 
 <section>
     <!-- ... website introduction ... -->
-    <div id='intro-hero'
-        class='column-space-center'>
+    <div 
+        id='intro-hero'
+        class='column-space-center m-b-55'>
         <img 
             src={starbased_logo} 
             alt='star-based-logo-cyan'
@@ -89,7 +96,8 @@
 
         <hr />
 
-        <p class='s-16'> 
+        <p 
+            class='s-16'> 
             Learn <b>space</b> using
             <br /> 
             artificial intelligence and 3D models
@@ -97,43 +105,105 @@
     </div>
 
     <!-- ... website honours project warning message ... -->
-    <div id='ethics-container'
+    <div 
+        id='ethics-container'
         class='column-space-stretch'>
         
-        <span class="row-space-start m-b-15">
+        <span 
+            class="row-space-initial-start m-b-15">
             <img 
                 src='/assets/svg/triangle-point.svg' 
                 alt=""
                 class='m-r-5'
             />
-            <h1 class='s-14' style="color: #FF6464;">
+            <p 
+                class='s-14' 
+                style="color: #FF6464;">
                 <b>THIS IS AN HONOURS PROJECT</b>
-            </h1>
+            </p>
         </span>
         
 
-        <p class='s-14 m-b-15'> 
+        <p 
+            class='s-14 m-b-25'> 
             Before proceeding, please agree to the Edinburgh Napier 
-            <br/>
             Universities Honours Project Ethics Regulations & GDPR:
         </p>
 
-        <input 
-            value="I agree to the Terms & Conditions"
-            type="checkbox"
-        />
+        <!-- ... consent-form-submit ... -->
+        <form 
+            action=""
+            id='ethics-consent-form'
+            on:submit|preventDefault={() => onSubmit()}>
+            <!-- ... label for the input ... -->
+            <label 
+                class="container row-space-start">
+                <input 
+                    type='radio' 
+                    name='tems_and_cond'
+                    value='tems_and_cond'
+                    class='m-r-20' 
+                    required />
+                <p 
+                    class='s-14 color-white'>
+                    <b> What is the Experiment? </b>
+                    <br/>
+                    <br/>
+
+                    ….
+
+                    <br/>
+                    <br/>
+                    <b> Do I have to take part? </b>
+                    <br/>
+                    <br/>
+
+                    No - participation is entirely voluntary. You can choose not to interact with the […] Bot, or to withdraw at any time, without giving any reason, and without any negative consequences. This includes the right to withdraw any information already supplied, as described below.
+                    
+                    <br/>
+                    <br/>
+                    <b> What data will you collect and what will you do with it? </b>
+                    <br/>
+                    <br/>
+
+                    If you choose to use the […] Bot an anonymised transcription of your conversation will be stored by Edinburgh Napier University (ENU). Similarly, if you choose to take part in the optional feedback survey, ENU will store an anonymous record of your responses.
+                    The textual content of any question you ask the Bot will be used to match our knowledge base of questions to find an appropriate answer. We will provide the answer back to you through the chat window. The data you provide will also be used to assess and improve the […] Bot, and to inform the development of other healthcare bots.
+                    Results from the research may be summarised and published in scientific conferences and/or journal papers and presentations. No identifying information will be included.
+                    <br/>
+                    <br/>
+                    
+                    <b> How will you protect my data? </b>
+                    <br/>
+                    <br/>
+
+                    All data will be stored anonymously and securely on a firewall-protected University server, or on the University's secure encrypted cloud storage services (Dropbox Enterprise or Sharepoint). In line with ENU policy, the anonymous data collected will be retained for a minimum period of 10 years following project completion.
+                    When interacting with the […] Bot you may choose (but are not required) to include personal information in your question, including special category personal data. For example, you may provide information that discloses any health, disability or ethnic status. It is important to note that you can use the […] Bot without sharing any such information in your question. For example, instead of asking “Hi I'm pregnant, does this mean I'm at higher risk?”, you could ask, “If someone is pregnant, are they at higher risk?”
+                    The lawful basis for processing your data will be your explicit consent, which you can withdraw at any time. For example, if you ask the […] Bot a question and later decide that you no longer wish to converse with the […] Bot, you can delete the conversation history from your browser. You can also request that your data be withdrawn from the experiment by contacting the researchers in charge of the study (see below). Please note that since the data is anonymised this will only be possible in some circumstances e.g. you are able to pinpoint the exact date and time of your interaction and/or identify accurately the content of the enquiries you wish deleted.
+                    The data controller is Napier University. As such, Napier has the responsibility to comply and to demonstrate compliance with, data protection law. Further information, including details of who to contact if you would like more information or have any concerns, is available here.
+                    <br/>
+                    <br/>
+
+                    <b> Who can I contact for more information? </b>
+                    <br/>
+                    <br/>
+                    For questions regarding the research study, please contact …. at ….@live.napier.ac.uk
+                    √  I have read and understood the information above, and agree to proceed on this basis.
+                </p>
+                <span class="checkmark"></span>
+            </label>
+        </form>
     </div>
 
     <!-- ... continuation button ... -->
-    <a sveltekit:prefetch
-        href="/welcome-info"
-        >
-        <button class='continuation-btn'>
-            <h1 class='s-18 color-white'>
-                <b>NEXT</b>
-            </h1>
-        </button>
-    </a>
+    <button
+        form="ethics-consent-form"
+        type="submit" 
+        class='continuation-btn'>
+        <h1 
+            class='s-18 color-white'>
+            <b>NEXT</b>
+        </h1>
+    </button>
 </section>
 
 <!-- ===================
@@ -142,21 +212,16 @@
 
 <style>
     #intro-hero {
-        position: absolute;
-        top: 0;
-        bottom: 0;
         margin: auto;
-        right: 0;
-        left: 0;
         width: 282px;
         text-align: center;
     }
 
     #ethics-container {
-        position: absolute;
+        /* position: absolute;
         bottom: 20%;
         left: 25%;
-        width: fit-content;
+        width: fit-content; */
     }
 
     /* 
@@ -172,5 +237,76 @@
         background-position: 95% 50%;
         background-color: #676767 !important;
         background-size: auto;
+    }
+
+    /* 
+    input-checkbox-radio-btn */
+    
+    /* The container */
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Hide the browser's default checkbox */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
     }
 </style>
