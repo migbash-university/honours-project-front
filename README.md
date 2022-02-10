@@ -12,7 +12,15 @@ This Honours Project revolves around Conversational A.I. Agents to be used in th
 
 This repository is only half-of the project. It focuses on the development of the `conversational AI` agent and the outline of its development. The `UI/UX` in a web-app format can be accessed on the following link -> [insert-link-here] and for the open-source code for it can be found here -> [insert-link-here]
 
-https://typpo.github.io/spacekit/docs/interfaces/SpaceObjectOptions.html
+## ♨ Live Version
+
+The live version of the website for the project can be accessed on the link:
+
+[live-version](https://starbased-front.herokuapp.com/)
+
+## 🐳 Dockerized
+
+This application has been developed as a `Docker Application` , so it can be just deployed wherever needed quickly.
 
 ## 📊 Project Graph
 
@@ -21,12 +29,6 @@ https://typpo.github.io/spacekit/docs/interfaces/SpaceObjectOptions.html
 ## 🟢 Testing
 
 This project has been developed using `testing` for the frontend project using the [`cypress`](https://www.cypress.io/) library for the respective testing.
-
-## ♨ Live Version
-
-The live version of the website for the project can be accessed on the link:
-
-[live-version](https://starbased-front.herokuapp.com/)
 
 ## ⚙ Developemnt
 
@@ -57,10 +59,3 @@ npm run build
 ```
 
 > You can preview the built app with `npm run preview`, regardless of whether you installed an adapter. This should _not_ be used to serve your app in production.
-
-## 🧿 Miscelleneous
-
-This is a sample collection of code used on the progrss of the project:
-
-- https://codepen.io/mr-t77/pen/jRzmMZ
-- https://moderncss.dev/pure-css-custom-styled-radio-buttons/
