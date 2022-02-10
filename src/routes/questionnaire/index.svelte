@@ -7,9 +7,9 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { onDestroy, onMount } from 'svelte';
-    import { dev } from '$app/env';
-    import { post } from '$lib/utils/api';
+    import { browser, dev } from '$app/env';
 
+    import { post } from '$lib/utils/api';
     import { starbased_user_settings } from '$lib/store/userData';
     import { first_test_data } from '$lib/data/1st-test'
     import { second_test_data } from '$lib/data/2nd-test'
@@ -17,15 +17,24 @@
 
     import Header from '$lib/components/header/Header.svelte'
 
-    // ... import data;
-    let data;
-    $: if (import.meta.env.VITE_TEST_NUMBER.toString() === '1') {
-        data = first_test_data
-    } else if (import.meta.env.VITE_TEST_NUMBER.toString() === '2') {
-        data = second_test_data
-    } else if (import.meta.env.VITE_TEST_NUMBER.toString() === '3') {
-        data = third_test_data
-    }
+    // ... import-appropiate-test-number-data;
+    let data: any;
+    // ...
+    onMount(async() => {
+        if (browser) {
+            if ($starbased_user_settings.current_test_status.toString() === '1') {
+                data = first_test_data
+            } else if ($starbased_user_settings.current_test_status.toString() === '2') {
+                data = second_test_data
+            } else if ($starbased_user_settings.current_test_status.toString() === '3') {
+                data = third_test_data
+            }
+        }
+    })
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // INTERVAL COUNTRER-TIMER
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     let interval: NodeJS.Timer;
     // ... user-time-to-interact-with-test;
@@ -52,12 +61,17 @@
         clearInterval(interval)
     })
 
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // PAGE USER-ACTIONS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     // ... submit FORM DATA;
     async function onSubmit(e) {
+        // ... intercept-form-data;
         const formData = new FormData(e.target);
         // ... DEBUGGING;
         if (dev) console.info('formData', formData)
-
+        // ... extract-form-data;
         let data = {};
         for (let field of formData) {
             const [key, value] = field;
@@ -69,10 +83,16 @@
         // ... add other-data;
         starbased_user_settings.setUserQA('test_1', 'questionnaire', data)
         data = $starbased_user_settings
-        // ... pass-on-data;
+        // ... pass-on-the-data-to-the-backend-server;
         const response = await post(`/api/record-test.json`, {
             data
         })
+        // ... update-localstorage;
+        starbased_user_settings.updateUserLastPage('/thank-you')
+        // ... DEBUGGING;
+        if (dev) console.info('Date.now()', Date.now())
+        starbased_user_settings.updateLastCompletedTest(Date.now())
+        // starbased_user_settings.updateTestProgressCompletionStatus('')
         // ... navigate to the next page;
         await goto('/thank-you');
     }
@@ -146,57 +166,60 @@
         on:submit|preventDefault={(e) => onSubmit(e)}
         id='questionnaire-grid'>
 
-        {#each data.questionnaire.questions as item}
-            <!-- ... [question-X] ... -->
-            <div
-                class='row-space-start'>
-                <!-- ... question-number ... -->
+        {#if data}
+            <!-- content here -->
+            {#each data.questionnaire.questions as item}
+                <!-- ... [question-X] ... -->
                 <div
-                    class='circle-question-number m-r-20'>
-                    <p
-                        class='s-18 bold color-black'>
-                        {item.question_num}
-                    </p>
+                    class='row-space-start'>
+                    <!-- ... question-number ... -->
+                    <div
+                        class='circle-question-number m-r-20'>
+                        <p
+                            class='s-18 bold color-black'>
+                            {item.question_num}
+                        </p>
+                    </div>
+                    <!-- ... question-card ... -->
+                    <div 
+                        class='column-space-start'>
+                        <!-- ... question ... -->
+                        <p
+                            class='s-18 bold color-black m-b-10'>
+                            {item.question_title}
+                        </p>
+                        <!-- ... question hint ... -->
+                        <p
+                            class='s-12 color-grey m-b-15'>
+                            {item.question_hint}
+                        </p>
+                        <!-- ... question input ... -->
+                        <!-- ... likert-scale-input ... -->
+                        <ul 
+                            class='likert row-space-start'>
+                            {#each item.options as option}
+                                <li>
+                                    <label 
+                                        class="container">
+                                        <input 
+                                            type="radio"
+                                            name={item.question_num.toString()} 
+                                            value={option}
+                                            required />
+                                        <span 
+                                            class="checkmark color-black">
+                                            {option}
+                                        </span>
+                                    </label>
+                                </li>
+                            {/each}
+                        </ul>
                 </div>
-                <!-- ... question-card ... -->
-                <div 
-                    class='column-space-start'>
-                    <!-- ... question ... -->
-                    <p
-                        class='s-18 bold color-black m-b-10'>
-                        {item.question_title}
-                    </p>
-                    <!-- ... question hint ... -->
-                    <p
-                        class='s-12 color-grey m-b-15'>
-                        {item.question_hint}
-                    </p>
-                    <!-- ... question input ... -->
-                    <!-- ... likert-scale-input ... -->
-                    <ul 
-                        class='likert row-space-start'>
-                        {#each item.options as option}
-                            <li>
-                                <label 
-                                    class="container">
-                                    <input 
-                                        type="radio"
-                                        name={item.question_num.toString()} 
-                                        value={option}
-                                        required />
-                                    <span 
-                                        class="checkmark color-black">
-                                        {option}
-                                    </span>
-                                </label>
-                            </li>
-                        {/each}
-                    </ul>
-            </div>
-            </div>
-        {/each}
-
+                </div>
+            {/each}
+        {/if}
     </form>
+
 
     <!-- ... termination-button ... -->
     <button 

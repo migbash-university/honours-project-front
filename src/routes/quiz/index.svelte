@@ -5,9 +5,10 @@
 =================== -->
 
 <script lang="ts">
-    import { dev } from '$app/env';
+    import { browser, dev } from '$app/env';
     import { goto } from '$app/navigation';
     import { onDestroy, onMount } from 'svelte';
+    import { page } from '$app/stores';
 
     import { starbased_user_settings } from '$lib/store/userData';
     import { first_test_data } from '$lib/data/1st-test'
@@ -16,15 +17,24 @@
 
     import Header from '$lib/components/header/Header.svelte'
 
-    // ... import data;
-    let data;
-    $: if (import.meta.env.VITE_TEST_NUMBER.toString() === '1') {
-        data = first_test_data
-    } else if (import.meta.env.VITE_TEST_NUMBER.toString() === '2') {
-        data = second_test_data
-    } else if (import.meta.env.VITE_TEST_NUMBER.toString() === '3') {
-        data = third_test_data
-    }
+    // ... import-appropiate-test-number-data;
+    let data: any;
+    // ...
+    onMount(async() => {
+        if (browser) {
+            if ($starbased_user_settings.current_test_status.toString() === '1') {
+                data = first_test_data
+            } else if ($starbased_user_settings.current_test_status.toString() === '2') {
+                data = second_test_data
+            } else if ($starbased_user_settings.current_test_status.toString() === '3') {
+                data = third_test_data
+            }
+        }
+    })
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // INTERVAL COUNTRER-TIMER
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     let interval: NodeJS.Timer;
     // ... user-time-to-interact-with-test;
@@ -51,6 +61,10 @@
         clearInterval(interval)
     })
 
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // PAGE USER-ACTIONS
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     // ... submit FORM DATA;
     async function onSubmit(e) {
         // ... extract-form-data;
@@ -67,6 +81,8 @@
         if (dev) console.info(data)
         // ... add other-data;
         starbased_user_settings.setUserQA('test_1', 'quiz', data)
+        // ... update-last-page-visit;
+        starbased_user_settings.updateUserLastPage('/questionnaire')
         // ... navigate to the next page;
         await goto('/questionnaire');
     }
@@ -141,58 +157,60 @@
         on:submit|preventDefault={(e) => onSubmit(e)}
         id='quiz-grid'>
 
-        {#each data.quiz.questions as item}
+        {#if data}
             <!-- content here -->
+            {#each data.quiz.questions as item}
+                <!-- content here -->
 
-            <!-- ... [question-X] ... -->
-            <div
-                class='row-space-start'>
-                <!-- ... question-number ... -->
+                <!-- ... [question-X] ... -->
                 <div
-                    class='circle-question-number m-r-20'>
-                    <p
-                        class='s-32 bold color-black'>
-                        {item.question_num}
-                    </p>
+                    class='row-space-start'>
+                    <!-- ... question-number ... -->
+                    <div
+                        class='circle-question-number m-r-20'>
+                        <p
+                            class='s-32 bold color-black'>
+                            {item.question_num}
+                        </p>
+                    </div>
+                    <!-- ... question-card ... -->
+                    <div 
+                        class='column-space-start'>
+                        <!-- ... question ... -->
+                        <p
+                            class='s-18 bold color-black m-b-10'>
+                            {item.question_title}
+                        </p>
+                        <!-- ... question hint ... -->
+                        <p
+                            class='s-12 color-grey m-b-15'>
+                            {item.question_hint}
+                        </p>
+                        <!-- ... question input ... -->
+                        {#each item.options as option}
+                            <!-- content here -->
+                            <fieldset
+                                class='row-space-out'>
+                                <!-- ... label for the input ... -->
+                                <label 
+                                    class="container">
+                                    <p class='s-16 color-black'>
+                                        {option}
+                                    </p>
+                                    <input 
+                                        type='radio' 
+                                        name={item.question_num.toString()} 
+                                        value={option}
+                                        class='m-r-20' 
+                                        required />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </fieldset>
+                        {/each}
+                    </div>
                 </div>
-                <!-- ... question-card ... -->
-                <div 
-                    class='column-space-start'>
-                    <!-- ... question ... -->
-                    <p
-                        class='s-18 bold color-black m-b-10'>
-                        {item.question_title}
-                    </p>
-                    <!-- ... question hint ... -->
-                    <p
-                        class='s-12 color-grey m-b-15'>
-                        {item.question_hint}
-                    </p>
-                    <!-- ... question input ... -->
-                    {#each item.options as option}
-                        <!-- content here -->
-                        <fieldset
-                            class='row-space-out'>
-                            <!-- ... label for the input ... -->
-                            <label 
-                                class="container">
-                                <p class='s-16 color-black'>
-                                    {option}
-                                </p>
-                                <input 
-                                    type='radio' 
-                                    name={item.question_num.toString()} 
-                                    value={option}
-                                    class='m-r-20' 
-                                    required />
-                                <span class="checkmark"></span>
-                            </label>
-                        </fieldset>
-                    {/each}
-                </div>
-            </div>
-        {/each}
-        
+            {/each}
+        {/if}
     </form>
 
     <!-- ... continuation button ... -->

@@ -7,23 +7,22 @@
     import { onMount } from 'svelte';
     import { page } from '$app/stores';
     import { browser, dev } from '$app/env';
+    import { goto } from '$app/navigation';
 
     import { get } from '$lib/utils/api';
-
-    import TouchDeviceView from '$lib/components/_TouchDeviceView.svelte';
-
     import { starbased_user_settings } from '$lib/store/userData'
+
+    import MainSplashScreen from '$lib/components/transition/_MainSplashScreen.svelte';
+    import TouchDeviceView from '$lib/components/_TouchDeviceView.svelte';
 
 	import '../app.css';
 
     // ... DEBUGGING;
     // if (dev) console.debug('page', $page)
 
-    // ... on client-side-rendering;
-    $: if (browser) {
-        // ... kickstart the .localStorage();
-        starbased_user_settings.useLocalStorage();
-    }
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ON-LOAD INSTANT
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // ... background-color-check;
     let light_bg: boolean = false;
@@ -37,7 +36,16 @@
         light_bg = false
     }
 
+    // ... on client-side-rendering of LOCAL-STORAGE();
+    onMount(async() => {
+        if (browser) {
+            // ... kickstart the .localStorage();
+            starbased_user_settings.useLocalStorage();
+        }
+    })
+
     // ... assign-user-uid;
+    // ... if they do not have one yet;
     onMount(async() => {
         if (browser) {
             if ($starbased_user_settings.userUID === undefined) {
@@ -51,9 +59,48 @@
         }
     })
 
+    // ... [REACTIVIY]
+    // ... check for user last accessed-page-and redirect accordingly;
+    $: if ($starbased_user_settings != undefined &&
+            $starbased_user_settings.current_page != undefined &&
+            $starbased_user_settings.current_page != $page.url.pathname) {
+        // ... redirect; 
+        // ... DEBUGGING;
+        if (dev) console.debug(`redirecting user to '${$starbased_user_settings.current_page}' page`)
+        // ... REDIRECTING USER;
+        goto($starbased_user_settings.current_page)
+    }
+
+    // ... [REACTIVIY]
+    // ... check-user-has-waited-4-days-before-next-test;
+    // let currentDateUNIX: number = Date.now()
+    $: if ($starbased_user_settings != undefined &&
+            $starbased_user_settings.last_test_completion_date != undefined &&
+            $starbased_user_settings.current_page != undefined &&
+            $starbased_user_settings.current_page.toString() === '/thank-you') {
+            let lastDateUNIX: number = parseInt($starbased_user_settings.last_test_completion_date.toString())
+            // ...
+            let lastDate = new Date(lastDateUNIX * 1000);
+            // ... determine-difference-in-days;
+            let newDate = new Date(lastDate).getDate(); //convert string date to Date object
+            let currentDate = new Date().getDate();
+            let diff = currentDate - newDate;
+            // ... DEBUGGING;
+            if (dev) console.debug('date difference from last-test is', diff)
+            // ... act-accordingly;
+            if (diff > 4) {
+                // ... next-test;
+                starbased_user_settings.updateTestCounter()
+                starbased_user_settings.updateUserLastPage('/welcome-info')
+                // ... redirect-user-to-new-test-start;
+                goto('/welcome-info')
+            }
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~
-	// VIEWPORT CHANGES
+	// USER VIEWPORT CHANGES
 	// ~~~~~~~~~~~~~~~~~~~~~
+
     let touchDevice: boolean = false
     // ... validation that the user does not have a touch screen enabled;
 	onMount(async () => {
@@ -79,6 +126,8 @@
 <!-- ===================
 	COMPONENT HTML
 =================== -->
+
+<MainSplashScreen />
 
 <!-- <Header /> -->
 

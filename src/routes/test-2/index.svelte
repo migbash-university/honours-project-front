@@ -3,10 +3,18 @@
     [TypeScript Written]
 =================== -->
 
-<script context="module" lang="ts">
-	// ...
-	export const prerender = true;
-</script>
+<!-- <script lang='ts' context="module">
+	// export const prerender = true;
+
+    // ... redirect directly to the UPCOMING LAUNCHES;
+	export async function load() {
+		// ...
+		return {
+			status: 302,
+			redirect: '/upcoming-launches'
+		};
+	}
+</script> -->
 
 <!-- ===================
 	COMPONENT JS - BASIC 
@@ -18,6 +26,7 @@
 	import { amp, browser, dev, mode, prerendering } from '$app/env'
     import { fade, slide } from 'svelte/transition'
     import { onDestroy, onMount } from 'svelte'
+    import { goto } from '$app/navigation';
 
     import { post } from '$lib/utils/api'
 
@@ -25,6 +34,15 @@
 
     import { first_test_data } from '$lib/data/1st-test'
     import { starbased_user_settings } from '$lib/store/userData';
+
+    // ... ON-LOAD-TEST-DATA;
+    onMount(async() => {
+        if (browser) { 
+            if ($starbased_user_settings.test_data.test_2.complete) {
+                await goto('/')
+            }
+        }
+    })
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // TIMER COUNTER [AUTO]
@@ -38,13 +56,13 @@
             // ... increment-QUIZ-timer;
             starbased_user_settings.addTimer(
                 1,
-                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'test_2',
                 'reading'
             )
             // ... increment-total-timer;
             starbased_user_settings.addTimer(
                 1,
-                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'test_2',
                 'timer_total'
             )
         }, 1000)
@@ -89,7 +107,11 @@
         // ...
         starbased_user_settings.addToConversationHistory('test_2', conversationData)
         // ...
-        const resposne = await post(`http://192.168.0.40:9000/post_question`, {
+        scrollBottom()
+        // ...
+        let endpointBackend: string = import.meta.env.VITE_BACKEND_URL.toString()
+        // if (dev) endpointBackend = 'http://192.168.0.40:9000'
+        const resposne = await post(endpointBackend + `/post_question`, {
             user_input: user_input
         })
         // ... DEBUGGING;
@@ -104,6 +126,15 @@
         starbased_user_settings.addToConversationHistory('test_2', conversationData)
         // ...
         processing = false
+        scrollBottom()
+    }
+
+    // ...
+    function submitReading(): void {
+        // ...
+        // starbased_user_settings.updatePageCompletionStatus('test_2')
+        // ... update-last-page-visit;
+        starbased_user_settings.updateUserLastPage('/quiz')
     }
 
     // ... re-load-conversation-if-stored-in-local-storage;
@@ -111,12 +142,19 @@
         if (browser) {
             if ($starbased_user_settings['test_data']['test_2']['conversation_history']['history'].length != 0) {
                 conversationData = $starbased_user_settings['test_data']['test_2']['conversation_history']['history']
-                // ... TODO: Make the scroll of the container to the bottom on message input;
-                // var scrollingElement = (document.scrollingElement || document.body);
-                // scrollingElement.scrollTop = scrollingElement.scrollHeight;
+                // ...
+                scrollBottom()
             }
         }
     })
+
+    // ... function keep-scroll-bottom;
+    function scrollBottom() {
+        setTimeout(async() => {
+            var element = document.getElementById("text-learning-container");
+            element.scrollTop = element.scrollHeight;
+        }, 50)
+    }
 </script>
 
 <!-- ===================
@@ -223,14 +261,24 @@
                     </p>
                     <p
                         class='color-white s-14'>
-                        please read through the given passage / information on the planet TITAN below
-                        and identify information that you believe to be critical,
+                        please interact with the Conversational agent using the input text box below, and prepare for an upcoming short quiz from the knowledge you have gathered from the conversations with the AI;
                         <br />
                         <br />
-                        when ready, proceed to the next page to answer some end of test questions based on the passage below
+                        The following questions will be asked on the quiz:
                         <br />
                         <br />
-                        once you complete the end of topic test, you will be promted to answering a simple 4 question questionnaire on your experience.
+                        • What is the temperature on Titan ?
+                        <br />
+                        • Is Titan larger than the planet Mercury ?
+                        <br />
+                        • How long is the day on Titan (in Earth days) ?
+                        <br />
+                        • What is the atmospheric pressure on Titan ? 
+                        <br />
+                        • What is Titan's atmosphere composed of ?
+                        <br />
+                        <br />
+                        You may ask these questions to prepare for the test, or ask them in your own way.
                     </p>
                 </div>
             {/if}
@@ -251,7 +299,7 @@
                     class:user_chat_bubble={item.user === 'user'}
                     class:agent_chat_bubble={item.user === 'agent'}>
                     <p
-                        class='s-14 color-white'>
+                        class='s-16 color-white'>
                         {item.text} 
                     </p>
                 </div>
@@ -277,6 +325,7 @@
                 sveltekit:prefetch
                 href='/quiz'>
                 <button 
+                    on:click={() => submitReading()}
                     class='continuation-btn'>
                     <h1 
                         class='s-18'>

@@ -5,14 +5,26 @@
 =================== -->
 
 <script lang="ts">
+    import { dev } from '$app/env';
     import Header from '$lib/components/header/Header.svelte'
+    import { starbased_user_settings } from '$lib/store/userData';
+
+    let convertedDate: Date;
+    // ... 
+    $: if ($starbased_user_settings != undefined &&
+            $starbased_user_settings.last_test_completion_date != undefined) {
+            // ...
+            let convertedDateUNIX = new Date(parseInt($starbased_user_settings.last_test_completion_date.toString()));
+            // ... determine-difference-in-days;
+            convertedDate = new Date(convertedDateUNIX); // convert string date to Date object
+            convertedDate.setDate(convertedDate.getDate() + 4);
+    }
 </script>
 
 <!-- ===================
 	SVELTE INJECTION TAGS
 =================== -->
 
-<!-- adding SEO title and meta-tags to the /basket page -->
 <svelte:head>
     <!--
     ~~~~~~~~~~~~
@@ -82,18 +94,20 @@
             Your responses have been recorded and you can now close and exit this website
         </p>
 
-        <!-- ... test-reminder ... -->
+        <!-- ... test-end-reminder-container ... -->
         <div
-            id='test-id-container'>
+            id='test-id-container'
+            class='m-b-40'>
             <p 
                 class='s-14'>
-                <b>THIS IS TEST NUMBER</b>
+                <b>THIS IS THE END OF TEST NUMBER</b>
                 <span
                     style='
                     color: black;
                     background-color: #00FFB2;
                     padding: 9px 5px;'>
-                    {import.meta.env.VITE_TEST_NUMBER.toString()}
+                    <!-- {import.meta.env.VITE_TEST_NUMBER.toString()} -->
+                    {$starbased_user_settings.current_test_status.toString()}
                 </span>
                 <span>
                     /
@@ -104,20 +118,35 @@
             </p>
         </div>
 
-        <!-- ... further extra-info ... -->
-        <div>
+        <!-- ... next-up-container-info ... -->
+        <div
+            id='extra-info-box'>
+            <p
+                id='next-up-title'
+                class='s-20 color-secondary bold m-b-10'>
+                Next up!
+            </p>
             <p 
-                class='s-16 color-black'>
-                The next test will take place on the ?? / ?? / ?? 
+                class='s-16 color-black m-b-5'
+                style='padding: 0 20px;'>
+                The next test will be available to you in 4 days from now, on the
+                {#if convertedDate != undefined}
+                    <b> {convertedDate.getDate()}/{convertedDate.getMonth()}/{convertedDate.getUTCFullYear()} </b>
+                {/if}
             </p>
             <p
-                class='s-16 color-black'>
+                class='s-16 color-black m-b-5'
+                style='padding: 0 20px;'>
                 Accessible on the following link - _____________________
             </p>
+            <p
+                class='s-16 color-black m-b-5'
+                style='padding: 0 20px;'>
+                You will be notified by email you provided at the start of this project. 
+            </p>
         </div>
-
+        
     </div>
-
 </section>
 
 <!-- ===================
@@ -143,5 +172,20 @@
         background-color: #000000;
         padding: 9px 14px;
         width: fit-content;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 2.5px;
+    }
+
+    div#extra-info-box {
+        background-color: #FCFCFC;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+        overflow: hidden;
+        padding: 0 0 15px 0;
+    } div#extra-info-box #next-up-title {
+        background-color: #000000;
+        width: 100%;
+        padding: 8px 0;
+        text-align: center;
     }
 </style>

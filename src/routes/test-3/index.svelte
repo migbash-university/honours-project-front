@@ -14,15 +14,15 @@
 =================== -->
 
 <script lang="ts">
-    // ...
 	import { amp, browser, dev, mode, prerendering } from '$app/env'
     import { fade, slide } from 'svelte/transition'
     import { onDestroy, onMount } from 'svelte'
 
-    import Header from '$lib/components/header/Header.svelte'
-
+    import { post } from '$lib/utils/api'
     import { first_test_data } from '$lib/data/1st-test'
     import { starbased_user_settings } from '$lib/store/userData';
+
+    import Header from '$lib/components/header/Header.svelte'
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // TIMER COUNTER [AUTO]
@@ -36,13 +36,13 @@
             // ... increment-QUIZ-timer;
             starbased_user_settings.addTimer(
                 1,
-                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'test_3',
                 'reading'
             )
             // ... increment-total-timer;
             starbased_user_settings.addTimer(
                 1,
-                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'test_3',
                 'timer_total'
             )
         }, 1000)
@@ -58,15 +58,71 @@
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     let helpTipsShow: boolean = false;
-
+    // ... toggle-hide-show-button-info;
     function toggleHelpTips() {
         helpTipsShow = !helpTipsShow
     }
 
-    let viewMode: string = 'interactive'
+    // ...
+    let processing: boolean = false
+    let user_input: string
+    let conversationData: ResponseData[] = []
+    interface ResponseData {
+        text: string
+        user: 'agent' | 'user'
+    }
+    let responseData: ResponseData;
+    // ... send-over-the-response-to-website-server;
+    // ... and further processing of data;
+    async function sendResponse(): Promise < void > {
+        // ...
+        processing = true
+        starbased_user_settings.incTotalMessagesExchanged('test_3')
+        // ...
+        responseData = {
+            text: user_input,
+            user: 'user'
+        }
+        conversationData = [...conversationData, responseData]
+        // ...
+        starbased_user_settings.addToConversationHistory('test_3', conversationData)
+        // ...
+        let endpointBackend: string = import.meta.env.VITE_BACKEND_URL.toString()
+        // if (dev) endpointBackend = 'http://192.168.0.40:9000'
+        const resposne = await post(endpointBackend + `/post_question`, {
+            user_input: user_input
+        })
+        // ... DEBUGGING;
+        if (dev) console.debug('resposne', resposne)
+        // ...
+        responseData = {
+            text: resposne['data'],
+            user: 'agent'
+        }
+        // ...
+        conversationData = [...conversationData, responseData]
+        starbased_user_settings.addToConversationHistory('test_3', conversationData)
+        // ...
+        processing = false
+    }
 
-    function toggleViewMode(viewSet: string) {
-        viewMode = viewSet;
+    // ... re-load-conversation-if-stored-in-local-storage;
+    onMount(async() => {
+        if (browser) {
+            if ($starbased_user_settings['test_data']['test_3']['conversation_history']['history'].length != 0) {
+                conversationData = $starbased_user_settings['test_data']['test_3']['conversation_history']['history']
+                // ...
+                scrollBottom()
+            }
+        }
+    })
+
+    // ... function keep-scroll-bottom;
+    function scrollBottom() {
+        setTimeout(async() => {
+            var element = document.getElementById("text-learning-container");
+            element.scrollTop = element.scrollHeight;
+        }, 50)
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,7 +158,7 @@
 
     /**
      * Function - Renders the Earth alone
-     */
+    */
     const toggleEarth = () => {
         viz_option = 'earth'
         clearSimulation()
@@ -121,7 +177,7 @@
     
     /**
      * Function - Renders the Galaxy (Solar System) Visualization
-     */
+    */
     const toggleGalaxy = () => {
         viz_option = 'solar_sys'
         clearSimulation()
@@ -215,68 +271,9 @@
             out:fade 
             id='main-container' 
         />
-        <!-- ... change view types ... -->
-        <div
-            id='change-interactive-views'
-            class='row-space-out'>
-            <!-- ... interactive toggle ... -->
-            <button
-                on:click={() => toggleViewMode('interactive')}
-                class:selectedView={viewMode === 'interactive'}
-                class='toggle-view-btn column-space-center m-r-10'>
-                <!-- ... image-asset ... -->
-                {#if viewMode === 'interactive'}
-                    <img 
-                        src="./assets/svg/3D-icon-selected.svg" 
-                        alt="" 
-                        class='m-b-10'
-                        width="39.38px" height="39.38px"
-                    />
-                {:else}
-                    <img 
-                        src="./assets/svg/3D-icon-idle.svg" 
-                        alt="" 
-                        class='m-b-10'
-                        width="39.38px" height="39.38px"
-                    />
-                {/if}
-                <!-- ... button-text-action ... -->
-                <p>
-                    interactive 3D 
-                    <br/>
-                    model
-                </p>
-            </button>
-            <!-- ... photo gallery toggle ... -->
-            <button
-                on:click={() => toggleViewMode('photo')}
-                class:selectedView={viewMode === 'photo'}
-                class='toggle-view-btn column-space-center'>
-                <!-- ... image-asset ... -->
-                {#if viewMode === 'photo'}
-                    <img 
-                        src="./assets/svg/photo-gallery-icon-selected.svg" 
-                        alt=""
-                        class='m-b-10'
-                        width="38px" height="32px"
-                    />
-                {:else}
-                    <img 
-                        src="./assets/svg/photo-gallery-icon-idle.svg" 
-                        alt="" 
-                        class='m-b-10'
-                        width="38px" height="32px"
-                    />
-                {/if}
-                <!-- ... button-text-action ... -->
-                <p>
-                    photo gallery
-                </p>
-            </button>
-        </div>
     </div>
 
-    <!-- ... text-chunck-box-container ... -->
+    <!-- ... conversational-agent-interaction-chunck-box-container ... -->
     <div 
         id='text-learning-container'>
 
@@ -309,14 +306,24 @@
                     </p>
                     <p
                         class='color-white s-14'>
-                        please read through the given passage / information on the planet TITAN below
-                        and identify information that you believe to be critical,
+                        please interact with the Conversational agent using the input text box below, and prepare for an upcoming short quiz from the knowledge you have gathered from the conversations with the AI;
                         <br />
                         <br />
-                        when ready, proceed to the next page to answer some end of test questions based on the passage below
+                        The following questions will be asked on the quiz:
                         <br />
                         <br />
-                        once you complete the end of topic test, you will be promted to answering a simple 4 question questionnaire on your experience.
+                        • What is the temperature on Titan ?
+                        <br />
+                        • Is Titan larger than the planet Mercury ?
+                        <br />
+                        • How long is the day on Titan (in Earth days) ?
+                        <br />
+                        • What is the atmospheric pressure on Titan ? 
+                        <br />
+                        • What is Titan's atmosphere composed of ?
+                        <br />
+                        <br />
+                        You may ask these questions to prepare for the test, or ask them in your own way.
                     </p>
                 </div>
             {/if}
@@ -326,38 +333,76 @@
         <h1 
             id='test-title'
             class='s-42'> 
-            { first_test_data.title } 
+            Conversational Agent
         </h1>
 
-        <p 
-            class='s-14'>
-            {@html first_test_data.text}
-        </p>
+        <!-- ... conversational=agent-user-interaction ... -->
+        <div
+            id='conversation-grid'>
+            {#each conversationData as item}
+                <div
+                    class:user_chat_bubble={item.user === 'user'}
+                    class:agent_chat_bubble={item.user === 'agent'}>
+                    <p
+                        class='s-14 color-white'>
+                        {item.text} 
+                    </p>
+                </div>
+            {/each}
+        </div>
     </div>    
 
     <!-- ... container `div` next step ... -->
     <div
         id='contuniation-container'
-        class='row-space-end'>
-        <!-- ... text btn procedure ... -->
-        <p
-            class='m-r-20 s-14 color-white'>
-            Are you ready to undertake a 
-            <br/> 
-            end of reading test ?
-        </p>
-        <!-- ... continuation button ... -->
-        <a 
-            sveltekit:prefetch
-            href='/quiz'>
-            <button 
-                class='continuation-btn'>
-                <h1 
-                    class='s-18'>
-                    <b>BEGIN TEST</b>
-                </h1>
+        class='column-space-stretch'>
+        <div
+            class='m-b-20 row-space-end'>
+            <!-- ... text btn procedure ... -->
+            <p
+                class='m-r-20 s-14 color-white'>
+                Are you ready to undertake a 
+                <br/> 
+                end of reading test ?
+            </p>
+            <!-- ... continuation button ... -->
+            <a 
+                sveltekit:prefetch
+                href='/quiz'>
+                <button 
+                    class='continuation-btn'>
+                    <h1 
+                        class='s-18'>
+                        <b>BEGIN TEST</b>
+                    </h1>
+                </button>
+            </a>
+        </div>
+        <!-- ... submit-user-input ... -->
+        <form 
+            action="" 
+            on:submit|preventDefault={sendResponse}
+            class='row-space-end'>
+            <fieldset
+                class='m-r-10'
+                style="width: -webkit-fill-available;">
+                <input 
+                    id='user-input'
+                    class="s-14 color-black bold"
+                    placeholder="Enter a question for the conversational agent..."
+                    bind:value={user_input}
+                    style='width: 100%'
+                    type="text" 
+                    required 
+                    autocomplete="off"/>
+            </fieldset>
+            <button
+                id='submit-response'
+                type="submit"
+                disabled={processing}
+                >
             </button>
-        </a>
+        </form>
     </div>
 
 </section>
@@ -383,7 +428,7 @@
     section #text-learning-container {
         width: 50vw;
         height: 100vh;
-        padding: 31px 62px 150px 62px;
+        padding: 31px 62px 225px 62px;
         overflow-y: scroll;
         position: relative;
     }
@@ -400,18 +445,9 @@
         right: 0;
         width: 50vw;
         z-index: 10;
-        padding: 45px 62px 45px 0;
-        background-color: #4D4D4D;
+        padding: 45px 62px;
+        background-color: #2D2D2D;
         box-shadow: 0px -5px 5px rgb(0 0 0 / 25%);
-    }
-
-    div#change-interactive-views {
-        position: absolute;
-        bottom: 27px;
-        margin: auto;
-        right: 0;
-        left: 0;
-        width: fit-content;
     }
 
     h1#test-title {
@@ -420,6 +456,32 @@
         line-height: 49px;
         letter-spacing: 0.17em;
         text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    div#conversation-grid {
+        gap: 5px;
+        grid-template-columns: 1fr;
+        display: grid;
+    }
+
+    div.user_chat_bubble {
+        padding: 16px;
+        background: rgba(0, 255, 178, 0.5);
+        border-radius: 5px;
+        text-align: right;
+    }
+    div.agent_chat_bubble {
+        padding: 16px;
+        background-color: none;
+        border-radius: 5px;
+    }
+
+    input#user-input {
+        background: #FFFFFF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+        height: 44px;
+        padding: 12px 18px;
     }
 
     /*
@@ -443,24 +505,6 @@
     /* 
     ~~~~~~~~~~~~~~~~ 
     buttton */
-    button.toggle-view-btn {
-        background-color: transparent;
-        border: 1px solid #FFFFFF !important;
-        border-radius: 5px;
-        padding: 10px;
-        width: 109px;
-        height: 98px;
-    }
-    button.toggle-view-btn.selectedView,
-    button.toggle-view-btn:hover {
-        border: none !important;
-        background-color: #252525;
-    }
-    button.toggle-view-btn.selectedView p,
-    button.toggle-view-btn:hover p {
-        color: #00FFB2;
-    }
-
     button.help-btn {
         height: 44px;
         padding: 0 52px 0 8px !important;
@@ -478,5 +522,16 @@
         background-repeat: no-repeat;
         background-position: 95% 50%;
         background-size: auto;
+    }
+
+    button#submit-response {
+        background: #FFFFFF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+        height: 44px;
+        width: 50px;
+        background-image: url('/assets/svg/input-vector.svg');
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
     }
 </style>
