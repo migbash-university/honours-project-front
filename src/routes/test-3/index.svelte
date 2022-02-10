@@ -106,16 +106,15 @@
         processing = false
     }
 
+    // ... [REACTIVITY]
     // ... re-load-conversation-if-stored-in-local-storage;
-    onMount(async() => {
-        if (browser) {
-            if ($starbased_user_settings['test_data']['test_3']['conversation_history']['history'].length != 0) {
-                conversationData = $starbased_user_settings['test_data']['test_3']['conversation_history']['history']
-                // ...
-                scrollBottom()
-            }
-        }
-    })
+    $: if ($starbased_user_settings != undefined &&
+            $starbased_user_settings['test_data']['test_3']['conversation_history']['history'].length != 0 &&
+            conversationData.length == 0) {
+        conversationData = $starbased_user_settings['test_data']['test_3']['conversation_history']['history']
+        // ...
+        scrollBottom()
+    }
 
     // ... function keep-scroll-bottom;
     function scrollBottom() {
@@ -208,7 +207,6 @@
 	SVELTE INJECTION TAGS
 =================== -->
 
-<!-- adding SEO title and meta-tags to the /basket page -->
 <svelte:head>
     <!--
     ~~~~~~~~~~~~
