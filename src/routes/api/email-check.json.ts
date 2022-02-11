@@ -71,47 +71,66 @@ export async function get(): Promise < any > {
                     const fileUserData = await loadFileContents(path + file)
                     // ...
                     const userEmail: string = fileUserData.userEmail
-                    if (dev) console.log(userEmail);
-
-                    // ~~~~~~~~~~
-                    // ... declare VARs;
-                    const from = 'StarBased Project <starbasedproject@gmail.com>'
-                    const subject = 'Welcome next StarBased Test!'
-
-                     // ~~~~~~~~~~
-                    // ... attachments of the email;
-                    const attachments = [
-                        // ~~~~~~~~~~
-                        // ... ENUCS LOGO ICONS FOOTER
-                        {
-                            filename: 'starbased-logo.png',
-                            path: 'static/email/assets/starbased-logo.png',
-                            cid: 'starbasedLogo'     // same cid value as in the html img src
-                        },
-                    ]
-
-                    // ... declare email opts. ;
-                    const mailOptions = {
-                        from: from,                                 // ... FROM email;
-                        to: userEmail,                              // ... TO - Member email;
-                        subject: subject,                           // ... EMAIL SUBJECT / TITLE;
-                        attachments: attachments,                   // ... necessary IMGs & FILES for the EMAIL;
-                        html: template(fileUserData)                // ... process template with locals - {passwordResetAddress};
-                    };
-
-                    // ~~~~~~~~~~
-                    // ... finalize the POST request & send out email;
-                    // res.setHeader('Content-Type', 'application/json');
+                    const lastTestDate: number = fileUserData.last_test_completion_date
                     // ...
-                    transporter.sendMail(mailOptions, function(error, info){
-                        if (error) {
-                            console.log(error);
-                            // res.end(JSON.stringify(error));
-                        } else {
-                            // res.end(JSON.stringify(info.response));
-                            // console.log('Email sent: ' + info.response);
-                        }
-                    });
+                    const lastDate = new Date(lastTestDate * 1000);
+                    // ... determine-difference-in-days;
+                    const newDate = new Date(lastDate).getDate(); //convert string date to Date object
+                    const currentDate = new Date().getDate();
+                    const diff = currentDate - newDate;
+                    // ... act-accordingly;
+                    if (diff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString()) &&
+                        fileUserData.emailNotified == null ||
+                        !fileUserData.emailNotified) {
+                        // ...
+                        fileUserData["emailNotified"] = true;
+                        // ~~~~~~~~~~
+                        // ... declare VARs;
+                        const from = 'StarBased Project <starbasedproject@gmail.com>'
+                        const subject = 'Welcome next StarBased Test!'
+                        // ~~~~~~~~~~
+                        // ... attachments of the email;
+                        const attachments = [
+                            // ~~~~~~~~~~
+                            // ... ENUCS LOGO ICONS FOOTER
+                            {
+                                filename: 'starbased-logo.png',
+                                path: 'static/email/assets/starbased-logo.png',
+                                cid: 'starbasedLogo'     // same cid value as in the html img src
+                            },
+                        ]
+                        // ... declare email opts. ;
+                        const mailOptions = {
+                            from: from,                                 // ... FROM email;
+                            to: userEmail,                              // ... TO - Member email;
+                            subject: subject,                           // ... EMAIL SUBJECT / TITLE;
+                            attachments: attachments,                   // ... necessary IMGs & FILES for the EMAIL;
+                            html: template(fileUserData)                // ... process template with locals - {passwordResetAddress};
+                        };
+                        // ~~~~~~~~~~
+                        // ... finalize the POST request & send out email;
+                        // res.setHeader('Content-Type', 'application/json');
+                        // ...
+                        transporter.sendMail(mailOptions, function(error, info){
+                            if (error) {
+                                console.log(error);
+                                // res.end(JSON.stringify(error));
+                            } else {
+                                // res.end(JSON.stringify(info.response));
+                                // console.log('Email sent: ' + info.response);
+                            }
+                        });
+                        // ~~~~~~~~~~
+                        //... write back NEW DATA to the MEMBERS LIST FILE;
+                        fs.writeFile(path + file, JSON.stringify(fileUserData, null, 4), err => {
+                            // ... checking for errors in the READING file;
+                            if (err) throw err;
+                            // ... success, EVENT ATTENDANCE UPDATED;
+                            console.log("Participant email-sent parameter updated!")
+                            // res.setHeader('Content-Type', 'application/json');
+                            // res.end(JSON.stringify({"Member already sent email to": "TRUE!"}));
+                        });
+                    }
                 }
             });
         });

@@ -48,6 +48,7 @@ export interface User_Setting {
     current_test_status: number         // ... user-test-status;
     last_test_completion_date: string   // ...
     userEmail: string                   // ... user email;
+    emailNotified: boolean              // ... sent-email-notification-or-not
     // ... complete-particiapnt-test-data;
     test_data: {
         test_1: Test_Data
@@ -62,6 +63,7 @@ const user_settings: User_Setting = {
     current_test_status: 1,
     current_page: undefined,
     last_test_completion_date: undefined,
+    emailNotified: false,
     test_data: {
         test_1: {
             timer_data: {
