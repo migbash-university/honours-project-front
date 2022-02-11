@@ -81,18 +81,18 @@
         if (dev) console.info(data)
         if (dev) console.info($starbased_user_settings)
         // ... add other-data;
+        // ... update-localstorage;
         starbased_user_settings.setUserQA('test_1', 'questionnaire', data)
+        // starbased_user_settings.updateTestProgressCompletionStatus('')
+        starbased_user_settings.updateUserLastPage('/thank-you')
+        starbased_user_settings.updateLastCompletedTest(Date.now())
         data = $starbased_user_settings
         // ... pass-on-the-data-to-the-backend-server;
         const response = await post(`/api/record-test.json`, {
             data
         })
-        // ... update-localstorage;
-        starbased_user_settings.updateUserLastPage('/thank-you')
         // ... DEBUGGING;
         if (dev) console.info('Date.now()', Date.now())
-        starbased_user_settings.updateLastCompletedTest(Date.now())
-        // starbased_user_settings.updateTestProgressCompletionStatus('')
         // ... navigate to the next page;
         await goto('/thank-you');
     }
