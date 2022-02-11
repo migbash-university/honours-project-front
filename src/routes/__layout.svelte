@@ -38,7 +38,7 @@
         light_bg = false
     }
 
-    // ... on client-side-rendering of LOCAL-STORAGE();
+    // ... INITIAL on client-side-rendering of LOCAL-STORAGE();
     onMount(async() => {
         if (browser) {
             // ... kickstart the .localStorage();
@@ -62,7 +62,8 @@
     })
 
     // ... [REACTIVIY]
-    // ... check for user last accessed-page-and redirect accordingly;
+    // ... check for user last accessed-page-and redirect accordingly
+    // ... to the most updated current page progress status;
     $: if ($starbased_user_settings != undefined &&
             $starbased_user_settings.current_page != undefined &&
             $starbased_user_settings.current_page != $page.url.pathname) {
@@ -74,7 +75,7 @@
     }
 
     // ... [REACTIVIY]
-    // ... check-user-has-waited-4-days-before-next-test;
+    // ... check-user-has-waited-X-days-before-next-test;
     // let currentDateUNIX: number = Date.now()
     $: if ($starbased_user_settings != undefined &&
             $starbased_user_settings.last_test_completion_date != undefined &&
@@ -101,6 +102,7 @@
 
     // ... [REACTIVIY]
     // ... check that the user-auth to be shown;
+    // ... on certain-pages;
     let showUserAuth: boolean = false;
     $: if (($starbased_user_settings != undefined &&
             starbased_user_settings.last_test_completion_date == undefined) &&
