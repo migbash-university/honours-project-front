@@ -14,6 +14,8 @@
 
     import MainSplashScreen from '$lib/components/transition/_MainSplashScreen.svelte';
     import TouchDeviceView from '$lib/components/_TouchDeviceView.svelte';
+    import UserUid from '$lib/components/header/UserUID.svelte';
+    import UserAuth from '$lib/components/header/UserAuth.svelte';
 
 	import '../app.css';
 
@@ -88,13 +90,26 @@
             // ... DEBUGGING;
             if (dev) console.debug('date difference from last-test is', diff)
             // ... act-accordingly;
-            if (diff > 4) {
+            if (diff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString())) {
                 // ... next-test;
                 starbased_user_settings.updateTestCounter()
                 starbased_user_settings.updateUserLastPage('/welcome-info')
                 // ... redirect-user-to-new-test-start;
                 goto('/welcome-info')
             }
+    }
+
+    // ... [REACTIVIY]
+    // ... check that the user-auth to be shown;
+    let showUserAuth: boolean = false;
+    $: if (($starbased_user_settings != undefined &&
+            starbased_user_settings.last_test_completion_date == undefined) &&
+            $page.url.pathname === '/' ||
+            $page.url.pathname === '/welcome-info') {
+            // ...
+            showUserAuth = true
+    } else {
+        showUserAuth = false
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~
@@ -128,6 +143,16 @@
 =================== -->
 
 <MainSplashScreen />
+
+{#if !showUserAuth}
+    <UserUid />
+{/if}
+
+<!-- ... User-Auth when no LocalStorage() found -->
+{#if showUserAuth}
+    <!-- ... content-here ... -->
+    <UserAuth />
+{/if}
 
 <!-- <Header /> -->
 

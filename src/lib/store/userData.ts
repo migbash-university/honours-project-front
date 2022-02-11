@@ -21,7 +21,6 @@ export interface Test_Data {
     quiz_complete: boolean
     test_complete: boolean
 }
-
 // ... interface-parameters-data-test-2+;
 export interface Test_Data_Agent {
 	timer_data: {
@@ -42,7 +41,6 @@ export interface Test_Data_Agent {
     quiz_complete: boolean
     test_complete: boolean
 }
-
 // ... interface-user-data;
 export interface User_Setting {
     userUID: string                     // ... USER unique ID;
@@ -57,7 +55,6 @@ export interface User_Setting {
         test_3: Test_Data_Agent
     }
 }
-
 // ... initialize-object-data;
 const user_settings: User_Setting = {
     userUID: undefined,
@@ -156,6 +153,22 @@ function createLocalStore(key: any): any {
 			// ... SET DATA TO SUBSCRIBED METHOD;
 			set(exisitng_data);
 		},
+
+        /**
+		 * Description:
+		 * ~~~~~~~~~~~~~~~~~
+		 * ... [WORKING]
+		 * ... method to add the user UID value
+		 * ... to the localStoage & application store
+		 *
+		 * ... @param {*} userUID
+		*/
+        reloadUserData: (loadedUserData: User_Setting) => {
+            // ... UPDATE THE LOCALSTORAGE();
+			localStorage.setItem(key, JSON.stringify(loadedUserData));
+			// ... update the `set()` data;
+			set(loadedUserData);
+        },
 
         /**
 		 * Description:
@@ -362,14 +375,33 @@ function createLocalStore(key: any): any {
 		 * ... @param {*} test_uid
 		*/
 		updateTestCounter: () => {
-            // ... DEBUGGING;
-            // if (dev) console.info('ℹ incrementing timer by', inc_timer, ' for ', );
             // ... GET DATA FROM LOCALSTORAGE();
             const existing: string = localStorage.getItem(key);
             // ... CONVERT TO JSON;
             const existing_data: User_Setting = JSON.parse(existing);
             // ... UPDATE THE DATA FOR LANG;
             existing_data.current_test_status = existing_data.current_test_status + 1
+            // ... UPDATE THE LOCALSTORAGE();
+            localStorage.setItem(key, JSON.stringify(existing_data));
+            // ... update the `set()` data;
+            set(existing_data);
+        },
+
+        /**
+		 * Description:
+		 * ~~~~~~~~~~~~~~~~~
+		 * ... [WORKING]
+		 * ... method to update the completion-time-of-test
+		 * ... to the localStoage & application store
+		 * ... @param {*} test_uid
+		*/
+		setUserEmail: (userEmail: string) => {
+            // ... GET DATA FROM LOCALSTORAGE();
+            const existing: string = localStorage.getItem(key);
+            // ... CONVERT TO JSON;
+            const existing_data: User_Setting = JSON.parse(existing);
+            // ... UPDATE THE DATA FOR LANG;
+            existing_data.userEmail = userEmail
             // ... UPDATE THE LOCALSTORAGE();
             localStorage.setItem(key, JSON.stringify(existing_data));
             // ... update the `set()` data;
