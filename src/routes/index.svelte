@@ -145,7 +145,17 @@
             <br/>
             <br/>
 
-            ….
+            This is an Honours Project. This experiment is an educational test. It tests the participants capability in learning using technology, without a personal human mentor to guide the user in the learning process.
+            In this experiment, you will be educated in depth of the celestial object (natural-satellite) - Titan. 
+            This experiment is a series of 3 separate experiments, which all involve an interactive galaxy-model, a text passage or an artificial intelligence bot that will respond to your questions about Titan. 
+            Each experiment is broken down into 3 parts:
+            <br/>
+            <br/>
+            … a reading, or (conversational-bot) section where the user interacts with a passage and or the conversational agent, to extract the answers from the passage, and or bot, answering the questions presented in the “HELP” button on the `”reading-page”
+            <br/>
+            … a quiz page, which will allow you the opportunity to answer the questions that you have obtained from the previous-reading section of the website,
+            <br/>
+            … a questionnaire, which will allow you to express your opinion on the conducted test in the form of a likert-scale.
 
             <br/>
             <br/>
@@ -157,8 +167,8 @@
             <br/>
             <br/>
 
-            No - participation is entirely voluntary. You can choose not to interact with the […] Bot, or to withdraw at any time, without giving any reason, and without any negative consequences. This includes the right to withdraw any information already supplied, as described below.
-            
+            No - participation is entirely voluntary. You can also choose to withdraw at any time, without giving any reason, and without any negative consequences. 
+
             <br/>
             <br/>
 
@@ -169,9 +179,10 @@
             <br/>
             <br/>
 
-            If you choose to use the […] Bot an anonymised transcription of your conversation will be stored by Edinburgh Napier University (ENU). Similarly, if you choose to take part in the optional feedback survey, ENU will store an anonymous record of your responses.
-            The textual content of any question you ask the Bot will be used to match our knowledge base of questions to find an appropriate answer. We will provide the answer back to you through the chat window. The data you provide will also be used to assess and improve the […] Bot, and to inform the development of other healthcare bots.
+            If you choose to use the Conversational Bot provided by this test, an anonymised transcription of your conversation will be stored by Edinburgh Napier University (ENU). Similarly, if you choose to take part in the optional feedback survey, ENU will store an anonymous record of your responses.
+            The textual content of any question you ask the Bot will be used to match our knowledge base of questions to find an appropriate answer. We will provide the answer back to you through the chat window. The data you provide will also be used to assess and improve the Bot, and to inform the development of other healthcare bots.
             Results from the research may be summarised and published in scientific conferences and/or journal papers and presentations. No identifying information will be included.
+
             <br/>
             <br/>
             
@@ -183,9 +194,10 @@
             <br/>
 
             All data will be stored anonymously and securely on a firewall-protected University server, or on the University's secure encrypted cloud storage services (Dropbox Enterprise or Sharepoint). In line with ENU policy, the anonymous data collected will be retained for a minimum period of 10 years following project completion.
-            When interacting with the […] Bot you may choose (but are not required) to include personal information in your question, including special category personal data. For example, you may provide information that discloses any health, disability or ethnic status. It is important to note that you can use the […] Bot without sharing any such information in your question. For example, instead of asking “Hi I'm pregnant, does this mean I'm at higher risk?”, you could ask, “If someone is pregnant, are they at higher risk?”
-            The lawful basis for processing your data will be your explicit consent, which you can withdraw at any time. For example, if you ask the […] Bot a question and later decide that you no longer wish to converse with the […] Bot, you can delete the conversation history from your browser. You can also request that your data be withdrawn from the experiment by contacting the researchers in charge of the study (see below). Please note that since the data is anonymised this will only be possible in some circumstances e.g. you are able to pinpoint the exact date and time of your interaction and/or identify accurately the content of the enquiries you wish deleted.
+            When interacting with the Conversational Bot you may choose (but are not required) to include personal information in your question, including special category personal data. For example, you may provide information that discloses any health, disability or ethnic status. It is important to note that you can use the Conversational Bot without sharing any such information in your question.
+            The lawful basis for processing your data will be your explicit consent, which you can withdraw at any time. For example, if you ask the Bot a question and later decide that you no longer wish to converse with the Bot, you can delete the conversation history from your browser. You can also request that your data be withdrawn from the experiment by contacting the researchers in charge of the study (see below). Please note that since the data is anonymised this will only be possible in some circumstances e.g. you are able to pinpoint the exact date and time of your interaction and/or identify accurately the content of the enquiries you wish deleted.
             The data controller is Napier University. As such, Napier has the responsibility to comply and to demonstrate compliance with, data protection law. Further information, including details of who to contact if you would like more information or have any concerns, is available here.
+            
             <br/>
             <br/>
 

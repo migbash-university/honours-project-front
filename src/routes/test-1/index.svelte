@@ -318,14 +318,28 @@
                     </p>
                     <p
                         class='color-white s-14'>
-                        please read through the given passage / information on the planet TITAN below
-                        and identify information that you believe to be critical,
+                        please read through the given passage / information on the planet TITAN below and identify information answering the following questions on the quiz:
                         <br />
+                        <br />
+                        • What is the approximate radius of Titan ?
+                        <br />
+                        • Which of the following statements is correct ?
+                        <br />
+                        • How long does Titan take to make a rotation around the Sun ?
+                        <br />
+                        • The atmospheric pressure on Titan is roughly… ?
+                        <br />
+                        • The surface temperature of Titan is … ?
+                        <br />
+                        • What is Titan's atmosphere composed of ?
+                        <br />
+                        • Titans atmosphere is mostly composed of … ?
                         <br />
                         when ready, proceed to the next page to answer some end of test questions based on the passage below
                         <br />
                         <br />
-                        once you complete the end of topic test, you will be promted to answering a simple 4 question questionnaire on your experience.
+                        once you complete the end of the topic test, you will be prompted to answer a simple 4 question questionnaire on your experience.
+
                     </p>
                 </div>
             {/if}
