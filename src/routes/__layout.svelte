@@ -184,6 +184,7 @@
         margin: 0 auto;
         width: 100%;
         overflow: hidden;
+        background-color: var(--dark);
         /* 
         make sure the initial page height is always full-device-height as a minumim */
         min-height: 100vh;
