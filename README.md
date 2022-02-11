@@ -39,6 +39,9 @@ This project `frontend` makes use of the following libraries:
 - [`spacekit-js`](https://typpo.github.io/spacekit/)
 - [`three.js`](https://threejs.org/)
 - [`cypress.io`](https://www.cypress.io/)
+- [`sveltekit`](https://kit.svelte.dev/)
+- [`svelte`](https://svelte.dev/)
+- [`docker`](https://www.docker.com/)
 
 ### 🚧 Developing
 
