@@ -1,0 +1,106 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB">
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Demystifying Email Design</title>
+
+    <style type="text/css">
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+        }
+    </style>
+
+</head>
+
+<body style="margin: 0; padding: 0; color: black; background-color: white;">
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+    {{!-- #############
+    HEADER STARBASED - LOGO
+    ############# --}}
+    
+        <tr>
+            <td style="padding: 25px 20px;">
+                <img 
+                    src="cid:starbasedLogo" 
+                    alt="brand-img" 
+                    height="70" 
+                    style="display: block;" 
+                    border="0" 
+                />
+            </td>
+        </tr>
+        
+    {{!-- #############
+    WELCOME TO NEXT TEST
+    ############# --}}
+    
+        <tr>
+            <td style="padding: 0 20px;">
+                <p style='font-style: normal;
+                    font-weight: bold;
+                    font-size: 42px;
+                    line-height: 49px;
+                    color: #37474F;'>
+                    Hi!
+                </p>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding: 0 20px;">
+                <p style="font-size: 14px;
+                    color: #37474F;">
+                    Your next test of for the StarBased project is ready and can now be accessed by you.
+                </p>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding: 0 20px;">
+                <p style="font-size: 14px;
+                    color: #37474F;">
+                    Please continue this test as it requires all 3 tests for the project to be deemed complete by a participant.
+                </p>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding: 0 20px; text-align: -webkit-center;">
+                <div style="background: #F8F7F7;
+                            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+                            border-radius: 5px;
+                            width: fit-content;
+                            padding: 15px 25px;">
+                    <h1 style='font-style: normal;
+                                font-weight: normal;
+                                font-size: 28.875px;
+                                line-height: 35px;
+                                display: flex;
+                                align-items: center;
+                                margin: 0;
+                                color: #000000;'>
+                        {{fileUserData.userUID}}
+                    </h1>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding: 0 20px;">
+                <p style="font-size: 14px;
+                    color: #37474F;">
+                    https://starbased-front.herokuapp.com/
+                </p>
+            </td>
+        </tr>
+
+    </table>
+</body>
+
+</html>
