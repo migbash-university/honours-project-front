@@ -42,6 +42,7 @@ This project `frontend` makes use of the following libraries:
 - [`sveltekit`](https://kit.svelte.dev/)
 - [`svelte`](https://svelte.dev/)
 - [`docker`](https://www.docker.com/)
+- [`uptimerobot](https://uptimerobot.com/)
 
 ### 🚧 Developing
 
