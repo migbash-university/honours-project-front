@@ -20,6 +20,8 @@ export interface Test_Data {
     reading_complete: boolean
     quiz_complete: boolean
     test_complete: boolean
+    model_view_timer: number
+    text_bot_timer: number
 }
 // ... interface-parameters-data-test-2+;
 export interface Test_Data_Agent {
@@ -40,6 +42,8 @@ export interface Test_Data_Agent {
     reading_complete: boolean
     quiz_complete: boolean
     test_complete: boolean
+    model_view_timer: number
+    text_bot_timer: number
 }
 // ... interface-user-data;
 export interface User_Setting {
@@ -76,7 +80,9 @@ const user_settings: User_Setting = {
             questionnaire: undefined,
             reading_complete: false,
             quiz_complete: false,
-            test_complete: false
+            test_complete: false,
+            model_view_timer: 0,
+            text_bot_timer: 0
         },
         test_2: {
             timer_data: {
@@ -93,7 +99,9 @@ const user_settings: User_Setting = {
             questionnaire: undefined,
             reading_complete: false,
             quiz_complete: false,
-            test_complete: false
+            test_complete: false,
+            model_view_timer: 0,
+            text_bot_timer: 0
         },
         test_3: {
             timer_data: {
@@ -110,7 +118,9 @@ const user_settings: User_Setting = {
             questionnaire: undefined,
             reading_complete: false,
             quiz_complete: false,
-            test_complete: false
+            test_complete: false,
+            model_view_timer: 0,
+            text_bot_timer: 0
         }
     }
 }
@@ -248,6 +258,35 @@ function createLocalStore(key: any): any {
 			// ... update the `set()` data;
 			set(existing_data);
 		},
+
+        /**
+		 * Description:
+		 * ~~~~~~~~~~~~~~~~~
+		 * ... [WORKING]
+		 * ... method to add the user seleted language
+		 * ... to the localStoage & application store
+		 *
+		 * ... @param {*} inc_timer
+		 * ... @param {*} test_uid
+		 * ... @param {*} test_type
+		*/
+		addTimerTestSections: (inc_timer: number, 
+            test_uid: 'test_1' | 'test_2' | 'test_3',
+            test_type: 'model_view_timer' | 'text_bot_timer'
+        ) => {
+            // ... DEBUGGING;
+            // if (dev) console.info('ℹ incrementing timer by', inc_timer, ' for ', );
+            // ... GET DATA FROM LOCALSTORAGE();
+            const existing: string = localStorage.getItem(key);
+            // ... CONVERT TO JSON;
+            const existing_data: User_Setting = JSON.parse(existing);
+            // ... UPDATE THE DATA FOR LANG;
+            existing_data['test_data'][test_uid][test_type] = parseInt(existing_data['test_data'][test_uid][test_type].toString()) + inc_timer
+            // ... UPDATE THE LOCALSTORAGE();
+            localStorage.setItem(key, JSON.stringify(existing_data));
+            // ... update the `set()` data;
+            set(existing_data);
+        },
 
         /**
 		 * Description:

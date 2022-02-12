@@ -6,7 +6,6 @@
 
 <script lang="ts">
     import { dev } from '$app/env';
-    import Header from '$lib/components/header/Header.svelte'
     import { starbased_user_settings } from '$lib/store/userData';
 
     let convertedDate: Date;
@@ -72,8 +71,6 @@
 <!-- ===================
 	COMPONENT HTML
 =================== -->
-
-<Header />
 
 <section>
 

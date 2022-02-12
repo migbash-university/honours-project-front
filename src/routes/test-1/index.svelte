@@ -16,11 +16,13 @@
 <script lang="ts">
     // ...
 	import { amp, browser, dev, mode, prerendering } from '$app/env'
-    import { fade, slide } from 'svelte/transition'
+    import { fade, fly, slide } from 'svelte/transition'
     import { onDestroy, onMount } from 'svelte'
     import { goto } from '$app/navigation';
 
-    import Header from '$lib/components/header/Header.svelte'
+    import VisualQ_1 from '$lib/3d-visuals/test-1/_Visual-q-1.svelte';
+    import VisualQ_2 from '$lib/3d-visuals/test-1/_Visual-q-2.svelte';
+    import VisualQ_3 from '$lib/3d-visuals/test-1/_Visual-q-3.svelte';
 
     import { first_test_data } from '$lib/data/1st-test'
     import { starbased_user_settings } from '$lib/store/userData';
@@ -54,6 +56,42 @@
         clearInterval(interval)
     })
 
+    let startModelViewTimer: NodeJS.Timer
+    async function incrementVisualTimerSection() {
+        console.debug('console! Incrementing Timer!')
+        // ...
+        startModelViewTimer = setInterval(async() => {
+            starbased_user_settings.addTimerTestSections(
+                1,
+                'test_1',
+                'model_view_timer'
+            )
+        }, 1000)
+    }
+
+    function stopModelVisualTimer() {
+        console.debug('Timer Stopped!')
+        clearInterval(startModelViewTimer)
+    }
+
+    let startTextViewTimer: NodeJS.Timer
+    async function incrementTextTimerSection() {
+        console.debug('console! Incrementing Timer!')
+        // ...
+        startTextViewTimer = setInterval(async() => {
+            starbased_user_settings.addTimerTestSections(
+                1,
+                'test_1',
+                'text_bot_timer'
+            )
+        }, 1000)
+    }
+
+    function stopModelTextTimer() {
+        console.debug('Timer Stopped!')
+        clearInterval(startTextViewTimer)
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // PAGE USER-ACTIONS
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,81 +117,14 @@
         await goto('/quiz')
     }
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // SPACEKIT-JS SIMULATION INTEGRATION
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    let viz, n;
-    let viz_option;
-    let earthPinsView = false;
-
-    // ... re-draw the simulation onMount() PAGE;
-    onMount(async () => {
-        recreateSimulation()
-        toggleGalaxy()
-        toggleEarth()
-    });
-
-    // ... 
-    const recreateSimulation = () => {
-        // ... create the visualization and put it in our div.
-        viz = new Spacekit.Simulation(document.getElementById('main-container'), {
-            basePath: 'https://typpo.github.io/spacekit/src',
-            jdPerSecond: 1
-        });
-        viz.createStars();
-    }
-
-    let earth;       // ... global paramater for satellite selection and targeting,
-    let all_obj = [] // ... all visualization objects,
-    let planet_info;
-    let sat_info;
-    let sat_counter = 0;
-
-    /**
-     * Function - Renders the Earth alone
-    */
-    const toggleEarth = () => {
-        viz_option = 'earth'
-        clearSimulation()
-        earth = viz.createSphere('earth', {
-            textureUrl: './assets/img/planets/titan-texture.png',
-            rotation: {
-                speed: 0.25
-            },
-            debug: {
-                showAxes: false,
-            },
-        });
-        all_obj.push(earth)
-        earth.startRotation();
-    }
-    
-    /**
-     * Function - Renders the Galaxy (Solar System) Visualization
-    */
-    const toggleGalaxy = () => {
-        viz_option = 'solar_sys'
-        clearSimulation()
-        const earth =  viz.createObject('earth', Spacekit.SpaceObjectPresets.EARTH);
-        all_obj.push(earth)
-    }
-
-    /**
-     * clear off the current interactive SpaceKitJs Simulation of off the
-     * planets visualized and their images, ready for the next visualizations,
-    */
-    const clearSimulation = () => {
-        for (n in all_obj) {
-            viz.removeObject(all_obj[n])
-        }
-        planet_info = undefined
-        // Make sure that the other simulation is hidden:
-        if (earthPinsView != false) {
-            earthPinsView = false
-            setTimeout(() => {
-                recreateSimulation()
-            }, 2000)
+    let selectedQuestion: number;
+    // ...
+    function selectOptionQ(opt: number) {
+        // ...
+        if (selectedQuestion == opt) {
+            selectedQuestion = undefined
+        } else {
+            selectedQuestion = opt
         }
     }
 </script>
@@ -210,23 +181,46 @@
 	COMPONENT HTML
 =================== -->
 
-<Header />
-
 <section 
     class='row-space-out'>
 
     <!-- ... interactive-model-galaxy ... -->
     <div 
-        id='model-galaxy'>
+        id='model-galaxy'
+        on:mouseenter={() => incrementVisualTimerSection()}
+        on:mouseleave={() => stopModelVisualTimer()}>
         <!-- ... canvas for interactive visualization ... -->
-        <div 
-            in:fade
-            out:fade 
-            id='main-container' 
-        />
+        {#if selectedQuestion == 1}
+            <!-- content here -->
+            <VisualQ_1 />
+        {:else}
+            <!-- content here -->
+            <VisualQ_2 />
+        {/if}
         <!-- ... planet info box ... -->
         <div>
-            
+        </div>
+        <!-- ... planet-question-info-toggle ... -->
+        <div
+            id='options-questions-box'>
+            <!-- ... question-X -->
+            <div
+                on:click={() => selectOptionQ(1)}
+                class='row-space-start'>
+                <p
+                    class='s-14 bold'>
+                    Q1
+                </p>
+                <!-- ... question-text ... -->
+                {#if selectedQuestion == 1}
+                    <!-- content here -->
+                    <p 
+                        class='s-14'
+                        transition:fly>
+                        What is the temperature on Titan ?
+                    </p>
+                {/if}
+            </div>
         </div>
         <!-- ... change view types ... -->
         <div
@@ -291,7 +285,9 @@
 
     <!-- ... text-chunck-box-container ... -->
     <div 
-        id='text-learning-container'>
+        id='text-learning-container'
+        on:mouseenter={() => incrementTextTimerSection()}
+        on:mouseleave={() => stopModelTextTimer()}>
 
         <!-- ... info / help btn ... -->
         <div 
@@ -400,8 +396,6 @@
         width: 50vw;
         height: 100vh;
         position: relative;
-    } section #model-galaxy #main-container {
-		height: 100vh;
     }
 
     section #text-learning-container {
@@ -410,6 +404,12 @@
         padding: 31px 62px 150px 62px;
         overflow-y: scroll;
         position: relative;
+    }
+
+    div#options-questions-box {
+        position: absolute;
+        right: 10px;
+        top: 35%;
     }
 
     div#helpTipsContainer {

@@ -15,8 +15,6 @@
     import { second_test_data } from '$lib/data/2nd-test'
     import { third_test_data } from '$lib/data/3rd-test'
 
-    import Header from '$lib/components/header/Header.svelte'
-
     // ... import-appropiate-test-number-data;
     let data: any;
     // ...
@@ -150,8 +148,6 @@
 <!-- ===================
 	COMPONENT HTML
 =================== -->
-
-<Header />
 
 <section>
     <!-- ... title-section-h1 ... -->

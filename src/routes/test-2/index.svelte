@@ -30,8 +30,6 @@
 
     import { post } from '$lib/utils/api'
 
-    import Header from '$lib/components/header/Header.svelte'
-
     import { first_test_data } from '$lib/data/1st-test'
     import { starbased_user_settings } from '$lib/store/userData';
 
@@ -63,6 +61,42 @@
         // ... destroy setInterval()
         clearInterval(interval)
     })
+
+    let startModelViewTimer: NodeJS.Timer
+    async function incrementVisualTimerSection() {
+        console.debug('console! Incrementing Timer!')
+        // ...
+        startModelViewTimer = setInterval(async() => {
+            starbased_user_settings.addTimerTestSections(
+                1,
+                'test_2',
+                'model_view_timer'
+            )
+        }, 1000)
+    }
+
+    function stopModelVisualTimer() {
+        console.debug('Timer Stopped!')
+        clearInterval(startModelViewTimer)
+    }
+
+    let startTextViewTimer: NodeJS.Timer
+    async function incrementTextTimerSection() {
+        console.debug('console! Incrementing Timer!')
+        // ...
+        startTextViewTimer = setInterval(async() => {
+            starbased_user_settings.addTimerTestSections(
+                1,
+                'test_2',
+                'text_bot_timer'
+            )
+        }, 1000)
+    }
+
+    function stopModelTextTimer() {
+        console.debug('Timer Stopped!')
+        clearInterval(startTextViewTimer)
+    }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // PAGE USER-ACTIONS
@@ -209,14 +243,14 @@
 	COMPONENT HTML
 =================== -->
 
-<Header />
-
 <section 
     class='row-space-out'>
 
     <!-- ... interactive-model-galaxy ... -->
     <div 
-        id='model-galaxy'>
+        id='model-galaxy'
+        on:mouseenter={() => incrementVisualTimerSection()}
+        on:mouseleave={() => stopModelVisualTimer()}>
         <!-- ... no visual galaxy interaction ... -->
         <img 
             id='no-visual-img'
@@ -229,7 +263,9 @@
 
     <!-- ... conversational-agent-interaction-chunck-box-container ... -->
     <div 
-        id='text-learning-container'>
+        id='text-learning-container'
+        on:mouseenter={() => incrementTextTimerSection()}
+        on:mouseleave={() => stopModelTextTimer()}>
 
         <!-- ... info / help btn ... -->
         <div 

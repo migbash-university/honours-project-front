@@ -16,6 +16,7 @@
     import TouchDeviceView from '$lib/components/_TouchDeviceView.svelte';
     import UserUid from '$lib/components/header/UserUID.svelte';
     import UserAuth from '$lib/components/header/UserAuth.svelte';
+    import Header from '$lib/components/header/Header.svelte';
 
 	import '../app.css';
 
@@ -101,6 +102,18 @@
     }
 
     // ... [REACTIVIY]
+    // ... check that the header-logo to be shown;
+    // ... on certain-pages;
+    let showHeaderLogo: boolean = false;
+    $: if ($page.url.pathname === '/' ||
+            $page.url.pathname === '/welcome-info') {
+            // ...
+            showHeaderLogo = false
+    } else {
+        showHeaderLogo = true
+    }
+
+    // ... [REACTIVIY]
     // ... check that the user-auth to be shown;
     // ... on certain-pages;
     let showUserAuth: boolean = false;
@@ -156,7 +169,9 @@
     <UserAuth />
 {/if}
 
-<!-- <Header /> -->
+{#if showHeaderLogo}
+    <Header />
+{/if}
 
 {#if !touchDevice}
     <main
@@ -168,8 +183,6 @@
         <TouchDeviceView />
     </main>
 {/if}
-
-<!-- <Footer /> -->
 
 <!-- ===================
 	COMPONENT STYLE
