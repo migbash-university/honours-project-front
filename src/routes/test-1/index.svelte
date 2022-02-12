@@ -224,6 +224,10 @@
             out:fade 
             id='main-container' 
         />
+        <!-- ... planet info box ... -->
+        <div>
+            
+        </div>
         <!-- ... change view types ... -->
         <div
             id='change-interactive-views'

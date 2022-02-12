@@ -80,6 +80,7 @@ export async function get(): Promise < any > {
                     const diff = currentDate - newDate;
                     // ... act-accordingly;
                     if (diff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString()) &&
+                        parseInt(fileUserData.current_test_status.toString()) < parseInt(import.meta.env.VITE_TEST_NUMBER.toString()) &&
                         fileUserData.emailNotified == null ||
                         !fileUserData.emailNotified) {
                         // ...
