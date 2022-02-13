@@ -403,7 +403,8 @@
             class='row-space-end'>
             <fieldset
                 class='m-r-10'
-                style="width: -webkit-fill-available;">
+                style="width: -webkit-fill-available;
+                        position: relative;">
                 <input 
                     id='user-input'
                     class="s-14 color-black bold"
@@ -412,7 +413,16 @@
                     style='width: 100%'
                     type="text" 
                     required 
-                    autocomplete="off"/>
+                    autocomplete="off" />
+                {#if user_input != ''}
+                    <!-- content here -->
+                    <img 
+                        id='clear-input-btn'
+                        src="./assets/svg/cross-vector.svg" 
+                        alt="cross-vector" 
+                        width="24px" height="24px" 
+                        on:click={() => user_input = ''}/>
+                {/if}
             </fieldset>
             <button
                 id='submit-response'
@@ -514,6 +524,13 @@
         border-radius: 2.5px;
         padding: 2.5px 5px;
         width: fit-content;
+    }
+
+    img#clear-input-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 500;
     }
 
     /*

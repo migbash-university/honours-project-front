@@ -29,6 +29,7 @@
         recreateSimulation()
         toggleGalaxy()
         toggleTitan()
+        toggleRotationalSpeed()
     });
 
     // ... 
@@ -75,6 +76,26 @@
         clearSimulation()
         const titan =  viz.createObject('titan', Spacekit.SpaceObjectPresets.EARTH);
         all_obj.push(titan)
+    }
+
+    const toggleRotationalSpeed = () => {
+        const spaceship = viz.createObject('my spaceship', {
+        labelText: '15.8 Days for Complete Rotation',
+        particleSize: 100,
+        ephem: new Spacekit.Ephem(
+            {
+                epoch: 2458600.5,
+                a: 2.5,
+                e: 0.1,
+                i: 0,
+                om: 150,
+                w: 50,
+                ma: 0.14238,
+            },
+            'deg',
+        ),
+        });
+        spaceship.orbitAround(titan);
     }
 
     /**
@@ -131,9 +152,9 @@
         z-index: 5000;
     }
     img#planet-stats {
-        top: 28px;
-        right: 0;
-        left: 0;
+        top: 80px;
+        left: 15px;
+        /* left: 0; */
         margin: auto;
     }
     img#temp-stats {

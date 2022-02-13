@@ -22,7 +22,6 @@
 
     import VisualQ_1 from '$lib/3d-visuals/test-1/_Visual-q-1.svelte';
     import VisualQ_2 from '$lib/3d-visuals/test-1/_Visual-q-2.svelte';
-    import VisualQ_3 from '$lib/3d-visuals/test-1/_Visual-q-3.svelte';
 
     import { first_test_data } from '$lib/data/1st-test'
     import { starbased_user_settings } from '$lib/store/userData';
@@ -197,29 +196,51 @@
             <!-- content here -->
             <VisualQ_2 />
         {/if}
-        <!-- ... planet info box ... -->
-        <div>
-        </div>
-        <!-- ... planet-question-info-toggle ... -->
+        <!-- ... planet-view-info-option-box ... -->
+        {#if selectedQuestion == 1}
+            <div
+                id='option-view-box'>
+                <p>
+                    Planet Info Stats View
+                </p>
+            </div>
+        {:else if selectedQuestion == 2} 
+            <div
+                id='option-view-box'>
+                <p>
+                    Planet Size Comparison View
+                </p>
+            </div>
+        {/if}
+        <!-- ... planet-view-3D-toggle-info ... -->
         <div
             id='options-questions-box'>
-            <!-- ... question-X -->
+            <!-- ... option-view-text ... -->
+            <p
+                class='s-14 color-white m-b-10 bold'>
+                Toggle
+                <br>
+                3D 
+                <br>
+                Views
+            </p>
+            <!-- ... option-view-1 -->
             <div
                 on:click={() => selectOptionQ(1)}
-                class='row-space-start'>
-                <p
-                    class='s-14 bold'>
-                    Q1
-                </p>
-                <!-- ... question-text ... -->
-                {#if selectedQuestion == 1}
-                    <!-- content here -->
-                    <p 
-                        class='s-14'
-                        transition:fly>
-                        What is the temperature on Titan ?
-                    </p>
-                {/if}
+                class='row-space-center m-b-10 option-3d-toggle-view'>
+                <img 
+                    src="./assets/svg/planet-info-icon.svg" 
+                    alt=""
+                    title="Planet Info Stats View" />
+            </div>
+            <!-- ... option-view-2 -->
+            <div
+                on:click={() => selectOptionQ(2)}
+                class='row-space-center m-b-10 option-3d-toggle-view'>
+                <img 
+                    src="./assets/svg/planet-size-icon.svg" 
+                    alt=""
+                    title="Planet Size Comparison View" />
             </div>
         </div>
         <!-- ... change view types ... -->
@@ -444,6 +465,30 @@
         line-height: 49px;
         letter-spacing: 0.17em;
         text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    div#option-view-box {
+        position: absolute;
+        top: 28px;
+        right: 0;
+        left: 0;
+        width: fit-content;
+        margin: auto;
+        padding: 10px 22px;
+        border-radius: 100px;
+        background-color: #0085FF;
+    }
+
+    div.option-3d-toggle-view {
+        background: #141414;
+        border: 1px solid #373737;
+        box-sizing: border-box;
+        border-radius: 2.5px 0px 0px 2.5px;
+        padding: 12px 8px;
+        transition: all ease 0.3s;
+        cursor: pointer;
+    } div.option-3d-toggle-view:hover {
+        background-color: white;
     }
 
     /*
