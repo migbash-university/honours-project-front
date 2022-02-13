@@ -313,5 +313,8 @@ export const second_test_data = {
                 ]
             }
         ]
+    },
+    welcome_info: {
+        // EMPTY
     }
 }

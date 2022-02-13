@@ -5,13 +5,11 @@
 
 <script lang="ts">
 	import { amp, browser, dev, mode, prerendering } from '$app/env';
-	// ...
-	import { onMount } from "svelte"
+
+    import { onMount } from "svelte"
 	import { page } from '$app/stores'
-	// ...
-	import star_based_logo from './assets/star-based-logo.svg'
-	import star_based_black_logo from './assets/star-based-black-logo.svg'
-	// ...
+
+    import { starbased_user_settings } from '$lib/store/userData';
 
 	let light_bg: boolean = false;
     // ... check what page the user is on:
@@ -27,35 +25,37 @@
 	COMPONENT HTML
 =================== -->
 
-<header 
-	class='column-space-center' 
-	style='width: fit-content;'>
-	{#if !light_bg}
-		 <!-- content here -->
-		<img 
-			id='brand-img'
-			src={star_based_logo}
-			alt='star-based-logo'
-			/>
-	{:else}
-		<img 
-			id='brand-img'
-			src={star_based_black_logo}
-			alt='star-based-logo'
-			/>
-	{/if}
-</header>
+<div
+    id='user-uid'
+    class='row-space-out'
+    style='width: fit-content;'>
+    <p 
+        class="s-14 m-r-20"
+        class:color-white={!light_bg}
+        class:color-black={light_bg} >
+        Your Unique User ID
+    </p>
+    <p
+        class='bold color-secondary'
+        style='color: #00AADF;'>
+        {$starbased_user_settings.userUID}
+    </p>
+</div>
 
 <!-- ===================
 	COMPONENT STYLE
 =================== -->
 
 <style>
-	header {
+	div#user-uid {
 		position: absolute;
 		top: 28px;
-		left: 31px;
+		right: 31px;
 		z-index: 50000;
+        border: 2px solid #FF6464;
+        box-sizing: border-box;
+        border-radius: 5px;
+        padding: 10px 12px;
 	} 
 
 	/* 

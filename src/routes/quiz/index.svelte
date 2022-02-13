@@ -15,8 +15,6 @@
     import { second_test_data } from '$lib/data/2nd-test'
     import { third_test_data } from '$lib/data/3rd-test'
 
-    import Header from '$lib/components/header/Header.svelte'
-
     // ... import-appropiate-test-number-data;
     let data: any;
     // ...
@@ -44,13 +42,13 @@
             // ... increment-QUIZ-timer;
             starbased_user_settings.addTimer(
                 1,
-                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'test_' + $starbased_user_settings.current_test_status.toString(),
                 'quiz'
             )
             // ... increment-total-timer;
             starbased_user_settings.addTimer(
                 1,
-                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'test_' + $starbased_user_settings.current_test_status.toString(),
                 'timer_total'
             )
         }, 1000)
@@ -80,7 +78,11 @@
         // ... DEBUGGING;
         if (dev) console.info(data)
         // ... add other-data;
-        starbased_user_settings.setUserQA('test_1', 'quiz', data)
+        starbased_user_settings.setUserQA(
+            'test_' + $starbased_user_settings.current_test_status.toString(),
+            'quiz', 
+            data
+        )
         // ... update-last-page-visit;
         starbased_user_settings.updateUserLastPage('/questionnaire')
         // ... navigate to the next page;
@@ -92,7 +94,6 @@
 	SVELTE INJECTION TAGS
 =================== -->
 
-<!-- adding SEO title and meta-tags to the /basket page -->
 <svelte:head>
     <!--
     ~~~~~~~~~~~~
@@ -140,8 +141,6 @@
 <!-- ===================
 	COMPONENT HTML
 =================== -->
-
-<Header />
 
 <section>
 

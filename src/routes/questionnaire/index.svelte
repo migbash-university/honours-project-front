@@ -15,8 +15,6 @@
     import { second_test_data } from '$lib/data/2nd-test'
     import { third_test_data } from '$lib/data/3rd-test'
 
-    import Header from '$lib/components/header/Header.svelte'
-
     // ... import-appropiate-test-number-data;
     let data: any;
     // ...
@@ -44,13 +42,13 @@
             // ... increment-QUIZ-timer;
             starbased_user_settings.addTimer(
                 1,
-                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'test_' + $starbased_user_settings.current_test_status.toString(),
                 'questionnaire'
             )
             // ... increment-total-timer;
             starbased_user_settings.addTimer(
                 1,
-                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'test_' + $starbased_user_settings.current_test_status.toString(),
                 'timer_total'
             )
         }, 1000)
@@ -81,18 +79,22 @@
         if (dev) console.info(data)
         if (dev) console.info($starbased_user_settings)
         // ... add other-data;
-        starbased_user_settings.setUserQA('test_1', 'questionnaire', data)
+        // ... update-localstorage;
+        starbased_user_settings.setUserQA(
+            'test_' + $starbased_user_settings.current_test_status.toString(),
+            'questionnaire', 
+            data
+        )
+        // starbased_user_settings.updateTestProgressCompletionStatus('')
+        starbased_user_settings.updateUserLastPage('/thank-you')
+        starbased_user_settings.updateLastCompletedTest(Date.now())
         data = $starbased_user_settings
         // ... pass-on-the-data-to-the-backend-server;
         const response = await post(`/api/record-test.json`, {
             data
         })
-        // ... update-localstorage;
-        starbased_user_settings.updateUserLastPage('/thank-you')
         // ... DEBUGGING;
         if (dev) console.info('Date.now()', Date.now())
-        starbased_user_settings.updateLastCompletedTest(Date.now())
-        // starbased_user_settings.updateTestProgressCompletionStatus('')
         // ... navigate to the next page;
         await goto('/thank-you');
     }
@@ -102,7 +104,6 @@
 	SVELTE INJECTION TAGS
 =================== -->
 
-<!-- adding SEO title and meta-tags to the /basket page -->
 <svelte:head>
     <!--
     ~~~~~~~~~~~~
@@ -150,8 +151,6 @@
 <!-- ===================
 	COMPONENT HTML
 =================== -->
-
-<Header />
 
 <section>
     <!-- ... title-section-h1 ... -->

@@ -20,8 +20,9 @@ export interface Test_Data {
     reading_complete: boolean
     quiz_complete: boolean
     test_complete: boolean
+    model_view_timer: number
+    text_bot_timer: number
 }
-
 // ... interface-parameters-data-test-2+;
 export interface Test_Data_Agent {
 	timer_data: {
@@ -41,8 +42,9 @@ export interface Test_Data_Agent {
     reading_complete: boolean
     quiz_complete: boolean
     test_complete: boolean
+    model_view_timer: number
+    text_bot_timer: number
 }
-
 // ... interface-user-data;
 export interface User_Setting {
     userUID: string                     // ... USER unique ID;
@@ -50,6 +52,7 @@ export interface User_Setting {
     current_test_status: number         // ... user-test-status;
     last_test_completion_date: string   // ...
     userEmail: string                   // ... user email;
+    emailNotified: boolean              // ... sent-email-notification-or-not
     // ... complete-particiapnt-test-data;
     test_data: {
         test_1: Test_Data
@@ -57,7 +60,6 @@ export interface User_Setting {
         test_3: Test_Data_Agent
     }
 }
-
 // ... initialize-object-data;
 const user_settings: User_Setting = {
     userUID: undefined,
@@ -65,6 +67,7 @@ const user_settings: User_Setting = {
     current_test_status: 1,
     current_page: undefined,
     last_test_completion_date: undefined,
+    emailNotified: false,
     test_data: {
         test_1: {
             timer_data: {
@@ -77,7 +80,9 @@ const user_settings: User_Setting = {
             questionnaire: undefined,
             reading_complete: false,
             quiz_complete: false,
-            test_complete: false
+            test_complete: false,
+            model_view_timer: 0,
+            text_bot_timer: 0
         },
         test_2: {
             timer_data: {
@@ -94,7 +99,9 @@ const user_settings: User_Setting = {
             questionnaire: undefined,
             reading_complete: false,
             quiz_complete: false,
-            test_complete: false
+            test_complete: false,
+            model_view_timer: 0,
+            text_bot_timer: 0
         },
         test_3: {
             timer_data: {
@@ -111,7 +118,9 @@ const user_settings: User_Setting = {
             questionnaire: undefined,
             reading_complete: false,
             quiz_complete: false,
-            test_complete: false
+            test_complete: false,
+            model_view_timer: 0,
+            text_bot_timer: 0
         }
     }
 }
@@ -156,6 +165,22 @@ function createLocalStore(key: any): any {
 			// ... SET DATA TO SUBSCRIBED METHOD;
 			set(exisitng_data);
 		},
+
+        /**
+		 * Description:
+		 * ~~~~~~~~~~~~~~~~~
+		 * ... [WORKING]
+		 * ... method to add the user UID value
+		 * ... to the localStoage & application store
+		 *
+		 * ... @param {*} userUID
+		*/
+        reloadUserData: (loadedUserData: User_Setting) => {
+            // ... UPDATE THE LOCALSTORAGE();
+			localStorage.setItem(key, JSON.stringify(loadedUserData));
+			// ... update the `set()` data;
+			set(loadedUserData);
+        },
 
         /**
 		 * Description:
@@ -233,6 +258,35 @@ function createLocalStore(key: any): any {
 			// ... update the `set()` data;
 			set(existing_data);
 		},
+
+        /**
+		 * Description:
+		 * ~~~~~~~~~~~~~~~~~
+		 * ... [WORKING]
+		 * ... method to add the user seleted language
+		 * ... to the localStoage & application store
+		 *
+		 * ... @param {*} inc_timer
+		 * ... @param {*} test_uid
+		 * ... @param {*} test_type
+		*/
+		addTimerTestSections: (inc_timer: number, 
+            test_uid: 'test_1' | 'test_2' | 'test_3',
+            test_type: 'model_view_timer' | 'text_bot_timer'
+        ) => {
+            // ... DEBUGGING;
+            // if (dev) console.info('ℹ incrementing timer by', inc_timer, ' for ', );
+            // ... GET DATA FROM LOCALSTORAGE();
+            const existing: string = localStorage.getItem(key);
+            // ... CONVERT TO JSON;
+            const existing_data: User_Setting = JSON.parse(existing);
+            // ... UPDATE THE DATA FOR LANG;
+            existing_data['test_data'][test_uid][test_type] = parseInt(existing_data['test_data'][test_uid][test_type].toString()) + inc_timer
+            // ... UPDATE THE LOCALSTORAGE();
+            localStorage.setItem(key, JSON.stringify(existing_data));
+            // ... update the `set()` data;
+            set(existing_data);
+        },
 
         /**
 		 * Description:
@@ -362,14 +416,33 @@ function createLocalStore(key: any): any {
 		 * ... @param {*} test_uid
 		*/
 		updateTestCounter: () => {
-            // ... DEBUGGING;
-            // if (dev) console.info('ℹ incrementing timer by', inc_timer, ' for ', );
             // ... GET DATA FROM LOCALSTORAGE();
             const existing: string = localStorage.getItem(key);
             // ... CONVERT TO JSON;
             const existing_data: User_Setting = JSON.parse(existing);
             // ... UPDATE THE DATA FOR LANG;
             existing_data.current_test_status = existing_data.current_test_status + 1
+            // ... UPDATE THE LOCALSTORAGE();
+            localStorage.setItem(key, JSON.stringify(existing_data));
+            // ... update the `set()` data;
+            set(existing_data);
+        },
+
+        /**
+		 * Description:
+		 * ~~~~~~~~~~~~~~~~~
+		 * ... [WORKING]
+		 * ... method to update the completion-time-of-test
+		 * ... to the localStoage & application store
+		 * ... @param {*} test_uid
+		*/
+		setUserEmail: (userEmail: string) => {
+            // ... GET DATA FROM LOCALSTORAGE();
+            const existing: string = localStorage.getItem(key);
+            // ... CONVERT TO JSON;
+            const existing_data: User_Setting = JSON.parse(existing);
+            // ... UPDATE THE DATA FOR LANG;
+            existing_data.userEmail = userEmail
             // ... UPDATE THE LOCALSTORAGE();
             localStorage.setItem(key, JSON.stringify(existing_data));
             // ... update the `set()` data;

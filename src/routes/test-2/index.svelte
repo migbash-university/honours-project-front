@@ -30,19 +30,8 @@
 
     import { post } from '$lib/utils/api'
 
-    import Header from '$lib/components/header/Header.svelte'
-
     import { first_test_data } from '$lib/data/1st-test'
     import { starbased_user_settings } from '$lib/store/userData';
-
-    // ... ON-LOAD-TEST-DATA;
-    onMount(async() => {
-        if (browser) { 
-            if ($starbased_user_settings.test_data.test_2.complete) {
-                await goto('/')
-            }
-        }
-    })
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // TIMER COUNTER [AUTO]
@@ -73,6 +62,42 @@
         clearInterval(interval)
     })
 
+    let startModelViewTimer: NodeJS.Timer
+    async function incrementVisualTimerSection() {
+        console.debug('console! Incrementing Timer!')
+        // ...
+        startModelViewTimer = setInterval(async() => {
+            starbased_user_settings.addTimerTestSections(
+                1,
+                'test_2',
+                'model_view_timer'
+            )
+        }, 1000)
+    }
+
+    function stopModelVisualTimer() {
+        console.debug('Timer Stopped!')
+        clearInterval(startModelViewTimer)
+    }
+
+    let startTextViewTimer: NodeJS.Timer
+    async function incrementTextTimerSection() {
+        console.debug('console! Incrementing Timer!')
+        // ...
+        startTextViewTimer = setInterval(async() => {
+            starbased_user_settings.addTimerTestSections(
+                1,
+                'test_2',
+                'text_bot_timer'
+            )
+        }, 1000)
+    }
+
+    function stopModelTextTimer() {
+        console.debug('Timer Stopped!')
+        clearInterval(startTextViewTimer)
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // PAGE USER-ACTIONS
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -87,11 +112,13 @@
     let processing: boolean = false
     let user_input: string
     let conversationData: ResponseData[] = []
-    $: console.debug(conversationData)
+    // ...
     interface ResponseData {
         text: string
         user: 'agent' | 'user'
+        response_time: number
     }
+    // ...
     let responseData: ResponseData;
     // ... send-over-the-response-to-website-server;
     // ... and further processing of data;
@@ -99,10 +126,15 @@
         // ...
         processing = true
         starbased_user_settings.incTotalMessagesExchanged('test_2')
+        let timerCounter: number = 0
+        let responseInterval: NodeJS.Timer = setInterval(async () => {
+            timerCounter = timerCounter + 1
+        }, 1000)
         // ...
         responseData = {
             text: user_input,
-            user: 'user'
+            user: 'user',
+            response_time: null
         }
         conversationData = [...conversationData, responseData]
         // ...
@@ -120,14 +152,16 @@
         // ...
         responseData = {
             text: resposne['data'],
-            user: 'agent'
+            user: 'agent',
+            response_time: timerCounter
         }
         // ...
         conversationData = [...conversationData, responseData]
         starbased_user_settings.addToConversationHistory('test_2', conversationData)
-        // ...
+        // ... reset;
         processing = false
         scrollBottom()
+        clearInterval(responseInterval)
     }
 
     // ...
@@ -161,7 +195,6 @@
 	SVELTE INJECTION TAGS
 =================== -->
 
-<!-- adding SEO title and meta-tags to the /basket page -->
 <svelte:head>
     <!--
     ~~~~~~~~~~~~
@@ -210,14 +243,14 @@
 	COMPONENT HTML
 =================== -->
 
-<Header />
-
 <section 
     class='row-space-out'>
 
     <!-- ... interactive-model-galaxy ... -->
     <div 
-        id='model-galaxy'>
+        id='model-galaxy'
+        on:mouseenter={() => incrementVisualTimerSection()}
+        on:mouseleave={() => stopModelVisualTimer()}>
         <!-- ... no visual galaxy interaction ... -->
         <img 
             id='no-visual-img'
@@ -230,7 +263,9 @@
 
     <!-- ... conversational-agent-interaction-chunck-box-container ... -->
     <div 
-        id='text-learning-container'>
+        id='text-learning-container'
+        on:mouseenter={() => incrementTextTimerSection()}
+        on:mouseleave={() => stopModelTextTimer()}>
 
         <!-- ... info / help btn ... -->
         <div 
@@ -302,8 +337,35 @@
                         class='s-16 color-white'>
                         {item.text} 
                     </p>
+                    <!-- ... response-timer ... -->
+                    {#if item.user === 'agent'}
+                        <!-- content here -->
+                        <div
+                            id='response-time'
+                            class='row-space-out m-t-10'>
+                            <p
+                                class='s-12 color-white m-r-5'>
+                                response time
+                            </p>
+                            <p
+                                class='s-12'
+                                style="color: #EB00FF;">
+                                {item.response_time} s
+                            </p>
+                        </div>
+                    {/if}
                 </div>
             {/each}
+            <!-- ... bot-is-processing-response ... -->
+            {#if processing}
+                <!-- content here -->
+                <img 
+                    src='/assets/svg/loading/loading-bot-res-animated.svg' 
+                    alt='bot-loading'
+                    aria-label='bot-loading'
+                    class='m-t-20'
+                    width="93px" height="40px" />
+            {/if}
         </div>
     </div>    
 
@@ -447,6 +509,13 @@
         padding: 12px 18px;
     }
 
+    div#response-time {
+        background: #000000;
+        border-radius: 2.5px;
+        padding: 2.5px 5px;
+        width: fit-content;
+    }
+
     /*
     ~~~~~~~~~~~~~~~~ 
     scrollbar STYLE */
@@ -496,5 +565,7 @@
         background-image: url('/assets/svg/input-vector.svg');
         background-position: 50% 50%;
         background-repeat: no-repeat;
+    } button#submit-response:disabled {
+        opacity: 0.5;
     }
 </style>

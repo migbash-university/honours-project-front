@@ -51,7 +51,7 @@
         bottom: 0;
         right: 0;
         left: 0;
-        z-index: 1000;
+        z-index: 50000000;
         display: grid;
         align-content: center;
         align-items: center;

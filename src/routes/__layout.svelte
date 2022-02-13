@@ -14,6 +14,9 @@
 
     import MainSplashScreen from '$lib/components/transition/_MainSplashScreen.svelte';
     import TouchDeviceView from '$lib/components/_TouchDeviceView.svelte';
+    import UserUid from '$lib/components/header/UserUID.svelte';
+    import UserAuth from '$lib/components/header/UserAuth.svelte';
+    import Header from '$lib/components/header/Header.svelte';
 
 	import '../app.css';
 
@@ -36,7 +39,7 @@
         light_bg = false
     }
 
-    // ... on client-side-rendering of LOCAL-STORAGE();
+    // ... INITIAL on client-side-rendering of LOCAL-STORAGE();
     onMount(async() => {
         if (browser) {
             // ... kickstart the .localStorage();
@@ -60,7 +63,8 @@
     })
 
     // ... [REACTIVIY]
-    // ... check for user last accessed-page-and redirect accordingly;
+    // ... check for user last accessed-page-and redirect accordingly
+    // ... to the most updated current page progress status;
     $: if ($starbased_user_settings != undefined &&
             $starbased_user_settings.current_page != undefined &&
             $starbased_user_settings.current_page != $page.url.pathname) {
@@ -72,7 +76,7 @@
     }
 
     // ... [REACTIVIY]
-    // ... check-user-has-waited-4-days-before-next-test;
+    // ... check-user-has-waited-X-days-before-next-test;
     // let currentDateUNIX: number = Date.now()
     $: if ($starbased_user_settings != undefined &&
             $starbased_user_settings.last_test_completion_date != undefined &&
@@ -88,13 +92,39 @@
             // ... DEBUGGING;
             if (dev) console.debug('date difference from last-test is', diff)
             // ... act-accordingly;
-            if (diff > 4) {
+            if (diff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString())) {
                 // ... next-test;
                 starbased_user_settings.updateTestCounter()
                 starbased_user_settings.updateUserLastPage('/welcome-info')
                 // ... redirect-user-to-new-test-start;
                 goto('/welcome-info')
             }
+    }
+
+    // ... [REACTIVIY]
+    // ... check that the header-logo to be shown;
+    // ... on certain-pages;
+    let showHeaderLogo: boolean = false;
+    $: if ($page.url.pathname === '/' ||
+            $page.url.pathname === '/welcome-info') {
+            // ...
+            showHeaderLogo = false
+    } else {
+        showHeaderLogo = true
+    }
+
+    // ... [REACTIVIY]
+    // ... check that the user-auth to be shown;
+    // ... on certain-pages;
+    let showUserAuth: boolean = false;
+    $: if (($starbased_user_settings != undefined &&
+            starbased_user_settings.last_test_completion_date == undefined) &&
+            $page.url.pathname === '/' ||
+            $page.url.pathname === '/welcome-info') {
+            // ...
+            showUserAuth = true
+    } else {
+        showUserAuth = false
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~
@@ -129,7 +159,19 @@
 
 <MainSplashScreen />
 
-<!-- <Header /> -->
+{#if !showUserAuth}
+    <UserUid />
+{/if}
+
+<!-- ... User-Auth when no LocalStorage() found -->
+{#if showUserAuth}
+    <!-- ... content-here ... -->
+    <UserAuth />
+{/if}
+
+{#if showHeaderLogo}
+    <Header />
+{/if}
 
 {#if !touchDevice}
     <main
@@ -141,8 +183,6 @@
         <TouchDeviceView />
     </main>
 {/if}
-
-<!-- <Footer /> -->
 
 <!-- ===================
 	COMPONENT STYLE
@@ -157,6 +197,7 @@
         margin: 0 auto;
         width: 100%;
         overflow: hidden;
+        background-color: var(--dark);
         /* 
         make sure the initial page height is always full-device-height as a minumim */
         min-height: 100vh;

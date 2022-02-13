@@ -309,5 +309,8 @@ export const first_test_data = {
             }
             ,
         ]
+    },
+    welcome_info: {
+        // EMPTY
     }
 }
