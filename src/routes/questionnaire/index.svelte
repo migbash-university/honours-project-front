@@ -42,13 +42,13 @@
             // ... increment-QUIZ-timer;
             starbased_user_settings.addTimer(
                 1,
-                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'test_' + $starbased_user_settings.current_test_status.toString(),
                 'questionnaire'
             )
             // ... increment-total-timer;
             starbased_user_settings.addTimer(
                 1,
-                'test_' + import.meta.env.VITE_TEST_NUMBER.toString(),
+                'test_' + $starbased_user_settings.current_test_status.toString(),
                 'timer_total'
             )
         }, 1000)
@@ -80,7 +80,11 @@
         if (dev) console.info($starbased_user_settings)
         // ... add other-data;
         // ... update-localstorage;
-        starbased_user_settings.setUserQA('test_1', 'questionnaire', data)
+        starbased_user_settings.setUserQA(
+            'test_' + $starbased_user_settings.current_test_status.toString(),
+            'questionnaire', 
+            data
+        )
         // starbased_user_settings.updateTestProgressCompletionStatus('')
         starbased_user_settings.updateUserLastPage('/thank-you')
         starbased_user_settings.updateLastCompletedTest(Date.now())
@@ -100,7 +104,6 @@
 	SVELTE INJECTION TAGS
 =================== -->
 
-<!-- adding SEO title and meta-tags to the /basket page -->
 <svelte:head>
     <!--
     ~~~~~~~~~~~~
