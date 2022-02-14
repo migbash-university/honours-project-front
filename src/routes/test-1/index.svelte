@@ -116,15 +116,15 @@
         await goto('/quiz')
     }
 
-    let selectedQuestion: number;
+    let selectedQuestion: number = 1
     // ...
     function selectOptionQ(opt: number) {
         // ...
-        if (selectedQuestion == opt) {
-            selectedQuestion = undefined
-        } else {
-            selectedQuestion = opt
-        }
+        // if (selectedQuestion == opt) {
+        //     selectedQuestion = undefined
+        // } else {
+        selectedQuestion = opt
+        // }
     }
 </script>
 
