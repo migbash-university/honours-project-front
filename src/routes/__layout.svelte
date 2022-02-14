@@ -163,17 +163,17 @@
     <UserUid />
 {/if}
 
-<!-- ... User-Auth when no LocalStorage() found -->
-{#if showUserAuth}
-    <!-- ... content-here ... -->
-    <UserAuth />
-{/if}
 
 {#if showHeaderLogo}
     <Header />
 {/if}
 
 {#if !touchDevice}
+    <!-- ... User-Auth when no LocalStorage() found -->
+    {#if showUserAuth}
+        <!-- ... content-here ... -->
+        <UserAuth />
+    {/if}
     <main
         class:light-bg={light_bg === true}>
         <slot />
