@@ -116,7 +116,7 @@
     async function sendResponse(): Promise < void > {
         // ...
         processing = true
-        starbased_user_settings.incTotalMessagesExchanged('test_2')
+        starbased_user_settings.incTotalMessagesExchanged('test_3')
         let timerCounter: number = 0
         let responseInterval: NodeJS.Timer = setInterval(async () => {
             timerCounter = timerCounter + 1
@@ -129,7 +129,7 @@
         }
         conversationData = [...conversationData, responseData]
         // ...
-        starbased_user_settings.addToConversationHistory('test_2', conversationData)
+        starbased_user_settings.addToConversationHistory('test_3', conversationData)
         // ...
         scrollBottom()
         // ...
@@ -148,7 +148,7 @@
         }
         // ...
         conversationData = [...conversationData, responseData]
-        starbased_user_settings.addToConversationHistory('test_2', conversationData)
+        starbased_user_settings.addToConversationHistory('test_3', conversationData)
         // ... reset;
         processing = false
         scrollBottom()
