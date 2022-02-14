@@ -64,6 +64,8 @@
                 let userUID: string = response.userUID;
                 // ... save value for user-UID;
                 starbased_user_settings.setUserUID(userUID)
+                // ...
+                goto('/')
             }
         }
     })
