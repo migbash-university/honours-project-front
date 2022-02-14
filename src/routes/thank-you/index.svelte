@@ -8,10 +8,11 @@
     import { dev } from '$app/env';
     import { starbased_user_settings } from '$lib/store/userData';
 
-    let convertedDate: Date;
+    let convertedDate: Date = undefined;
     // ... 
     $: if ($starbased_user_settings != undefined &&
-            $starbased_user_settings.last_test_completion_date != undefined) {
+            $starbased_user_settings.last_test_completion_date != undefined &&
+            convertedDate == undefined) {
             // ...
             let convertedDateUNIX = new Date(parseInt($starbased_user_settings.last_test_completion_date.toString()));
             // ... determine-difference-in-days;

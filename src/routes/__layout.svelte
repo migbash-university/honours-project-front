@@ -28,10 +28,10 @@
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // ... upgrade to `https:`
-    $: if (!dev && $page.url.protocol === 'http:') {
-        // ...
-        goto('https://' + $page.url.host + $page.url.pathname)
-    }
+    // $: if (!dev && $page.url.protocol === 'http:') {
+    //     // ...
+    //     goto('https://' + $page.url.host + $page.url.pathname)
+    // }
 
     // ... background-color-check;
     let light_bg: boolean = false;
