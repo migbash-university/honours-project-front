@@ -73,7 +73,7 @@ export async function get(): Promise < any > {
                     const userEmail: string = fileUserData.userEmail
                     const lastTestDate: number = fileUserData.last_test_completion_date
                     // ...
-                    const lastDate = new Date(lastTestDate * 1000);
+                    const lastDate = new Date(lastTestDate);
                     // ... determine-difference-in-days;
                     const newDate = new Date(lastDate).getDate(); //convert string date to Date object
                     const currentDate = new Date().getDate();

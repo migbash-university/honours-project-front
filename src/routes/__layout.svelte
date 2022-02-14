@@ -90,7 +90,7 @@
             $starbased_user_settings.current_page.toString() === '/thank-you') {
             let lastDateUNIX: number = parseInt($starbased_user_settings.last_test_completion_date.toString())
             // ...
-            let lastDate = new Date(lastDateUNIX * 1000);
+            let lastDate = new Date(lastDateUNIX);
             // ... determine-difference-in-days;
             let newDate = new Date(lastDate).getDate(); //convert string date to Date object
             let currentDate = new Date().getDate();
