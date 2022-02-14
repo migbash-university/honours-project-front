@@ -174,6 +174,7 @@
         <!-- ... content-here ... -->
         <UserAuth />
     {/if}
+    
     <main
         class:light-bg={light_bg === true}>
         <slot />
