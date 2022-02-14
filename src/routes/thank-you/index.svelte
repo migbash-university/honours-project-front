@@ -115,33 +115,56 @@
             </p>
         </div>
 
-        <!-- ... next-up-container-info ... -->
-        <div
-            id='extra-info-box'>
-            <p
-                id='next-up-title'
-                class='s-20 color-secondary bold m-b-10'>
-                Next up!
-            </p>
-            <p 
-                class='s-16 color-black m-b-5'
-                style='padding: 0 20px;'>
-                The next test will be available to you in 4 days from now, on the
-                {#if convertedDate != undefined}
-                    <b> {convertedDate.getDate()}/{convertedDate.getMonth()}/{convertedDate.getUTCFullYear()} </b>
-                {/if}
-            </p>
-            <p
-                class='s-16 color-black m-b-5'
-                style='padding: 0 20px;'>
-                Accessible on the following link - _____________________
-            </p>
-            <p
-                class='s-16 color-black m-b-5'
-                style='padding: 0 20px;'>
-                You will be notified by email you provided at the start of this project. 
-            </p>
-        </div>
+        <!-- ... show only if tests 1 & 2 ... -->
+        {#if $starbased_user_settings != undefined &&
+            parseInt($starbased_user_settings.current_test_status.toString()) < 3}
+            <!-- content here -->
+            <!-- ... next-up-container-info ... -->
+            <div
+                id='extra-info-box'>
+                <p
+                    id='next-up-title'
+                    class='s-20 color-secondary bold m-b-10'>
+                    Next up!
+                </p>
+                <p 
+                    class='s-16 color-black m-b-5'
+                    style='padding: 0 20px;'>
+                    The next test will be available to you in {import.meta.env.VITE_TEST_INTERVAL.toString()} days from now, on the
+                    {#if convertedDate != undefined}
+                        <b> {convertedDate.getDate()}/{convertedDate.getMonth()}/{convertedDate.getUTCFullYear()} </b>
+                    {/if}
+                </p>
+                <p
+                    class='s-16 color-black m-b-5'
+                    style='padding: 0 20px;'>
+                    Accessible on the following link, <a href="https://starbased-front.herokuapp.com/" style="text-decoration: underline; color: blue;"> https://starbased-front.herokuapp.com/ </a>
+                </p>
+                <p
+                    class='s-16 color-black m-b-5'
+                    style='padding: 0 20px;'>
+                    You will be notified by email you provided at the start of this project. 
+                </p>
+            </div>
+        <!-- ... show - no more tests ... -->
+        {:else}
+            <!-- content here -->
+            <!-- ... next-up-container-info ... -->
+            <div
+                id='extra-info-box'>
+                <p
+                    id='next-up-title'
+                    class='s-20 color-secondary bold m-b-10'>
+                    Next up!
+                </p>
+                <p 
+                    class='s-16 color-black m-b-5'
+                    style='padding: 0 20px;'>
+                    You are completely done!
+                </p>
+            </div>
+        {/if}
+            
         
     </div>
 </section>
@@ -179,6 +202,7 @@
         border-radius: 5px;
         overflow: hidden;
         padding: 0 0 15px 0;
+        text-align: left;
     } div#extra-info-box #next-up-title {
         background-color: #000000;
         width: 100%;
