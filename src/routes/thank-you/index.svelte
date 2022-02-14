@@ -120,7 +120,7 @@
 
         <!-- ... show only if tests 1 & 2 ... -->
         {#if $starbased_user_settings != undefined &&
-            $starbased_user_settings.current_test_status != undefined
+            $starbased_user_settings.current_test_status != undefined &&
             parseInt($starbased_user_settings.current_test_status.toString()) < 3}
             <!-- content here -->
             <!-- ... next-up-container-info ... -->
