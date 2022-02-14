@@ -64,7 +64,7 @@
 
     let startModelViewTimer: NodeJS.Timer
     async function incrementVisualTimerSection() {
-        console.debug('console! Incrementing Timer!')
+        if (dev) console.debug('console! Incrementing Timer!')
         // ...
         startModelViewTimer = setInterval(async() => {
             starbased_user_settings.addTimerTestSections(
@@ -76,13 +76,13 @@
     }
 
     function stopModelVisualTimer() {
-        console.debug('Timer Stopped!')
+        if (dev) console.debug('Timer Stopped!')
         clearInterval(startModelViewTimer)
     }
 
     let startTextViewTimer: NodeJS.Timer
     async function incrementTextTimerSection() {
-        console.debug('console! Incrementing Timer!')
+        if (dev) console.debug('console! Incrementing Timer!')
         // ...
         startTextViewTimer = setInterval(async() => {
             starbased_user_settings.addTimerTestSections(
@@ -94,7 +94,7 @@
     }
 
     function stopModelTextTimer() {
-        console.debug('Timer Stopped!')
+        if (dev) console.debug('Timer Stopped!')
         clearInterval(startTextViewTimer)
     }
 
