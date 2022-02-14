@@ -13,7 +13,7 @@
     import { onMount } from "svelte";
     import { fade } from "svelte/transition";
 
-    import pluto_texture from './assets/pluto-texture.png'
+    import mars_texture from './assets/mars-texture.jpg'
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // SPACEKIT-JS SIMULATION INTEGRATION
@@ -33,14 +33,14 @@
     // ... 
     const recreateSimulation = () => {
         // ... create the visualization and put it in our div.
-        viz = new Spacekit.Simulation(document.getElementById('main-container-pluto'), {
+        viz = new Spacekit.Simulation(document.getElementById('main-container-mars'), {
             basePath: 'https://typpo.github.io/spacekit/src',
             jdPerSecond: 1
         });
         viz.createStars();
     }
 
-    let titan;              // ... global paramater for satellite selection and targeting,
+    let mars;              // ... global paramater for satellite selection and targeting,
     let all_obj = []        // ... all visualization objects,
     let planet_info;
     let sat_info;
@@ -50,11 +50,11 @@
      * Function - Renders the Earth alone
     */
     const toggleTitan = () => {
-        viz_option = 'titan'
+        viz_option = 'mars'
         clearSimulation()
-        titan = viz.createSphere('titan', {
-            textureUrl: pluto_texture,
-            radius: 0.75, /* default to 1 */
+        mars = viz.createSphere('mars', {
+            textureUrl: mars_texture,
+            radius: 3, /* default to 1 */
             rotation: {
                 speed: 0.25
             },
@@ -62,8 +62,8 @@
                 showAxes: false,
             },
         });
-        all_obj.push(titan)
-        titan.startRotation();
+        all_obj.push(mars)
+        mars.startRotation();
     }
     
     /**
@@ -72,8 +72,8 @@
     const toggleGalaxy = () => {
         viz_option = 'solar_sys'
         clearSimulation()
-        const titan =  viz.createObject('titan', Spacekit.SpaceObjectPresets.EARTH);
-        all_obj.push(titan)
+        const mars =  viz.createObject('mars', Spacekit.SpaceObjectPresets.EARTH);
+        all_obj.push(mars)
     }
 
     /**
@@ -102,14 +102,14 @@
 <div 
     in:fade
     out:fade 
-    id='main-container-pluto' 
+    id='main-container-mars' 
     >
     <!-- ... planet-name ... -->
     <div
         id='planet-name-box'>
         <p
             class='s-14 bold color-white'>
-            Pluto
+            Mars
         </p>
     </div>
     <!-- ... planet-info-stats ... -->
@@ -124,7 +124,7 @@
         </p>
         <p
             class='s-12 m-r-10 color-white'>
-            1,188.3 km
+            3,389.5 km
         </p>
         <!-- ... diameter ... -->
         <p
@@ -133,7 +133,7 @@
         </p>
         <p
             class='s-12 color-white'>
-            2,376.6 km
+            6,779 km
         </p>
     </div>
 </div>
@@ -143,8 +143,8 @@
 =================== -->
 
 <style>
-    #main-container-pluto {
-		height: 100%;
+    #main-container-mars {
+        height: 100%;
         width: 100%;
         position: relative;
     }

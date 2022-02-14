@@ -17,6 +17,9 @@
     import Mercury from "./planets/_Mercury.svelte";
     import Pluto from "./planets/_Pluto.svelte";
     import Earth from "./planets/_Earth.svelte";
+    import Venus from "./planets/_Venus.svelte";
+    import Mars from "./planets/_Mars.svelte";
+    
 </script>
 
 <!-- ===================
@@ -29,6 +32,8 @@
     <Mercury />
     <Pluto />
     <Earth />
+    <Mars />
+    <Venus />
 </div>
 
 <!-- ===================
@@ -39,6 +44,6 @@
     div#grid-planets {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 250px 250px 250px;
+        grid-template-rows: 33vh 33vh 33vh;
     }
 </style>

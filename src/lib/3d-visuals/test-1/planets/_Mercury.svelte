@@ -103,7 +103,40 @@
     in:fade
     out:fade 
     id='main-container-mercury' 
-    />
+    >
+    <!-- ... planet-name ... -->
+    <div
+        id='planet-name-box'>
+        <p
+            class='s-14 bold color-white'>
+            Mercury
+        </p>
+    </div>
+    <!-- ... planet-info-stats ... -->
+    <div
+        id='planet-dimensions-box'
+        class='row-space-out'
+        style="width: fit-content;">
+        <!-- ... radius ... -->
+        <p
+            class='s-12 m-r-10 bold color-secondary'>
+            Radius
+        </p>
+        <p
+            class='s-12 m-r-10 color-white'>
+            2,439.7 km
+        </p>
+        <!-- ... diameter ... -->
+        <p
+            class='s-12 m-r-10 bold color-secondary'>
+            Diameter
+        </p>
+        <p
+            class='s-12 color-white'>
+            4,879.4 km
+        </p>
+    </div>
+</div>
 
 <!-- ===================
 	COMPONENT STYLE
@@ -113,5 +146,26 @@
     #main-container-mercury {
 		height: 100%;
         width: 100%;
+        position: relative;
+    }
+    div#planet-name-box {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #0085FF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 0px 0px 5px 0px;
+        padding: 10px 16px;
+    }
+    div#planet-dimensions-box {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: auto;
+        padding: 10px;
+        background: #292929;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
     }
 </style>
