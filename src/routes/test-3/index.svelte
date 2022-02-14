@@ -22,6 +22,9 @@
     import { first_test_data } from '$lib/data/1st-test'
     import { starbased_user_settings } from '$lib/store/userData';
 
+    import VisualQ_1 from '$lib/3d-visuals/test-1/_Visual-q-1.svelte';
+    import VisualQ_2 from '$lib/3d-visuals/test-1/_Visual-q-2.svelte';
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // TIMER COUNTER [AUTO]
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -101,9 +104,11 @@
     let processing: boolean = false
     let user_input: string
     let conversationData: ResponseData[] = []
+    // ...
     interface ResponseData {
         text: string
         user: 'agent' | 'user'
+        response_time: number
     }
     let responseData: ResponseData;
     // ... send-over-the-response-to-website-server;
@@ -111,15 +116,22 @@
     async function sendResponse(): Promise < void > {
         // ...
         processing = true
-        starbased_user_settings.incTotalMessagesExchanged('test_3')
+        starbased_user_settings.incTotalMessagesExchanged('test_2')
+        let timerCounter: number = 0
+        let responseInterval: NodeJS.Timer = setInterval(async () => {
+            timerCounter = timerCounter + 1
+        }, 1000)
         // ...
         responseData = {
             text: user_input,
-            user: 'user'
+            user: 'user',
+            response_time: null
         }
         conversationData = [...conversationData, responseData]
         // ...
-        starbased_user_settings.addToConversationHistory('test_3', conversationData)
+        starbased_user_settings.addToConversationHistory('test_2', conversationData)
+        // ...
+        scrollBottom()
         // ...
         let endpointBackend: string = import.meta.env.VITE_BACKEND_URL.toString()
         // if (dev) endpointBackend = 'http://192.168.0.40:9000'
@@ -131,13 +143,17 @@
         // ...
         responseData = {
             text: resposne['data'],
-            user: 'agent'
+            user: 'agent',
+            response_time: timerCounter
         }
         // ...
         conversationData = [...conversationData, responseData]
-        starbased_user_settings.addToConversationHistory('test_3', conversationData)
-        // ...
+        starbased_user_settings.addToConversationHistory('test_2', conversationData)
+        // ... reset;
         processing = false
+        scrollBottom()
+        clearInterval(responseInterval)
+        identifyUserContext()
     }
 
     // ... [REACTIVITY]
@@ -158,81 +174,36 @@
         }, 50)
     }
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // SPACEKIT-JS SIMULATION INTEGRATION
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    let viz, n;
-    let viz_option;
-    let earthPinsView = false;
-
-    // ... re-draw the simulation onMount() PAGE;
-    onMount(async () => {
-        recreateSimulation()
-        toggleGalaxy()
-        toggleEarth()
-    });
-
-    // ... 
-    const recreateSimulation = () => {
-        // ... create the visualization and put it in our div.
-        viz = new Spacekit.Simulation(document.getElementById('main-container'), {
-            basePath: 'https://typpo.github.io/spacekit/src',
-            jdPerSecond: 1
-        });
-        viz.createStars();
+    // ...
+    let viewMode: string = 'interactive'
+    // ...
+    function toggleViewMode(viewSet: string) {
+        viewMode = viewSet;
     }
 
-    let earth;       // ... global paramater for satellite selection and targeting,
-    let all_obj = [] // ... all visualization objects,
-    let planet_info;
-    let sat_info;
-    let sat_counter = 0;
-
-    /**
-     * Function - Renders the Earth alone
-    */
-    const toggleEarth = () => {
-        viz_option = 'earth'
-        clearSimulation()
-        earth = viz.createSphere('earth', {
-            textureUrl: './assets/img/planets/titan-texture.png',
-            rotation: {
-                speed: 0.25
-            },
-            debug: {
-                showAxes: false,
-            },
-        });
-        all_obj.push(earth)
-        earth.startRotation();
-    }
-    
-    /**
-     * Function - Renders the Galaxy (Solar System) Visualization
-    */
-    const toggleGalaxy = () => {
-        viz_option = 'solar_sys'
-        clearSimulation()
-        const earth =  viz.createObject('earth', Spacekit.SpaceObjectPresets.EARTH);
-        all_obj.push(earth)
-    }
-
-    /**
-     * clear off the current interactive SpaceKitJs Simulation of off the
-     * planets visualized and their images, ready for the next visualizations,
-     */
-    const clearSimulation = () => {
-        for (n in all_obj) {
-            viz.removeObject(all_obj[n])
+    let selectedQuestion: number;
+    // ...
+    function selectOptionQ(opt: number) {
+        // ...
+        if (selectedQuestion == opt) {
+            selectedQuestion = undefined
+        } else {
+            selectedQuestion = opt
         }
-        planet_info = undefined
-        // Make sure that the other simulation is hidden:
-        if (earthPinsView != false) {
-            earthPinsView = false
-            setTimeout(() => {
-                recreateSimulation()
-            }, 2000)
+    }
+
+    // ... [REACTIVITY]
+    function identifyUserContext() {
+        if (user_input.toLowerCase().includes('temperature') ||
+            user_input.toLowerCase().includes('atmosphere') || 
+            user_input.toLowerCase().includes('size') || 
+            user_input.toLowerCase().includes('composition')) {
+            // ...
+            selectedQuestion = 1
+        } else if (user_input.toLowerCase().includes('mercury') || 
+                user_input.toLowerCase().includes('earth')) {
+            // ...
+            selectedQuestion = 2
         }
     }
 </script>
@@ -298,11 +269,119 @@
         on:mouseenter={() => incrementVisualTimerSection()}
         on:mouseleave={() => stopModelVisualTimer()}>
         <!-- ... canvas for interactive visualization ... -->
-        <div 
-            in:fade
-            out:fade 
-            id='main-container' 
-        />
+        {#if selectedQuestion == 1}
+            <!-- content here -->
+            <VisualQ_1 />
+        {:else}
+            <!-- content here -->
+            <VisualQ_2 />
+        {/if}
+        <!-- ... planet-view-info-option-box ... -->
+        {#if selectedQuestion == 1}
+            <div
+                id='option-view-box'>
+                <p>
+                    Planet Info Stats View
+                </p>
+            </div>
+        {:else if selectedQuestion == 2} 
+            <div
+                id='option-view-box'>
+                <p>
+                    Planet Size Comparison View
+                </p>
+            </div>
+        {/if}
+        <!-- ... planet-view-3D-toggle-info ... -->
+        <div
+            id='options-questions-box'>
+            <!-- ... option-view-text ... -->
+            <p
+                class='s-14 color-white m-b-10 bold'>
+                Toggle
+                <br>
+                3D 
+                <br>
+                Views
+            </p>
+            <!-- ... option-view-1 -->
+            <div
+                on:click={() => selectOptionQ(1)}
+                class='row-space-center m-b-10 option-3d-toggle-view'>
+                <img 
+                    src="./assets/svg/planet-info-icon.svg" 
+                    alt=""
+                    title="Planet Info Stats View" />
+            </div>
+            <!-- ... option-view-2 -->
+            <div
+                on:click={() => selectOptionQ(2)}
+                class='row-space-center m-b-10 option-3d-toggle-view'>
+                <img 
+                    src="./assets/svg/planet-size-icon.svg" 
+                    alt=""
+                    title="Planet Size Comparison View" />
+            </div>
+        </div>
+        <!-- ... change view types ... -->
+        <div
+            id='change-interactive-views'
+            class='row-space-out'>
+            <!-- ... interactive toggle ... -->
+            <button
+                on:click={() => toggleViewMode('interactive')}
+                class:selectedView={viewMode === 'interactive'}
+                class='toggle-view-btn column-space-center m-r-10'>
+                <!-- ... image-asset ... -->
+                {#if viewMode === 'interactive'}
+                    <img 
+                        src="./assets/svg/3D-icon-selected.svg" 
+                        alt="" 
+                        class='m-b-10'
+                        width="39.38px" height="39.38px"
+                    />
+                {:else}
+                    <img 
+                        src="./assets/svg/3D-icon-idle.svg" 
+                        alt="" 
+                        class='m-b-10'
+                        width="39.38px" height="39.38px"
+                    />
+                {/if}
+                <!-- ... button-text-action ... -->
+                <p>
+                    interactive 3D 
+                    <br/>
+                    model
+                </p>
+            </button>
+            <!-- ... photo gallery toggle ... -->
+            <button
+                on:click={() => toggleViewMode('photo')}
+                class:selectedView={viewMode === 'photo'}
+                class='toggle-view-btn column-space-center'>
+                <!-- ... image-asset ... -->
+                {#if viewMode === 'photo'}
+                    <img 
+                        src="./assets/svg/photo-gallery-icon-selected.svg" 
+                        alt=""
+                        class='m-b-10'
+                        width="38px" height="32px"
+                    />
+                {:else}
+                    <img 
+                        src="./assets/svg/photo-gallery-icon-idle.svg" 
+                        alt="" 
+                        class='m-b-10'
+                        width="38px" height="32px"
+                    />
+                {/if}
+                <!-- ... button-text-action ... -->
+                <p>
+                    photo gallery
+                </p>
+            </button>
+        </div>
     </div>
 
     <!-- ... conversational-agent-interaction-chunck-box-container ... -->
@@ -378,11 +457,38 @@
                     class:user_chat_bubble={item.user === 'user'}
                     class:agent_chat_bubble={item.user === 'agent'}>
                     <p
-                        class='s-14 color-white'>
+                        class='s-16 color-white'>
                         {item.text} 
                     </p>
+                    <!-- ... response-timer ... -->
+                    {#if item.user === 'agent'}
+                        <!-- content here -->
+                        <div
+                            id='response-time'
+                            class='row-space-out m-t-10'>
+                            <p
+                                class='s-12 color-white m-r-5'>
+                                response time
+                            </p>
+                            <p
+                                class='s-12'
+                                style="color: #EB00FF;">
+                                {item.response_time} s
+                            </p>
+                        </div>
+                    {/if}
                 </div>
             {/each}
+            <!-- ... bot-is-processing-response ... -->
+            {#if processing}
+                <!-- content here -->
+                <img 
+                    src='/assets/svg/loading/loading-bot-res-animated.svg' 
+                    alt='bot-loading'
+                    aria-label='bot-loading'
+                    class='m-t-20'
+                    width="93px" height="40px" />
+            {/if}
         </div>
     </div>    
 
@@ -416,7 +522,6 @@
         <form 
             action="" 
             on:submit|preventDefault={sendResponse}
-            class='row-space-end'>
             class='row-space-end'>
             <fieldset
                 class='m-r-10'
@@ -529,11 +634,68 @@
         padding: 12px 18px;
     }
 
+    div#response-time {
+        background: #000000;
+        border-radius: 2.5px;
+        padding: 2.5px 5px;
+        width: fit-content;
+    }
+
     img#clear-input-btn {
         position: absolute;
         top: 10px;
         right: 10px;
         z-index: 500;
+    }
+
+    div#option-view-box {
+        position: absolute;
+        top: 28px;
+        right: 0;
+        left: 0;
+        width: fit-content;
+        margin: auto;
+        padding: 10px 22px;
+        border-radius: 100px;
+        background-color: #0085FF;
+    }
+
+    div.option-3d-toggle-view {
+        background: #141414;
+        border: 1px solid #373737;
+        box-sizing: border-box;
+        border-radius: 2.5px 0px 0px 2.5px;
+        padding: 12px 8px;
+        transition: all ease 0.3s;
+        cursor: pointer;
+    } div.option-3d-toggle-view:hover {
+        background-color: white;
+    }
+
+    div#options-questions-box {
+        position: absolute;
+        right: 10px;
+        top: 35%;
+    }
+
+    div#contuniation-container {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 50vw;
+        z-index: 10;
+        padding: 45px 62px;
+        background-color: #2D2D2D;
+        box-shadow: 0px -5px 5px rgb(0 0 0 / 25%);
+    }
+
+    div#change-interactive-views {
+        position: absolute;
+        bottom: 27px;
+        margin: auto;
+        right: 0;
+        left: 0;
+        width: fit-content;
     }
 
     /*
@@ -585,5 +747,23 @@
         background-image: url('/assets/svg/input-vector.svg');
         background-position: 50% 50%;
         background-repeat: no-repeat;
+    }
+
+    button.toggle-view-btn {
+        background-color: transparent;
+        border: 1px solid #FFFFFF !important;
+        border-radius: 5px;
+        padding: 10px;
+        width: 109px;
+        height: 98px;
+    }
+    button.toggle-view-btn.selectedView,
+    button.toggle-view-btn:hover {
+        border: none !important;
+        background-color: #252525;
+    }
+    button.toggle-view-btn.selectedView p,
+    button.toggle-view-btn:hover p {
+        color: #00FFB2;
     }
 </style>
