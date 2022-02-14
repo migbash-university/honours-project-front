@@ -276,31 +276,34 @@
                 </p>
             </button>
             <!-- ... photo gallery toggle ... -->
-            <button
-                on:click={() => toggleViewMode('photo')}
-                class:selectedView={viewMode === 'photo'}
-                class='toggle-view-btn column-space-center'>
-                <!-- ... image-asset ... -->
-                {#if viewMode === 'photo'}
-                    <img 
-                        src="./assets/svg/photo-gallery-icon-selected.svg" 
-                        alt=""
-                        class='m-b-10'
-                        width="38px" height="32px"
-                    />
-                {:else}
-                    <img 
-                        src="./assets/svg/photo-gallery-icon-idle.svg" 
-                        alt="" 
-                        class='m-b-10'
-                        width="38px" height="32px"
-                    />
-                {/if}
-                <!-- ... button-text-action ... -->
-                <p>
-                    photo gallery
-                </p>
-            </button>
+            {#if true}
+                 <!-- content here -->
+                <button
+                    on:click={() => toggleViewMode('photo')}
+                    class:selectedView={viewMode === 'photo'}
+                    class='toggle-view-btn column-space-center'>
+                    <!-- ... image-asset ... -->
+                    {#if viewMode === 'photo'}
+                        <img 
+                            src="./assets/svg/photo-gallery-icon-selected.svg" 
+                            alt=""
+                            class='m-b-10'
+                            width="38px" height="32px"
+                        />
+                    {:else}
+                        <img 
+                            src="./assets/svg/photo-gallery-icon-idle.svg" 
+                            alt="" 
+                            class='m-b-10'
+                            width="38px" height="32px"
+                        />
+                    {/if}
+                    <!-- ... button-text-action ... -->
+                    <p>
+                        photo gallery
+                    </p>
+                </button>
+            {/if}
         </div>
     </div>
 

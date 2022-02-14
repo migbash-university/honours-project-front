@@ -247,7 +247,7 @@
         content: "";
         position: absolute;
         height: 5px;
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #00FFB2 51.31%, rgba(0, 0, 0, 0) 102.61%);
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #EB00FF 51.31%, rgba(0, 0, 0, 0) 102.61%);
         width: 100%;
         top: 125%;
         right: 0;
