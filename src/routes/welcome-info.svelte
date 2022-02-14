@@ -117,10 +117,10 @@
         simple passage reading and conversational agents (AI) to deliver knowledge on the topic of outer space. 
         <br />
         <br />
-        In this project, <b>S T A R - B A S E D </b> will be teaching you on the topic of outer space on 2 different celestial objects (planets) : <b>Mars & TItan</b>
+        In this project, <b>S T A R - B A S E D </b> will be teaching you on the topic of outer space on 2 different celestial objects (planet) : <b>TItan</b>
         <br />
         <br />
-        During this process, you will attempt 3 different test in the span of 3 weeks. 1 test now, another next week and in 2 weeks time you will attempt the last. Before each test, you will be presented with the information necessary to understand the upcoming procedure and what is to be expected to be done.
+        During this process, you will attempt 3 different test in the span of 6 days. 1 test now, another in 3 days week and then in another 3 days since the last test attempted test. Before each test, you will be presented with the information necessary to understand the upcoming procedure and what is to be expected to be done.
         <br />
         <br />
         As a base-skeleton for these procedures, each test will have the same general outline procedure:
@@ -129,7 +129,7 @@
     <p 
         class='m-l-30 s-14 m-b-40' 
         style="letter-spacing: 0.05em;">
-        1. Spend 15 minutes interacting with the test and learning on a given nice topic on Mars & Titan,
+        1. Spend 15 minutes interacting with the test and learning on a given nice topic on Titan,
         <br/>
         2. Answer end of topic questions curated for the learned material,
         <br/>

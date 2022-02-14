@@ -126,6 +126,8 @@
         selectedQuestion = opt
         // }
     }
+
+    let hiddenBtnPhoto = false
 </script>
 
 <!-- ===================
@@ -276,7 +278,7 @@
                 </p>
             </button>
             <!-- ... photo gallery toggle ... -->
-            {#if true}
+            {#if hiddenBtnPhoto}
                  <!-- content here -->
                 <button
                     on:click={() => toggleViewMode('photo')}
