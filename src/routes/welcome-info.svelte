@@ -154,7 +154,7 @@
                 /
             </span>
             <span>
-                3
+                {import.meta.env.VITE_TOTAL_TEST_NUMBER.toString()}
             </span>
         </p>
     </div>
