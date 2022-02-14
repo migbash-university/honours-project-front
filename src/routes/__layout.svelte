@@ -105,7 +105,7 @@
                 // ... redirect-user-to-new-test-start;
                 goto('/welcome-info')
             }
-    }
+    } 
 
     // ... [REACTIVIY]
     // ... check that the header-logo to be shown;
