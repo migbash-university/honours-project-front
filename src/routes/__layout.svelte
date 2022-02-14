@@ -27,6 +27,12 @@
     // ON-LOAD INSTANT
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    // ... upgrade to `https:`
+    $: if (!dev && $page.url.protocol === 'http:') {
+        // ...
+        goto('https://' + $page.url.host + $page.url.pathname)
+    }
+
     // ... background-color-check;
     let light_bg: boolean = false;
     // ... check what page the user is on:
@@ -174,7 +180,7 @@
         <!-- ... content-here ... -->
         <UserAuth />
     {/if}
-    
+
     <main
         class:light-bg={light_bg === true}>
         <slot />
