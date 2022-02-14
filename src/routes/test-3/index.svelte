@@ -94,6 +94,16 @@
     // PAGE USER-ACTIONS
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    // ...
+    async function submitReading(): Promise < void > {
+        // ...
+        // starbased_user_settings.updatePageCompletionStatus('test_2')
+        // ... update-last-page-visit;
+        starbased_user_settings.updateUserLastPage('/quiz')
+        // ... redirect
+        await goto('/quiz')
+    }
+
     let helpTipsShow: boolean = false;
     // ... toggle-hide-show-button-info;
     function toggleHelpTips() {
@@ -510,6 +520,7 @@
                 sveltekit:prefetch
                 href='/quiz'>
                 <button 
+                    on:click={() => submitReading()}
                     class='continuation-btn'>
                     <h1 
                         class='s-18'>

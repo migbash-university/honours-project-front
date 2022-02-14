@@ -165,11 +165,13 @@
     }
 
     // ...
-    function submitReading(): void {
+    async function submitReading(): Promise < void > {
         // ...
         // starbased_user_settings.updatePageCompletionStatus('test_2')
         // ... update-last-page-visit;
         starbased_user_settings.updateUserLastPage('/quiz')
+        // ... redirect
+        await goto('/quiz')
     }
 
     // ... [REACTIVITY]
