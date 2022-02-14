@@ -104,7 +104,9 @@
                     background-color: #00FFB2;
                     padding: 9px 5px;'>
                     <!-- {import.meta.env.VITE_TEST_NUMBER.toString()} -->
-                    {$starbased_user_settings.current_test_status.toString()}
+                    {#if $starbased_user_settings != undefined}
+                        {$starbased_user_settings.current_test_status.toString()}
+                    {/if}
                 </span>
                 <span>
                     /
