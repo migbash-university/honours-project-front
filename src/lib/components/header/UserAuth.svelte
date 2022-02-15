@@ -45,8 +45,23 @@
 
 <div
     id='user-auth-box'
-    class='row-space-out'
+    class='row-space-start'
     style='width: fit-content;'>
+    <!-- ... reminder text ... -->
+    <p
+        class='s-12 color-white m-r-20'
+        style="background-color: black;
+                padding: 10px;
+                border-radius: 5px;">
+        Accessing from a different device ?
+        <br>
+        Already completed a previous test ?
+        <br>
+        <span class='color-secondary'>
+            <u>Login using your UID!</u>
+        </span>
+        ⭜
+    </p>
     <!-- ... button-login ... -->
     <button
         id='login-btn'

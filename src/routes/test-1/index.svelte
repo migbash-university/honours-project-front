@@ -229,7 +229,8 @@
             <!-- ... option-view-1 -->
             <div
                 on:click={() => selectOptionQ(1)}
-                class='row-space-center m-b-10 option-3d-toggle-view'>
+                class='row-space-center m-b-10 option-3d-toggle-view'
+                class:active-view={selectedQuestion === 1}>
                 <img 
                     src="./assets/svg/planet-info-icon.svg" 
                     alt=""
@@ -238,7 +239,8 @@
             <!-- ... option-view-2 -->
             <div
                 on:click={() => selectOptionQ(2)}
-                class='row-space-center m-b-10 option-3d-toggle-view'>
+                class='row-space-center m-b-10 option-3d-toggle-view'
+                class:active-view={selectedQuestion === 2}>
                 <img 
                     src="./assets/svg/planet-size-icon.svg" 
                     alt=""
@@ -487,7 +489,7 @@
 
     div.option-3d-toggle-view {
         background: #141414;
-        border: 1px solid #373737;
+        border: 2.5px solid #373737;
         box-sizing: border-box;
         border-radius: 2.5px 0px 0px 2.5px;
         padding: 12px 8px;
@@ -495,6 +497,10 @@
         cursor: pointer;
     } div.option-3d-toggle-view:hover {
         background-color: white;
+    }
+    div.active-view {
+        border: 2.5px solid #00FFB2;
+        background-color: black;
     }
 
     /*

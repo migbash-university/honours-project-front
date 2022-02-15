@@ -151,11 +151,11 @@
             Each experiment is broken down into 3 parts:
             <br/>
             <br/>
-            … a reading, or (conversational-bot) section where the user interacts with a passage and or the conversational agent, to extract the answers from the passage, and or bot, answering the questions presented in the “HELP” button on the `”reading-page”
+            a) … a reading, or (conversational-bot) section where the user interacts with a passage and or the conversational agent, to extract the answers from the passage, and or bot, answering the questions presented in the “HELP” button on the `”reading-page”
             <br/>
-            … a quiz page, which will allow you the opportunity to answer the questions that you have obtained from the previous-reading section of the website,
+            b) … a quiz page, which will allow you the opportunity to answer the questions that you have obtained from the previous-reading section of the website,
             <br/>
-            … a questionnaire, which will allow you to express your opinion on the conducted test in the form of a likert-scale.
+            c) … a questionnaire, which will allow you to express your opinion on the conducted test in the form of a likert-scale.
 
             <br/>
             <br/>

@@ -152,13 +152,13 @@
         z-index: 5000;
     }
     img#planet-stats {
-        top: 80px;
+        top: 100px;
         left: 15px;
         /* left: 0; */
         margin: auto;
     }
     img#temp-stats {
-        top: 25%;
-        right: 25%;
+        top: 100px;
+        right: 25px;
     }
 </style>
