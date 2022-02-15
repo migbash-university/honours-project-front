@@ -219,16 +219,16 @@
             <label 
                 id='terms-and-agreement-checkbox'
                 class="container row-space-start m-b-30">
-                <input 
-                    type='radio' 
-                    name='tems_and_cond'
-                    value='tems_and_cond'
-                    class='m-r-20' 
-                    required />
                 <p
                     class='color-white s-14 bold'>
                     I have read and understood the information above, and agree to proceed on this basis.
                 </p>
+                <input 
+                    type='checkbox' 
+                    name='tems_and_cond'
+                    value='tems_and_cond'
+                    class='m-r-20' 
+                    required />
                 <span class="checkmark"></span>
             </label>
             <!-- ... label-for-email-submission ... -->
@@ -341,8 +341,6 @@
         position: absolute;
         opacity: 0;
         cursor: pointer;
-        height: 0;
-        width: 0;
     }
 
     /* Create a custom checkbox */
