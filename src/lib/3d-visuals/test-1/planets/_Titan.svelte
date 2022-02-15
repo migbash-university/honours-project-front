@@ -150,10 +150,10 @@
     div#planet-name-box {
         position: absolute;
         bottom: 0;
-        right: 0;
+        left: 0;
         background: #0085FF;
         box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
-        border-radius: 5px 0px 0px 0px;
+        border-radius: 0px 5px 0px 0px;
         padding: 10px 16px;
     }
     div#planet-dimensions-box {
