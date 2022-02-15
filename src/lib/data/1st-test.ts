@@ -237,6 +237,7 @@ export const first_test_data = {
                 question_num: 1,
                 question_title: `How did you find this method of learning ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = Not for me and 5 = Perfect`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Not for me',
@@ -256,6 +257,7 @@ export const first_test_data = {
                 question_num: 2,
                 question_title: `How difficult was it to obtain answers from the text ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Very Difficult" and 5 = "Very Easy"`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Very Difficult',
@@ -275,6 +277,7 @@ export const first_test_data = {
                 question_num: 3,
                 question_title: `Has the visual interactive model made learning easier ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Definite no" and 5 = "Definitely yes"`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Definite no',
@@ -294,6 +297,7 @@ export const first_test_data = {
                 question_num: 4,
                 question_title: `How familiar with this domain of space ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Beginner" and 5 = "Expert"`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Beginner',

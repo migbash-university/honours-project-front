@@ -223,6 +223,7 @@ export const second_test_data = {
                 question_num: 1,
                 question_title: `How did you find this method of learning ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Not for me" and 5 = "Perfect"`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Not for me',
@@ -242,6 +243,7 @@ export const second_test_data = {
                 question_num: 2,
                 question_title: `How useful did you find the Conversational Agent ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Not Useful" and 5 = "Very Useful"`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Not Useful',
@@ -261,6 +263,7 @@ export const second_test_data = {
                 question_num: 3,
                 question_title: `How easy did you find learning with the Conversational Agent than extracting information from text ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Very Difficult" and 5 = "Very Easy"`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Very Difficult',
@@ -280,6 +283,7 @@ export const second_test_data = {
                 question_num: 4,
                 question_title: `How friendly did you find the Conversational Agent ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Very Unfriendly" and 5 = "Very Friendly"`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Very Unfriendly',
@@ -299,6 +303,7 @@ export const second_test_data = {
                 question_num: 5,
                 question_title: `How familiar with this domain of space ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Beginner" and 5 = "Expert"`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Beginner',

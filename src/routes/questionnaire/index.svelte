@@ -192,7 +192,11 @@
                             class='s-12 color-grey m-b-15'>
                             {item.question_hint}
                         </p>
-                        <!-- ... question input ... -->
+                        <!-- ... question numbers meaning ... -->
+                        <p
+                            class='s-12 color-grey m-b-15'>
+                            {item.question_range_meaning}
+                        </p>
                         <!-- ... likert-scale-input ... -->
                         <ul 
                             class='likert row-space-start'>
