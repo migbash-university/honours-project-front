@@ -28,6 +28,7 @@
 <div
     id='user-uid'
     class='row-space-out'
+    class:apply-dark-bg={!light_bg}
     style='width: fit-content;'>
     <p 
         class="s-14 m-r-20"
@@ -57,7 +58,9 @@
         border-radius: 5px;
         padding: 10px 12px;
 	} 
-
+    .apply-dark-bg {
+        background-color: var(--dark);
+    }
 	/* 
     RESPONSIVE FOR TABLET (&+) [768px] */
     @media screen and (min-width: 768px) {
