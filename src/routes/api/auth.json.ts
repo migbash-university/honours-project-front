@@ -45,17 +45,14 @@ export async function post({ params, request }, res): Promise < any > {
     let userExists = false;
     let fileUserData: any;
     // ...
-    while (true) {
-        // ... check if FILE ALREADY EXISTS;
-        const path = 'data/' + userUID + '.json'
-        if (fs.existsSync(path)) {
-            userExists = true;
-            // ... return user-data;
-            fileUserData = await loadFileContents(path)
-            break;
-        }
+    // ... check if FILE ALREADY EXISTS;
+    const path = 'data/' + userUID + '.json'
+    if (fs.existsSync(path)) {
+        userExists = true;
+        // ... return user-data;
+        fileUserData = await loadFileContents(path)
     }
-    // ...
+// ...
     if (userExists) {
         // ...
         return {
