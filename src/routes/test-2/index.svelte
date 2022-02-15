@@ -316,6 +316,12 @@
                         <br />
                         <br />
                         You may ask these questions to prepare for the test, or ask them in your own way.
+                        <br />
+                        <br />
+                        when ready, proceed to the next page to answer some end of test questions based on the passage below
+                        <br />
+                        <br />
+                        once you complete the end of the topic test, you will be prompted to answer a simple 4 question questionnaire on your experience.
                     </p>
                 </div>
             {/if}
