@@ -9,6 +9,9 @@ This is a sample collection of code used on the progrss of the project:
 [Converting to and from UNIX-EPOCH](https://www.epochconverter.com/clock)
 [List all folder files](https://stackoverflow.com/questions/2727167/how-do-you-get-a-list-of-the-names-of-all-files-present-in-a-directory-in-node-j)
 [How to sdetect sentence similarity](https://datascience.stackexchange.com/questions/25053/best-practical-algorithm-for-sentence-similarity)
+[Mongodb get single-array of all values on DB](https://stackoverflow.com/questions/23273123/list-all-values-of-a-certain-field-in-mongodb)
+
+[Heroku does not store data on their filesystem due to the ephermal nature of the app](https://quick-adviser.com/why-are-my-file-uploads-missing-deleted-heroku/)
 
 ---
 

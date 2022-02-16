@@ -1,32 +1,8 @@
 // import fs from 'fs';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const fs = require('fs');
+import { init } from "$lib/mongodb/init";
 import { dev } from '$app/env';
-
-/**
- * Description:
- * ~~~~~~~~~~~~
- * ... an ASYNC/AWAIT function-method
- * ... for reading files SEQUENTIALLY;
- * 
- * ... @param {*} fileName 
- * ... @returns 
-*/
-async function loadFileContents(fileName) {
-    let data = await fs.promises.readFile(
-        fileName, 
-        "utf8", 
-        function(err, fileData) {
-            // check-for-reading-errors
-            if (err) {
-                throw new Error(err)
-            }
-            return fileData
-    });
-    data = JSON.parse(data);
-    return data;
-}
 
 /**
  * Description:
@@ -39,36 +15,36 @@ async function loadFileContents(fileName) {
 */
 export async function post({ params, request }, res): Promise < any > {
     // ... incoming-data;
-    const data = await request.json(); // or request.json(), etc
+    const data = await request.json(); // ... or request.json(), etc
     // ...
     const userUID: string = data.userUID;
-    let userExists = false;
-    let fileUserData: any;
-    // ...
     // ... check if FILE ALREADY EXISTS;
-    const path = 'data/' + userUID + '.json'
-    if (fs.existsSync(path)) {
-        userExists = true;
-        // ... return user-data;
-        fileUserData = await loadFileContents(path)
-    }
-// ...
-    if (userExists) {
-        // ...
+    const { db } = await init();
+    // ...
+    return await db.collection("participants")
+      .findOne({
+        'userUID': userUID
+      })
+      .then(function(result) {
+      // ...
+      // if (dev) console.debug('result', result)
+      // ...
+      if (result) { 
         return {
-            status: 200,
-            body: {
-                auth: userExists,
-                user_data: fileUserData
-            }
+          status: 200,
+          body: {
+              auth: true,
+              user_data: result
+          }
         }
-    } else {
-        // ...
+      }
+      else {
         return {
-            status: 200,
-            body: {
-                auth: userExists
-            }
+          status: 200,
+          body: {
+              auth: false
+          }
         }
-    }
+      }
+    });
 }

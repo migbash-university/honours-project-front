@@ -28,6 +28,8 @@
         const response = await post(`/api/auth.json`, {
             userUID: userUID
         })
+        // ... DEBUGGING;
+        if (dev) console.debug('response', response)
         // ...
         if (response.auth === true) {
             starbased_user_settings.reloadUserData(response.user_data)
