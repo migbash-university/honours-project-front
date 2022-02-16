@@ -21,6 +21,7 @@
     import { post } from '$lib/utils/api'
     import { first_test_data } from '$lib/data/1st-test'
     import { starbased_user_settings } from '$lib/store/userData';
+    import { goto } from '$app/navigation';
 
     import VisualQ_1 from '$lib/3d-visuals/test-1/_Visual-q-1.svelte';
     import VisualQ_2 from '$lib/3d-visuals/test-1/_Visual-q-2.svelte';

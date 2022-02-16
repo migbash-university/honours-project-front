@@ -12,6 +12,7 @@ This is a sample collection of code used on the progrss of the project:
 [Mongodb get single-array of all values on DB](https://stackoverflow.com/questions/23273123/list-all-values-of-a-certain-field-in-mongodb)
 
 [Heroku does not store data on their filesystem due to the ephermal nature of the app](https://quick-adviser.com/why-are-my-file-uploads-missing-deleted-heroku/)
+[MongoDB Data Persistance with Update()](https://stackoverflow.com/questions/13010290/nodejs-mongo-insert-if-not-exists-otherwise-update)
 
 ---
 
