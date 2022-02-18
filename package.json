@@ -37,6 +37,8 @@
     "cookie": "^0.4.1",
     "handlebars": "^4.7.7",
     "mongodb": "^4.3.1",
-    "nodemailer": "^6.7.2"
+    "nodemailer": "^6.7.2",
+    "seamless-scroll-polyfill": "^2.1.6",
+    "three": "^0.137.5"
   }
 }

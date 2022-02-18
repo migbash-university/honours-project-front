@@ -24,9 +24,13 @@ export const first_test_data = {
                 
         <br />
         <br />
+        <span 
+          id='gravity-info'>
         
-        Titan’s dense atmosphere, as well as gravity roughly equivalent to Earth’s Moon, mean that a raindrop falling through Titan’s sky would fall more slowly 
-        than on Earth - about six times more slowly than Earth’s rain.
+          Titan’s dense atmosphere, as well as gravity roughly equivalent to Earth’s Moon, mean that a raindrop falling through Titan’s sky would fall more slowly 
+          than on Earth - about six times more slowly than Earth’s rain.
+
+        </span>
                 
         <br />
         <br />
@@ -44,16 +48,19 @@ export const first_test_data = {
         <br />
         <br />
         
-        <b> ➤ Orbit and Rotation </b>
+        <span 
+          id='orbit-and-rotation-text'>
+          <b> ➤ Orbit and Rotation </b>
 
-        <br />
-        <br />
+          <br />
+          <br />
 
-        Titan takes 15 days and 22 hours to complete a full orbit of Saturn. Titan is also tidally locked in synchronous rotation with Saturn, meaning that, 
-        like Earth’s Moon, Titan always shows the same face to the planet as it orbits. Saturn takes about 29 Earth years to orbit the Sun (a Saturnian year),
-        and Saturn’s axis of rotation is tilted like Earth’s, resulting in seasons. But Saturn’s longer year produces seasons that each last more than seven Earth years. 
-        Since Titan orbits roughly along Saturn’s equatorial plane, and Titan’s tilt relative to the sun is about the same as Saturn’s, Titan’s seasons are on the same 
-        schedule as Saturn’s—seasons that last more than seven Earth years, and a year that lasts 29 Earth years.
+          Titan takes 15 days and 22 hours to complete a full orbit of Saturn. Titan is also tidally locked in synchronous rotation with Saturn, meaning that, 
+          like Earth’s Moon, Titan always shows the same face to the planet as it orbits. Saturn takes about 29 Earth years to orbit the Sun (a Saturnian year),
+          and Saturn’s axis of rotation is tilted like Earth’s, resulting in seasons. But Saturn’s longer year produces seasons that each last more than seven Earth years. 
+          Since Titan orbits roughly along Saturn’s equatorial plane, and Titan’s tilt relative to the sun is about the same as Saturn’s, Titan’s seasons are on the same 
+          schedule as Saturn’s—seasons that last more than seven Earth years, and a year that lasts 29 Earth years.
+        </span>
         
         <br />
         <br />
@@ -72,16 +79,17 @@ export const first_test_data = {
         <br />
         <br />
         
-        <b> ➤ Formation </b>
-
-        <br />
-        <br />
-
-        Scientists aren’t certain about Titan’s origin. However, its atmosphere provides a clue. Several instruments on the NASA and ESA Cassini-Huygens mission measured the isotopes 
-        nitrogen-14 and nitrogen-15 in Titan’s atmosphere. The instruments found Titan’s nitrogen isotope ratio most resembles that found in comets from the Oort Cloud—a sphere of hundreds 
-        of billions of icy bodies thought to orbit the Sun at a distance between 5,000 and 100,000 astronomical units from the Sun (Earth is about one astronomical unit from the Sun—roughly 
-        93 million miles or 150 million kilometers). Titan’s atmospheric nitrogen ratio suggests the moon’s building blocks formed early in the solar system's history, in the same cold disk of 
-        gas and dust that formed the Sun (called the protosolar nebula), rather than forming in the warmer disk of material that Saturn later formed from (called the Saturn sub-nebula).
+        <span 
+          id='formation-text'>
+          <b> ➤ Formation </b>
+          <br />
+          <br />
+          Scientists aren’t certain about Titan’s origin. However, its atmosphere provides a clue. Several instruments on the NASA and ESA Cassini-Huygens mission measured the isotopes 
+          nitrogen-14 and nitrogen-15 in Titan’s atmosphere. The instruments found Titan’s nitrogen isotope ratio most resembles that found in comets from the Oort Cloud—a sphere of hundreds 
+          of billions of icy bodies thought to orbit the Sun at a distance between 5,000 and 100,000 astronomical units from the Sun (Earth is about one astronomical unit from the Sun—roughly 
+          93 million miles or 150 million kilometers). Titan’s atmospheric nitrogen ratio suggests the moon’s building blocks formed early in the solar system's history, in the same cold disk of 
+          gas and dust that formed the Sun (called the protosolar nebula), rather than forming in the warmer disk of material that Saturn later formed from (called the Saturn sub-nebula).
+        </span>
         
         <br />
         <br />
@@ -91,11 +99,14 @@ export const first_test_data = {
         <br />
         <br />
 
-        The surface of Titan is one of the most Earthlike places in the solar system, albeit at vastly colder temperatures and with different chemistry. Here it is so cold (-290 degrees 
-        Fahrenheit or -179 degrees Celsius) that water ice plays the role of rock. Titan may have volcanic activity as well, but with liquid water “lava” instead of molten rock. Titan’s 
-        surface is sculpted by flowing methane and ethane, which carves river channels and fills great lakes with liquid natural gas. No other world in the solar system, aside from Earth, 
-        has that kind of liquid activity on its surface.
-                
+        <span 
+          id='temperature-text'>
+          The surface of Titan is one of the most Earthlike places in the solar system, albeit at vastly colder temperatures and with different chemistry. Here it is so cold (-290 degrees 
+          Fahrenheit or -179 degrees Celsius) that water ice plays the role of rock. Titan may have volcanic activity as well, but with liquid water “lava” instead of molten rock. Titan’s 
+          surface is sculpted by flowing methane and ethane, which carves river channels and fills great lakes with liquid natural gas. No other world in the solar system, aside from Earth, 
+          has that kind of liquid activity on its surface.
+        </span>
+                  
         <br />
         <br />
         
@@ -108,27 +119,28 @@ export const first_test_data = {
         <br />
         <br />
 
-        <b> ➤ Atmosphere </b>
-
-        <br />
-        <br />
-        
-        Our solar system is home to more than 150 moons, but Titan is unique in being the only moon with a thick atmosphere. At the surface of Titan, the atmospheric pressure is about 60 percent 
-        greater than on Earth—roughly the same pressure a person would feel swimming about 50 feet (15 meters) below the surface in theocean on Earth. Because Titan is less massive than Earth, its 
-        gravity doesn't hold onto its gaseous envelope as tightly, so the atmosphere extends to an altitude 10 times higher than Earth's—nearly 370 miles (600 kilometers) into space.
-        
-        Titan's atmosphere is mostly nitrogen (about 95 percent) and methane (about 5 percent), with small amounts of other carbon-rich compounds. High in Titan’s atmosphere, methane and nitrogen 
-        molecules are split apart by the Sun's ultraviolet light and by high-energy particles accelerated in Saturn's magnetic field. The pieces of these molecules recombine to form a variety of 
-        organic chemicals (substances that contain carbon and hydrogen), and often include nitrogen, oxygen and other elements important to life on Earth.
-        
-        Some of the compounds produced by that splitting and recycling of methane and nitrogen create a kind of smog—a thick, orange-colored haze that makes the moon's surface difficult 
-        to view from space. (Spacecraft and telescopes can, however, see through the haze at certain wavelengths of light outside of those visible to human eyes.) Some of the heavy, 
-        carbon-rich compounds settle to the moon’s surface—these hydrocarbons play the role of “sand” in Titan’s vast dune fields. And methane condenses into clouds that occasionally 
-        drench the surface in methane storms.
-        
-        The methane in Titan’s atmosphere is what makes its complex atmospheric chemistry possible, but where all that methane comes from is a mystery. Because sunlight continuously breaks 
-        down methane in Titan’s atmosphere, some source must be replenishing it or it would be depleted over time. Researchers suspect methane could be belched into Titan's atmosphere by 
-        cryovolcanism—volcanoes releasing chilled water instead of molten rock lava—but they’re not certain if this or some other process is responsible.
+        <span 
+          id='atmosphere-text'>
+          <b> ➤ Atmosphere </b>
+          <br />
+          <br />
+          Our solar system is home to more than 150 moons, but Titan is unique in being the only moon with a thick atmosphere. At the surface of Titan, the atmospheric pressure is about 60 percent 
+          greater than on Earth—roughly the same pressure a person would feel swimming about 50 feet (15 meters) below the surface in theocean on Earth. Because Titan is less massive than Earth, its 
+          gravity doesn't hold onto its gaseous envelope as tightly, so the atmosphere extends to an altitude 10 times higher than Earth's—nearly 370 miles (600 kilometers) into space.
+          
+          Titan's atmosphere is mostly nitrogen (about 95 percent) and methane (about 5 percent), with small amounts of other carbon-rich compounds. High in Titan’s atmosphere, methane and nitrogen 
+          molecules are split apart by the Sun's ultraviolet light and by high-energy particles accelerated in Saturn's magnetic field. The pieces of these molecules recombine to form a variety of 
+          organic chemicals (substances that contain carbon and hydrogen), and often include nitrogen, oxygen and other elements important to life on Earth.
+          
+          Some of the compounds produced by that splitting and recycling of methane and nitrogen create a kind of smog—a thick, orange-colored haze that makes the moon's surface difficult 
+          to view from space. (Spacecraft and telescopes can, however, see through the haze at certain wavelengths of light outside of those visible to human eyes.) Some of the heavy, 
+          carbon-rich compounds settle to the moon’s surface—these hydrocarbons play the role of “sand” in Titan’s vast dune fields. And methane condenses into clouds that occasionally 
+          drench the surface in methane storms.
+          
+          The methane in Titan’s atmosphere is what makes its complex atmospheric chemistry possible, but where all that methane comes from is a mystery. Because sunlight continuously breaks 
+          down methane in Titan’s atmosphere, some source must be replenishing it or it would be depleted over time. Researchers suspect methane could be belched into Titan's atmosphere by 
+          cryovolcanism—volcanoes releasing chilled water instead of molten rock lava—but they’re not certain if this or some other process is responsible.
+        </span>
         
         <br />
         <br />

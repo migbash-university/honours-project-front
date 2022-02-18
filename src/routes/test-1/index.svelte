@@ -16,118 +16,119 @@
 <script lang="ts">
     // ...
 	import { amp, browser, dev, mode, prerendering } from '$app/env'
-    import { fade, fly, slide } from 'svelte/transition'
-    import { onDestroy, onMount } from 'svelte'
-    import { goto } from '$app/navigation';
+  import { fade, fly, slide } from 'svelte/transition'
+  import { onDestroy, onMount } from 'svelte'
+  import { goto } from '$app/navigation';
 
-    import VisualQ_1 from '$lib/3d-visuals/test-1/_Visual-q-1.svelte';
-    import VisualQ_2 from '$lib/3d-visuals/test-1/_Visual-q-2.svelte';
+  import VisualQ_1 from '$lib/3d-visuals/test-1/_Visual-q-1.svelte';
+  import VisualQ_2 from '$lib/3d-visuals/test-1/_Visual-q-2.svelte';
+  import PlanetWithMarkers_2 from '$lib/3d-visuals/test-1/_Planet_with_Markers-2.svelte';
 
-    import { first_test_data } from '$lib/data/1st-test'
-    import { starbased_user_settings } from '$lib/store/userData';
+  import { first_test_data } from '$lib/data/1st-test'
+  import { starbased_user_settings } from '$lib/store/userData';
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // TIMER COUNTER [AUTO]
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // TIMER COUNTER [AUTO]
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    let interval;
-    // ... user-time-to-interact-with-test;
-    onMount(async() => {
-        // ... run every 1000ms (1-second)
-        interval = setInterval(() => {
-            // ... increment-QUIZ-timer;
-            starbased_user_settings.addTimer(
-                1,
-                'test_1',
-                'reading'
-            )
-            // ... increment-total-timer;
-            starbased_user_settings.addTimer(
-                1,
-                'test_1',
-                'timer_total'
-            )
-        }, 1000)
-    })
-    // ... on page change;
-    onDestroy(async() => {
-        // ... destroy setInterval()
-        clearInterval(interval)
-    })
+  let interval;
+  // ... user-time-to-interact-with-test;
+  onMount(async() => {
+      // ... run every 1000ms (1-second)
+      interval = setInterval(() => {
+          // ... increment-QUIZ-timer;
+          starbased_user_settings.addTimer(
+              1,
+              'test_1',
+              'reading'
+          )
+          // ... increment-total-timer;
+          starbased_user_settings.addTimer(
+              1,
+              'test_1',
+              'timer_total'
+          )
+      }, 1000)
+  })
+  // ... on page change;
+  onDestroy(async() => {
+      // ... destroy setInterval()
+      clearInterval(interval)
+  })
 
-    let startModelViewTimer: NodeJS.Timer
-    async function incrementVisualTimerSection() {
-        if (dev) console.debug('console! Incrementing Timer!')
-        // ...
-        startModelViewTimer = setInterval(async() => {
-            starbased_user_settings.addTimerTestSections(
-                1,
-                'test_1',
-                'model_view_timer'
-            )
-        }, 1000)
-    }
+  let startModelViewTimer: NodeJS.Timer
+  async function incrementVisualTimerSection() {
+      if (dev) console.debug('console! Incrementing Timer!')
+      // ...
+      startModelViewTimer = setInterval(async() => {
+          starbased_user_settings.addTimerTestSections(
+              1,
+              'test_1',
+              'model_view_timer'
+          )
+      }, 1000)
+  }
 
-    function stopModelVisualTimer() {
-        if (dev) console.debug('Timer Stopped!')
-        clearInterval(startModelViewTimer)
-    }
+  function stopModelVisualTimer() {
+      if (dev) console.debug('Timer Stopped!')
+      clearInterval(startModelViewTimer)
+  }
 
-    let startTextViewTimer: NodeJS.Timer
-    async function incrementTextTimerSection() {
-        if (dev) console.debug('console! Incrementing Timer!')
-        // ...
-        startTextViewTimer = setInterval(async() => {
-            starbased_user_settings.addTimerTestSections(
-                1,
-                'test_1',
-                'text_bot_timer'
-            )
-        }, 1000)
-    }
+  let startTextViewTimer: NodeJS.Timer
+  async function incrementTextTimerSection() {
+      if (dev) console.debug('console! Incrementing Timer!')
+      // ...
+      startTextViewTimer = setInterval(async() => {
+          starbased_user_settings.addTimerTestSections(
+              1,
+              'test_1',
+              'text_bot_timer'
+          )
+      }, 1000)
+  }
 
-    function stopModelTextTimer() {
-        if (dev) console.debug('Timer Stopped!')
-        clearInterval(startTextViewTimer)
-    }
+  function stopModelTextTimer() {
+      if (dev) console.debug('Timer Stopped!')
+      clearInterval(startTextViewTimer)
+  }
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // PAGE USER-ACTIONS
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // PAGE USER-ACTIONS
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    let helpTipsShow: boolean = false;
-    // ...
-    function toggleHelpTips() {
-        helpTipsShow = !helpTipsShow
-    }
+  let helpTipsShow: boolean = false;
+  // ...
+  function toggleHelpTips() {
+      helpTipsShow = !helpTipsShow
+  }
 
-    // ...
-    let viewMode: string = 'interactive'
-    // ...
-    function toggleViewMode(viewSet: string) {
-        viewMode = viewSet;
-    }
+  // ...
+  let viewMode: string = 'interactive'
+  // ...
+  function toggleViewMode(viewSet: string) {
+      viewMode = viewSet;
+  }
 
-    // ...
-    async function nextPage() {
-        // ... update-last-page-visit;
-        starbased_user_settings.updateUserLastPage('/quiz')
-        // ... redirect
-        await goto('/quiz')
-    }
+  // ...
+  async function nextPage() {
+      // ... update-last-page-visit;
+      starbased_user_settings.updateUserLastPage('/quiz')
+      // ... redirect
+      await goto('/quiz')
+  }
 
-    let selectedQuestion: number = 1
-    // ...
-    function selectOptionQ(opt: number) {
-        // ...
-        // if (selectedQuestion == opt) {
-        //     selectedQuestion = undefined
-        // } else {
-        selectedQuestion = opt
-        // }
-    }
+  let selectedQuestion: number = 1
+  // ...
+  function selectOptionQ(opt: number) {
+      // ...
+      // if (selectedQuestion == opt) {
+      //     selectedQuestion = undefined
+      // } else {
+      selectedQuestion = opt
+      // }
+  }
 
-    let hiddenBtnPhoto = false
+  let hiddenBtnPhoto = false
 </script>
 
 <!-- ===================
@@ -188,12 +189,11 @@
     <!-- ... interactive-model-galaxy ... -->
     <div 
         id='model-galaxy'
-        on:mouseenter={() => incrementVisualTimerSection()}
-        on:mouseleave={() => stopModelVisualTimer()}>
+        >
         <!-- ... canvas for interactive visualization ... -->
         {#if selectedQuestion == 1}
             <!-- content here -->
-            <VisualQ_1 />
+            <PlanetWithMarkers_2 />
         {:else}
             <!-- content here -->
             <VisualQ_2 />
@@ -314,8 +314,7 @@
     <!-- ... text-chunck-box-container ... -->
     <div 
         id='text-learning-container'
-        on:mouseenter={() => incrementTextTimerSection()}
-        on:mouseleave={() => stopModelTextTimer()}>
+        >
 
         <!-- ... info / help btn ... -->
         <div 
@@ -476,15 +475,13 @@
     }
 
     div#option-view-box {
-        position: absolute;
-        top: 28px;
-        right: 0;
-        left: 0;
-        width: fit-content;
-        margin: auto;
-        padding: 10px 22px;
-        border-radius: 100px;
-        background-color: #0085FF;
+      position: absolute;
+      top: 80px;
+      left: 30px;
+      width: fit-content;
+      padding: 10px 22px;
+      border-radius: 5px;
+      border: 2px solid #0085FF;
     }
 
     div.option-3d-toggle-view {
