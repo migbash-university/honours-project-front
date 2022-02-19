@@ -24,12 +24,11 @@ export const first_test_data = {
                 
         <br />
         <br />
+
         <span 
           id='gravity-info'>
-        
           Titan’s dense atmosphere, as well as gravity roughly equivalent to Earth’s Moon, mean that a raindrop falling through Titan’s sky would fall more slowly 
           than on Earth - about six times more slowly than Earth’s rain.
-
         </span>
                 
         <br />
@@ -51,10 +50,8 @@ export const first_test_data = {
         <span 
           id='orbit-and-rotation-text'>
           <b> ➤ Orbit and Rotation </b>
-
           <br />
           <br />
-
           Titan takes 15 days and 22 hours to complete a full orbit of Saturn. Titan is also tidally locked in synchronous rotation with Saturn, meaning that, 
           like Earth’s Moon, Titan always shows the same face to the planet as it orbits. Saturn takes about 29 Earth years to orbit the Sun (a Saturnian year),
           and Saturn’s axis of rotation is tilted like Earth’s, resulting in seasons. But Saturn’s longer year produces seasons that each last more than seven Earth years. 
@@ -93,14 +90,12 @@ export const first_test_data = {
         
         <br />
         <br />
-        
-        <b> ➤ Surface </b>
-
-        <br />
-        <br />
 
         <span 
           id='temperature-text'>
+          <b> ➤ Surface </b>
+          <br />
+          <br />
           The surface of Titan is one of the most Earthlike places in the solar system, albeit at vastly colder temperatures and with different chemistry. Here it is so cold (-290 degrees 
           Fahrenheit or -179 degrees Celsius) that water ice plays the role of rock. Titan may have volcanic activity as well, but with liquid water “lava” instead of molten rock. Titan’s 
           surface is sculpted by flowing methane and ethane, which carves river channels and fills great lakes with liquid natural gas. No other world in the solar system, aside from Earth, 

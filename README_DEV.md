@@ -11,6 +11,7 @@ This is a sample collection of code used on the progrss of the project:
 [List all folder files](https://stackoverflow.com/questions/2727167/how-do-you-get-a-list-of-the-names-of-all-files-present-in-a-directory-in-node-j)
 [How to sdetect sentence similarity](https://datascience.stackexchange.com/questions/25053/best-practical-algorithm-for-sentence-similarity)
 [Speech to text addition data](https://stackoverflow.com/questions/66094773/overwrite-textbox-speech-to-text-with-javascript)
+[Page visitbilty detect if user is active on tab](https://stackoverflow.com/questions/1760250/how-to-tell-if-browser-tab-is-active)
 
 ---
 
@@ -28,6 +29,8 @@ This is a sample collection of code used on the progrss of the project:
 ---
 
 **Three.js**
+
+[deployment](https://threejs.org/docs/#manual/en/introduction/Installation)
 
 Globes & Place Markers:
 - [Place markers of a Globe for a planet-1](https://jsfiddle.net/5z38ft6a/2/)
@@ -48,6 +51,11 @@ Lines and Geometric-Lines:
 - [Connecting 2 lines geo 1-2D another 3D](https://discourse.threejs.org/t/connecting-a-text-2d-container-to-a-3d-rotating-object-with-a-fixed-line-motion-following/35006) | [live-view](https://codepen.io/migbash/pen/MWOrMzP)
 - [Updating line in 3D Three.js](https://stackoverflow.com/questions/35859792/three-js-lines-does-not-update)
 - [2 geometric lines connected via 2 spheres](https://stackoverflow.com/questions/18286837/how-to-chain-two-geometric-objects-using-three-js)
+- [draw 2 lines between 2 points](https://discourse.threejs.org/t/draw-line-between-2-points/23563) || [example](https://codepen.io/mjurczyk/pen/qBNGLjp)
+- [draw-container-info](https://threejs.org/docs/#manual/en/introduction/Creating-text)
+- [outward lines from geometric shape](https://stackoverflow.com/questions/62310414/three-js-attach-lines-to-cube-corners-that-go-out-in-the-same-angle-as-the-corn)
+- [keep object static with respect to camera view](https://stackoverflow.com/questions/27512292/three-js-keep-an-objects-location-static-with-respect-to-the-camera)
+- [line and geometric shape for label following](https://stackoverflow.com/questions/46667395/three-js-vector3-to-2d-screen-coordinate-with-rotated-scene)
 
 Problems:
 - [issues with Orbit Controls](https://stackoverflow.com/questions/61678077/three-orbitcontrols-the-second-parameter-domelement-is-now-mandatory-orbitco)

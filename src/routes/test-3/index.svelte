@@ -14,211 +14,216 @@
 =================== -->
 
 <script lang="ts">
-	import { amp, browser, dev, mode, prerendering } from '$app/env'
-    import { fade, slide } from 'svelte/transition'
-    import { onDestroy, onMount } from 'svelte'
+  import { getStores, navigating, page, session, updated } from '$app/stores';
+  import { fade, slide } from 'svelte/transition'
+  import { onDestroy, onMount } from 'svelte'
+  import { dev } from '$app/env';
 
-    import { post } from '$lib/utils/api'
-    import { first_test_data } from '$lib/data/1st-test'
-    import { starbased_user_settings } from '$lib/store/userData';
-    import { goto } from '$app/navigation';
+  import { post } from '$lib/utils/api'
+  import { first_test_data } from '$lib/data/1st-test'
+  import { starbased_user_settings } from '$lib/store/userData';
+  import { goto } from '$app/navigation';
 
-    import VisualQ_1 from '$lib/3d-visuals/test-1/_Visual-q-1.svelte';
-    import VisualQ_2 from '$lib/3d-visuals/test-1/_Visual-q-2.svelte';
+  const { session } = getStores();
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // TIMER COUNTER [AUTO]
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  import VisualQ_1 from '$lib/3d-visuals/test-1/_Visual-q-1.svelte';
+  import VisualQ_2 from '$lib/3d-visuals/test-1/_Visual-q-2.svelte';
+  import PlanetWithMarkers_2 from '$lib/3d-visuals/test-1/_Planet_with_Markers-2.svelte';
 
-    let interval;
-    // ... user-time-to-interact-with-test;
-    onMount(async() => {
-        // ... run every 1000ms (1-second)
-        interval = setInterval(() => {
-            // ... increment-QUIZ-timer;
-            starbased_user_settings.addTimer(
-                1,
-                'test_3',
-                'reading'
-            )
-            // ... increment-total-timer;
-            starbased_user_settings.addTimer(
-                1,
-                'test_3',
-                'timer_total'
-            )
-        }, 1000)
-    })
-    // ... on page change;
-    onDestroy(async() => {
-        // ... destroy setInterval()
-        clearInterval(interval)
-    })
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // TIMER COUNTER [AUTO]
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    let startModelViewTimer: NodeJS.Timer
-    async function incrementVisualTimerSection() {
-        if (dev) console.debug('console! Incrementing Timer!')
-        // ...
-        startModelViewTimer = setInterval(async() => {
-            starbased_user_settings.addTimerTestSections(
-                1,
-                'test_3',
-                'model_view_timer'
-            )
-        }, 1000)
-    }
+  let interval;
+  // ... user-time-to-interact-with-test;
+  onMount(async() => {
+      // ... run every 1000ms (1-second)
+      interval = setInterval(() => {
+          // ... increment-QUIZ-timer;
+          starbased_user_settings.addTimer(
+              1,
+              'test_3',
+              'reading'
+          )
+          // ... increment-total-timer;
+          starbased_user_settings.addTimer(
+              1,
+              'test_3',
+              'timer_total'
+          )
+      }, 1000)
+  })
+  // ... on page change;
+  onDestroy(async() => {
+      // ... destroy setInterval()
+      clearInterval(interval)
+  })
 
-    function stopModelVisualTimer() {
-        if (dev) console.debug('Timer Stopped!')
-        clearInterval(startModelViewTimer)
-    }
+  let startModelViewTimer: NodeJS.Timer
+  async function incrementVisualTimerSection() {
+      if (dev) console.debug('console! Incrementing Timer!')
+      // ...
+      startModelViewTimer = setInterval(async() => {
+          starbased_user_settings.addTimerTestSections(
+              1,
+              'test_3',
+              'model_view_timer'
+          )
+      }, 1000)
+  }
 
-    let startTextViewTimer: NodeJS.Timer
-    async function incrementTextTimerSection() {
-        if (dev) console.debug('console! Incrementing Timer!')
-        // ...
-        startTextViewTimer = setInterval(async() => {
-            starbased_user_settings.addTimerTestSections(
-                1,
-                'test_3',
-                'text_bot_timer'
-            )
-        }, 1000)
-    }
+  function stopModelVisualTimer() {
+      if (dev) console.debug('Timer Stopped!')
+      clearInterval(startModelViewTimer)
+  }
 
-    function stopModelTextTimer() {
-        if (dev) console.debug('Timer Stopped!')
-        clearInterval(startTextViewTimer)
-    }
+  let startTextViewTimer: NodeJS.Timer
+  async function incrementTextTimerSection() {
+      if (dev) console.debug('console! Incrementing Timer!')
+      // ...
+      startTextViewTimer = setInterval(async() => {
+          starbased_user_settings.addTimerTestSections(
+              1,
+              'test_3',
+              'text_bot_timer'
+          )
+      }, 1000)
+  }
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // PAGE USER-ACTIONS
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  function stopModelTextTimer() {
+      if (dev) console.debug('Timer Stopped!')
+      clearInterval(startTextViewTimer)
+  }
 
-    // ...
-    async function submitReading(): Promise < void > {
-        // ...
-        // starbased_user_settings.updatePageCompletionStatus('test_2')
-        // ... update-last-page-visit;
-        starbased_user_settings.updateUserLastPage('/quiz')
-        // ... redirect
-        await goto('/quiz')
-    }
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // PAGE USER-ACTIONS
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    let helpTipsShow: boolean = false;
-    // ... toggle-hide-show-button-info;
-    function toggleHelpTips() {
-        helpTipsShow = !helpTipsShow
-    }
+  // ...
+  async function submitReading(): Promise < void > {
+      // ...
+      // starbased_user_settings.updatePageCompletionStatus('test_2')
+      // ... update-last-page-visit;
+      starbased_user_settings.updateUserLastPage('/quiz')
+      // ... redirect
+      await goto('/quiz')
+  }
 
-    // ...
-    let processing: boolean = false
-    let user_input: string
-    let conversationData: ResponseData[] = []
-    // ...
-    interface ResponseData {
-        text: string
-        user: 'agent' | 'user'
-        response_time: number
-    }
-    let responseData: ResponseData;
-    // ... send-over-the-response-to-website-server;
-    // ... and further processing of data;
-    async function sendResponse(): Promise < void > {
-        // ...
-        processing = true
-        starbased_user_settings.incTotalMessagesExchanged('test_3')
-        let timerCounter: number = 0
-        let responseInterval: NodeJS.Timer = setInterval(async () => {
-            timerCounter = timerCounter + 1
-        }, 1000)
-        // ...
-        responseData = {
-            text: user_input,
-            user: 'user',
-            response_time: null
-        }
-        conversationData = [...conversationData, responseData]
-        // ...
-        starbased_user_settings.addToConversationHistory('test_3', conversationData)
-        // ...
-        scrollBottom()
-        // ...
-        let endpointBackend: string = import.meta.env.VITE_BACKEND_URL.toString()
-        // if (dev) endpointBackend = 'http://192.168.0.40:9000'
-        const resposne = await post(endpointBackend + `/post_question`, {
-            user_input: user_input
-        })
-        // ... DEBUGGING;
-        if (dev) console.debug('resposne', resposne)
-        // ...
-        responseData = {
-            text: resposne['data'],
-            user: 'agent',
-            response_time: timerCounter
-        }
-        // ...
-        conversationData = [...conversationData, responseData]
-        starbased_user_settings.addToConversationHistory('test_3', conversationData)
-        // ... reset;
-        processing = false
-        scrollBottom()
-        clearInterval(responseInterval)
-        identifyUserContext()
-    }
+  let helpTipsShow: boolean = false;
+  // ... toggle-hide-show-button-info;
+  function toggleHelpTips() {
+      helpTipsShow = !helpTipsShow
+  }
 
-    // ... [REACTIVITY]
-    // ... re-load-conversation-if-stored-in-local-storage;
-    $: if ($starbased_user_settings != undefined &&
-            $starbased_user_settings['test_data']['test_3']['conversation_history']['history'].length != 0 &&
-            conversationData.length == 0) {
-        conversationData = $starbased_user_settings['test_data']['test_3']['conversation_history']['history']
-        // ...
-        scrollBottom()
-    }
+  // ...
+  let processing: boolean = false
+  let user_input: string
+  let conversationData: ResponseData[] = []
+  // ...
+  interface ResponseData {
+      text: string
+      user: 'agent' | 'user'
+      response_time: number
+  }
+  let responseData: ResponseData;
+  // ... send-over-the-response-to-website-server;
+  // ... and further processing of data;
+  async function sendResponse(): Promise < void > {
+      // ...
+      processing = true
+      starbased_user_settings.incTotalMessagesExchanged('test_3')
+      let timerCounter: number = 0
+      let responseInterval: NodeJS.Timer = setInterval(async () => {
+          timerCounter = timerCounter + 1
+      }, 1000)
+      // ...
+      responseData = {
+          text: user_input,
+          user: 'user',
+          response_time: null
+      }
+      conversationData = [...conversationData, responseData]
+      // ...
+      starbased_user_settings.addToConversationHistory('test_3', conversationData)
+      // ...
+      scrollBottom()
+      // ...
+      let endpointBackend: string = import.meta.env.VITE_BACKEND_URL.toString()
+      // if (dev) endpointBackend = 'http://192.168.0.40:9000'
+      const resposne = await post(endpointBackend + `/post_question`, {
+          user_input: user_input
+      })
+      // ... DEBUGGING;
+      if (dev) console.debug('resposne', resposne)
+      // ...
+      responseData = {
+          text: resposne['data'],
+          user: 'agent',
+          response_time: timerCounter
+      }
+      // ...
+      conversationData = [...conversationData, responseData]
+      starbased_user_settings.addToConversationHistory('test_3', conversationData)
+      // ... reset;
+      processing = false
+      scrollBottom()
+      clearInterval(responseInterval)
+      identifyUserContext()
+  }
 
-    // ... function keep-scroll-bottom;
-    function scrollBottom() {
-        setTimeout(async() => {
-            var element = document.getElementById("text-learning-container");
-            element.scrollTop = element.scrollHeight;
-        }, 50)
-    }
+  // ... [REACTIVITY]
+  // ... re-load-conversation-if-stored-in-local-storage;
+  $: if ($starbased_user_settings != undefined &&
+          $starbased_user_settings['test_data']['test_3']['conversation_history']['history'].length != 0 &&
+          conversationData.length == 0) {
+      conversationData = $starbased_user_settings['test_data']['test_3']['conversation_history']['history']
+      // ...
+      scrollBottom()
+  }
 
-    // ...
-    let viewMode: string = 'interactive'
-    // ...
-    function toggleViewMode(viewSet: string) {
-        viewMode = viewSet;
-    }
+  // ... function keep-scroll-bottom;
+  function scrollBottom() {
+      setTimeout(async() => {
+          var element = document.getElementById("text-learning-container");
+          element.scrollTop = element.scrollHeight;
+      }, 50)
+  }
 
-    let selectedQuestion: number = 1
-    // ...
-    function selectOptionQ(opt: number) {
-        // ...
-        // if (selectedQuestion == opt) {
-        //     selectedQuestion = undefined
-        // } else {
-        selectedQuestion = opt
-        // }
-    }
+  // ...
+  let viewMode: string = 'interactive'
+  // ...
+  function toggleViewMode(viewSet: string) {
+      viewMode = viewSet;
+  }
 
-    // ... [REACTIVITY]
-    function identifyUserContext() {
-        if (user_input.toLowerCase().includes('temperature') ||
-            user_input.toLowerCase().includes('atmosphere') || 
-            user_input.toLowerCase().includes('size') || 
-            user_input.toLowerCase().includes('composition')) {
-            // ...
-            selectedQuestion = 1
-        } else if (user_input.toLowerCase().includes('mercury') || 
-                user_input.toLowerCase().includes('earth')) {
-            // ...
-            selectedQuestion = 2
-        }
-    }
+  let selectedQuestion: number = 1
+  // ...
+  function selectOptionQ(opt: number) {
+      // ...
+      // if (selectedQuestion == opt) {
+      //     selectedQuestion = undefined
+      // } else {
+      selectedQuestion = opt
+      // }
+  }
 
-    let hiddenBtnPhoto = false
+  // ... [REACTIVITY]
+  function identifyUserContext() {
+      if (user_input.toLowerCase().includes('temperature') ||
+          user_input.toLowerCase().includes('atmosphere') || 
+          user_input.toLowerCase().includes('size') || 
+          user_input.toLowerCase().includes('composition')) {
+          // ...
+          // selectedQuestion = 1
+          $session.label_ID = 1
+      } else if (user_input.toLowerCase().includes('mercury') || 
+              user_input.toLowerCase().includes('earth')) {
+          // ...
+          selectedQuestion = 2
+      }
+  }
+
+  let hiddenBtnPhoto = false
 </script>
 
 <!-- ===================
@@ -284,7 +289,7 @@
         <!-- ... canvas for interactive visualization ... -->
         {#if selectedQuestion == 1}
             <!-- content here -->
-            <VisualQ_1 />
+            <PlanetWithMarkers_2 />
         {:else}
             <!-- content here -->
             <VisualQ_2 />
@@ -597,7 +602,7 @@
         height: 100vh;
         position: relative;
     } section #model-galaxy #main-container {
-		height: 100vh;
+		    height: 100vh;
     }
 
     section #text-learning-container {
@@ -681,8 +686,11 @@
         width: fit-content;
         margin: auto;
         padding: 10px 22px;
-        border-radius: 100px;
-        background-color: #0085FF;
+        background: #005BAF;
+        border: 2px solid #0085FF;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
     }
 
     div.option-3d-toggle-view {
@@ -703,8 +711,12 @@
 
     div#options-questions-box {
         position: absolute;
-        right: 10px;
-        top: 35%;
+        padding: 15px 7px;
+        right: 0px;
+        top: 50%;
+        transform: translate(-0, -50%);
+        background: #2D2D2D;
+        border-radius: 5px 0px 0px 5px;
     }
 
     div#contuniation-container {

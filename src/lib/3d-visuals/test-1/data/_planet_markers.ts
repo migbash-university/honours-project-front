@@ -21,7 +21,7 @@ export const planet_markers = [
     target_text: 'atmosphere-text',
     info: {
         icon_img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Kennedy_Space_Center_composite_photograph.jpg/450px-Kennedy_Space_Center_composite_photograph.jpg',
-        description: `Bye!`
+        description: `High in Titan’s atmosphere, methane and nitrogen molecules are split apart by the Sun's ultraviolet light and by high-energy particles accelerated in Saturn's magnetic field.`
     }
   }
   ,
@@ -34,7 +34,7 @@ export const planet_markers = [
     target_text: 'gravity-info',
     info: {
         icon_img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Kennedy_Space_Center_composite_photograph.jpg/450px-Kennedy_Space_Center_composite_photograph.jpg',
-        description: `Bye!`
+        description: `The surface gravity on Mars is only about 38% of the surface gravity on Earth, so if you weigh 100 pounds on Earth, you would weigh only 38 pounds on Mars.`
     }
   }
   ,
@@ -60,7 +60,7 @@ export const planet_markers = [
     target_text: 'formation-text',
     info: {
         icon_img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Kennedy_Space_Center_composite_photograph.jpg/450px-Kennedy_Space_Center_composite_photograph.jpg',
-        description: `Titan takes 15 days and 22 hours to complete a full orbit of Saturn. 1 Year on Titan is equal to 29 Earth years.`
+        description: `Titan is speculated to be formed early in the solar system's history, in the same cold disk of gas and dust that formed the Sun`
     }
   }
 ]
