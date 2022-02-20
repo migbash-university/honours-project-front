@@ -115,7 +115,7 @@ export const third_test_data = {
             // ... question-3
             {
                 question_num: 3,
-                question_title: `How easy did you find learning with the Conversational Agent than extracting information from text ?`,
+                question_title: `How easy did you find learning with the Conversational Agent rather than extracting information from text ?`,
                 question_hint: `please select a number between 1-5`,
                 question_range_meaning: `1 = "Very Difficult" and 5 = "Very Easy"`,
                 question_type: `radio-check`,

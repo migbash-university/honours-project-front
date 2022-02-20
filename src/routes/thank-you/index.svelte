@@ -17,7 +17,7 @@
             let convertedDateUNIX = new Date(parseInt($starbased_user_settings.last_test_completion_date.toString()));
             // ... determine-difference-in-days;
             convertedDate = new Date(convertedDateUNIX); // convert string date to Date object
-            convertedDate.setDate(convertedDate.getDate() + 4);
+            convertedDate.setDate(convertedDate.getDate() + parseInt(import.meta.env.VITE_TEST_INTERVAL.toString()));
     }
 </script>
 

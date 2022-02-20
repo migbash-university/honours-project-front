@@ -158,21 +158,21 @@ export const first_test_data = {
         test_id: `Test 1.0`,
         questions: [
             // ... question-1
-            {
-                question_num: 1,
-                question_title: `What is the approximate radius of Titan ?`,
-                question_hint: `please select one of the following:`,
-                question_type: `radio check`,
-                options: [
-                    '1,600 miles',
-                    '1,000 miles',
-                    '10,600 miles'
-                ]
-            }
-            ,
+            // {
+            //     question_num: 1,
+            //     question_title: `What is the approximate radius of Titan ?`,
+            //     question_hint: `please select one of the following:`,
+            //     question_type: `radio check`,
+            //     options: [
+            //         '1,600 miles',
+            //         '1,000 miles',
+            //         '10,600 miles'
+            //     ]
+            // }
+            // ,
             // ... question-2
             {
-                question_num: 2,
+                question_num: 1,
                 question_title: `Which of the following statements is correct ?`,
                 question_hint: `please select one of the following:`,
                 question_type: `radio check`,
@@ -185,8 +185,8 @@ export const first_test_data = {
             ,
             // ... question-3
             {
-                question_num: 3,
-                question_title: `How long does Titan take to make a rotation around the Sun ?`,
+                question_num: 2,
+                question_title: `How long does Titan take to make a rotation around Saturn ?`,
                 question_hint: `please select one of the following:`,
                 question_type: `radio check`,
                 options: [
@@ -198,7 +198,7 @@ export const first_test_data = {
             ,
             // ... question-4
             {
-                question_num: 4,
+                question_num: 3,
                 question_title: `The atmospheric pressure on Titan is roughly… ?`,
                 question_hint: `please select one of the following:`,
                 question_type: `radio check`,
@@ -211,7 +211,7 @@ export const first_test_data = {
             ,
             // ... question-5
             {
-                question_num: 5,
+                question_num: 4,
                 question_title: `The surface temperature of Titan is:`,
                 question_hint: `please select one of the following:`,
                 question_type: `radio check`,
@@ -224,7 +224,7 @@ export const first_test_data = {
             ,
             // ... question-6
             {
-                question_num: 6,
+                question_num: 5,
                 question_title: `Titans atmosphere is mostly composed of:`,
                 question_hint: `please select one of the following:`,
                 question_type: `radio check`,

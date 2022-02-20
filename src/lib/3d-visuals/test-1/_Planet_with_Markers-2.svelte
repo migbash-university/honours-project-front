@@ -16,6 +16,8 @@
   const { session } = getStores();
 
   import titan_map_color from './assets/titan-texture.png'
+  import info_vector from './assets/info-vector.svg'
+  import leagend_vector from './assets/legend-icon.svg'
 
   import * as THREE from 'three';
   import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -349,7 +351,7 @@
       // target_text.scrollIntoView({
       //   behavior: 'smooth'
       // });
-      target_text.style.backgroundColor = '#0085FF';
+      target_text.style.backgroundColor = '#0054ffa6';
       oldHighlightText = target_text
     }
     // ...
@@ -548,6 +550,11 @@
 	COMPONENT HTML
 =================== -->
 
+<img 
+  id='legend-box'
+  src={leagend_vector} 
+  alt="" />
+
 <div 
   in:fade 
   out:fade 
@@ -565,7 +572,7 @@
     id='info-container-box'
     in:slide>
     <img 
-      src={marker_data.info.icon_img}
+      src={info_vector}
       alt="" 
       width="25px" height="25px" />
     <p>
@@ -593,6 +600,12 @@
     padding: 5px;
     color: white;
   } */
+
+  img#legend-box {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+  }
 
   div#info-container-box {
     width: 300px;

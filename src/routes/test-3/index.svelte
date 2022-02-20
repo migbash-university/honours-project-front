@@ -57,6 +57,8 @@
   onDestroy(async() => {
       // ... destroy setInterval()
       clearInterval(interval)
+      clearInterval(startModelViewTimer)
+      clearInterval(startTextViewTimer)
   })
 
   let startModelViewTimer: NodeJS.Timer
@@ -315,7 +317,7 @@
             id='options-questions-box'>
             <!-- ... option-view-text ... -->
             <p
-                class='s-14 color-white m-b-10 bold'>
+                class='s-14 text-center color-white m-b-10 bold'>
                 Toggle
                 <br>
                 3D 
@@ -441,31 +443,30 @@
                         </b>
                     </p>
                     <p
-                        class='color-white s-14'>
-                        please interact with the Conversational agent using the input text box below, and prepare for an upcoming short quiz from the knowledge you have gathered from the conversations with the AI;
+                      class='color-white s-14'>
+                      1. please interact with the Conversational agent using the input text box below, and prepare for an upcoming short quiz from the knowledge you have gathered from the conversations with the AI;
+                      <br />
+                      <br />
+
+                      <span
+                        class='color-secondary underline'>
+                        • Which planets and moons is Titan larger/smaller than ?
                         <br />
+                        • How long does Titan take to make a single rotation around Saturn ?
                         <br />
-                        The following questions will be asked on the quiz:
+                        • The atmospheric pressure on Titan is roughly… ?
                         <br />
-                        <br />
-                        • What is the temperature on Titan ?
-                        <br />
-                        • Is Titan larger than the planet Mercury ?
-                        <br />
-                        • How long is the day on Titan (in Earth days) ?
-                        <br />
-                        • What is the atmospheric pressure on Titan ? 
+                        • The surface temperature of Titan is … ?
                         <br />
                         • What is Titan's atmosphere composed of ?
-                        <br />
-                        <br />
-                        You may ask these questions to prepare for the test, or ask them in your own way.
-                        <br />
-                        <br />
-                        when ready, proceed to the next page to answer some end of test questions based on the passage below
-                        <br />
-                        <br />
-                        once you complete the end of the topic test, you will be prompted to answer a simple 4 question questionnaire on your experience.
+                      </span>
+
+                      <br />
+                      <br />
+                      2. when ready, proceed to the next page to answer some end of test questions based on the passage below
+                      <br />
+                      <br />
+                      3. once you complete the end of the topic test, you will be prompted to answer a simple 4 question questionnaire on your experience.
                     </p>
                 </div>
             {/if}

@@ -54,6 +54,8 @@
   onDestroy(async() => {
       // ... destroy setInterval()
       clearInterval(interval)
+      clearInterval(startModelViewTimer)
+      clearInterval(startTextViewTimer)
   })
 
   let startModelViewTimer: NodeJS.Timer
@@ -189,7 +191,8 @@
     <!-- ... interactive-model-galaxy ... -->
     <div 
         id='model-galaxy'
-        >
+        on:mouseenter={() => incrementVisualTimerSection()}
+        on:mouseleave={() => stopModelVisualTimer()} >
         <!-- ... canvas for interactive visualization ... -->
         {#if selectedQuestion == 1}
             <!-- content here -->
@@ -219,7 +222,7 @@
             id='options-questions-box'>
             <!-- ... option-view-text ... -->
             <p
-                class='s-14 color-white m-b-10 bold'>
+                class='s-14 text-center color-white m-b-10 bold'>
                 Toggle
                 <br>
                 3D 
@@ -314,7 +317,8 @@
     <!-- ... text-chunck-box-container ... -->
     <div 
         id='text-learning-container'
-        >
+        on:mouseenter={() => incrementVisualTimerSection()}
+        on:mouseleave={() => stopModelVisualTimer()} >
 
         <!-- ... info / help btn ... -->
         <div 
@@ -345,28 +349,29 @@
                     </p>
                     <p
                         class='color-white s-14'>
-                        please read through the given passage / information on the planet TITAN below and identify information answering the following questions on the quiz:
+                        1. please read through the given passage / information on the planet TITAN below and identify information answering the following questions on the quiz:
                         <br />
                         <br />
-                        • What is the approximate radius of Titan ?
-                        <br />
-                        • Which of the following statements is correct ?
-                        <br />
-                        • How long does Titan take to make a rotation around the Sun ?
-                        <br />
-                        • The atmospheric pressure on Titan is roughly… ?
-                        <br />
-                        • The surface temperature of Titan is … ?
-                        <br />
-                        • What is Titan's atmosphere composed of ?
-                        <br />
-                        • Titans atmosphere is mostly composed of … ?
-                        <br />
-                        <br />
-                        when ready, proceed to the next page to answer some end of test questions based on the passage below
+
+                        <span
+                          class='color-secondary underline'>
+                          • Which planets and moons is Titan larger/smaller than ?
+                          <br />
+                          • How long does Titan take to make a single rotation around Saturn ?
+                          <br />
+                          • The atmospheric pressure on Titan is roughly… ?
+                          <br />
+                          • The surface temperature of Titan is … ?
+                          <br />
+                          • What is Titan's atmosphere composed of ?
+                        </span>
+
                         <br />
                         <br />
-                        once you complete the end of the topic test, you will be prompted to answer a simple 4 question questionnaire on your experience.
+                        2. when ready, proceed to the next page to answer some end of test questions based on the passage below
+                        <br />
+                        <br />
+                        3. once you complete the end of the topic test, you will be prompted to answer a simple 4 question questionnaire on your experience.
 
                     </p>
                 </div>
@@ -475,13 +480,18 @@
     }
 
     div#option-view-box {
-      position: absolute;
-      top: 80px;
-      left: 30px;
-      width: fit-content;
-      padding: 10px 22px;
-      border-radius: 5px;
-      border: 2px solid #0085FF;
+        position: absolute;
+        top: 28px;
+        right: 0;
+        left: 0;
+        width: fit-content;
+        margin: auto;
+        padding: 10px 22px;
+        background: #005BAF;
+        border: 2px solid #0085FF;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
     }
 
     div.option-3d-toggle-view {
@@ -498,6 +508,17 @@
     div.active-view {
         border: 2.5px solid #00FFB2;
         background-color: black;
+    }
+
+    
+    div#options-questions-box {
+        position: absolute;
+        padding: 15px 7px;
+        right: 0px;
+        top: 50%;
+        transform: translate(-0, -50%);
+        background: #2D2D2D;
+        border-radius: 5px 0px 0px 5px;
     }
 
     /*
