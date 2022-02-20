@@ -61,13 +61,14 @@ export async function get(): Promise < any > {
             // ...
             const lastDate = new Date(lastTestDate);
             // ... determine-difference-in-days;
-            const newDate = new Date(lastDate).getDate(); //convert string date to Date object
-            const currentDate = new Date().getDate();
-            const diff = currentDate - newDate;
+            const newDate = new Date(lastDate); //convert string date to Date object
+            const currentDate = new Date();
+            const diffTime = Math.abs(currentDate - newDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             // ... act-accordingly;
-            if (diff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString()) &&
+            if (diffDays > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString()) &&
                 parseInt(fileUserData.current_test_status.toString()) < parseInt(import.meta.env.VITE_TOTAL_TEST_NUMBER.toString()) &&
-                fileUserData.emailNotified == false) {
+                !fileUserData.emailNotified) {
                 // ...
                 fileUserData.emailNotified = true;
                 // ~~~~~~~~~~
