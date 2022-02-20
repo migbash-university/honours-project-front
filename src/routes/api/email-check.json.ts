@@ -57,16 +57,13 @@ export async function get(): Promise < any > {
             if (dev) console.debug('fileUserData', fileUserData)
             // ...
             const userEmail: string = fileUserData.userEmail
-            const lastTestDate: number = fileUserData.last_test_completion_date
-            // ...
-            const lastDate = new Date(lastTestDate);
+            const lastTestDate: number = fileUserData.last_test_completion_date // ... in milliseconds
             // ... determine-difference-in-days;
-            const newDate = new Date(lastDate); //convert string date to Date object
-            const currentDate = new Date();
-            const diffTime = Math.abs(currentDate - newDate);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const currentDate = Date.now();
+            const dateDiff = (((currentDate - lastTestDate) / 1000) / (3600 * 24))
+            console.log(dateDiff)
             // ... act-accordingly;
-            if (diffDays > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString()) &&
+            if (dateDiff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString()) &&
                 parseInt(fileUserData.current_test_status.toString()) < parseInt(import.meta.env.VITE_TOTAL_TEST_NUMBER.toString()) &&
                 !fileUserData.emailNotified) {
                 // ...
