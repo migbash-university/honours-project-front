@@ -211,17 +211,33 @@
 
   // ... [REACTIVITY]
   function identifyUserContext() {
-      if (user_input.toLowerCase().includes('temperature') ||
-          user_input.toLowerCase().includes('atmosphere') || 
-          user_input.toLowerCase().includes('size') || 
-          user_input.toLowerCase().includes('composition')) {
+      if (user_input.toLowerCase().includes('temperature')) {
           // ...
-          // selectedQuestion = 1
+          selectedQuestion = 1
           $session.label_ID = 1
       } else if (user_input.toLowerCase().includes('mercury') || 
-              user_input.toLowerCase().includes('earth')) {
+              user_input.toLowerCase().includes('earth') ||
+              user_input.toLowerCase().includes('size') || 
+              user_input.toLowerCase().includes('dimension') ) {
           // ...
           selectedQuestion = 2
+      } else if (user_input.toLowerCase().includes('atmosphere')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 2
+      } else if (user_input.toLowerCase().includes('gravity')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 3
+      } else if (user_input.toLowerCase().includes('orbit') ||
+              user_input.toLowerCase().includes('rotation')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 4
+      } else if (user_input.toLowerCase().includes('formation')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 5
       }
   }
 
