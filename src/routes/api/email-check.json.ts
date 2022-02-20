@@ -67,8 +67,7 @@ export async function get(): Promise < any > {
             // ... act-accordingly;
             if (diff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString()) &&
                 parseInt(fileUserData.current_test_status.toString()) < parseInt(import.meta.env.VITE_TOTAL_TEST_NUMBER.toString()) &&
-                fileUserData.emailNotified == null ||
-                !fileUserData.emailNotified) {
+                fileUserData.emailNotified == false) {
                 // ...
                 fileUserData.emailNotified = true;
                 // ~~~~~~~~~~
