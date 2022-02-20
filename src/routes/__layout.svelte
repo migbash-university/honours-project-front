@@ -92,22 +92,19 @@
     //         $starbased_user_settings.current_page.toString() === '/thank-you') {
     //         let lastDateUNIX: number = parseInt($starbased_user_settings.last_test_completion_date.toString())
     //         // ...
-    //         let lastDate = new Date(lastDateUNIX);
-    //         // ... determine-difference-in-days;
-    //         let newDate = new Date(lastDate).getDate(); //convert string date to Date object
-    //         let currentDate = new Date().getDate();
-    //         let diff = currentDate - newDate;
+    //         const currentDate = Date.now();
+    //         const dateDiff = (((currentDate - lastDateUNIX) / 1000) / (3600 * 24))
     //         // ... DEBUGGING;
-    //         if (dev) console.debug('date difference from last-test is', diff)
+    //         if (dev) console.debug('date difference from last-test is', dateDiff)
     //         // ... act-accordingly;
-    //         if (diff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString())) {
+    //         if (dateDiff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString())) {
     //             // ... next-test;
     //             starbased_user_settings.updateTestCounter()
     //             starbased_user_settings.updateUserLastPage('/welcome-info')
     //             // ... redirect-user-to-new-test-start;
     //             goto('/welcome-info')
     //         }
-    // } 
+    // }
 
     // ... [REACTIVIY]
     // ... check that the header-logo to be shown;
