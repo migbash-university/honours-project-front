@@ -237,7 +237,7 @@
       var text = _createMarkerTextLabel();
       text.setHTML(marker.label_name);
       text.setParent(_marker);
-      text.setID(_marker.id)
+      text.setID(marker.id)
       textlabels.push(text);
       container.appendChild(text.element);
     });
@@ -335,12 +335,11 @@
     // ... change-color-of-marker-label;
     textlabels.forEach(label => {
       // ...
-      if (label.id === marker_data.id) {
+      if (label.id.toString() == marker_data.id.toString()) {
         // ...
-        // console.log(label)
-        label.element.style.backgroundColor = '#ff0000'
+        label.element.style.background = '#ff0000'
       } else {
-        label.element.style.backgroundColor = '#000000'
+        label.element.style.background = '#000000'
       }
     });
 
