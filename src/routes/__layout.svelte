@@ -73,38 +73,38 @@
     // ... [REACTIVIY]
     // ... check for user last accessed-page-and redirect accordingly
     // ... to the most updated current page progress status;
-    // $: if ($starbased_user_settings != undefined &&
-    //         $starbased_user_settings.current_page != undefined &&
-    //         $starbased_user_settings.current_page != $page.url.pathname) {
-    //     // ... redirect; 
-    //     // ... DEBUGGING;
-    //     if (dev) console.debug(`redirecting user to '${$starbased_user_settings.current_page}' page`)
-    //     // ... REDIRECTING USER;
-    //     goto($starbased_user_settings.current_page)
-    // }
+    $: if ($starbased_user_settings != undefined &&
+            $starbased_user_settings.current_page != undefined &&
+            $starbased_user_settings.current_page != $page.url.pathname) {
+        // ... redirect; 
+        // ... DEBUGGING;
+        if (dev) console.debug(`redirecting user to '${$starbased_user_settings.current_page}' page`)
+        // ... REDIRECTING USER;
+        goto($starbased_user_settings.current_page)
+    }
 
     // ... [REACTIVIY]
     // ... check-user-has-waited-X-days-before-next-test;
     // let currentDateUNIX: number = Date.now()
-    // $: if ($starbased_user_settings != undefined &&
-    //         $starbased_user_settings.last_test_completion_date != undefined &&
-    //         $starbased_user_settings.current_page != undefined &&
-    //         $starbased_user_settings.current_page.toString() === '/thank-you') {
-    //         let lastDateUNIX: number = parseInt($starbased_user_settings.last_test_completion_date.toString())
-    //         // ...
-    //         const currentDate = Date.now();
-    //         const dateDiff = (((currentDate - lastDateUNIX) / 1000) / (3600 * 24))
-    //         // ... DEBUGGING;
-    //         if (dev) console.debug('date difference from last-test is', dateDiff)
-    //         // ... act-accordingly;
-    //         if (dateDiff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString())) {
-    //             // ... next-test;
-    //             starbased_user_settings.updateTestCounter()
-    //             starbased_user_settings.updateUserLastPage('/welcome-info')
-    //             // ... redirect-user-to-new-test-start;
-    //             goto('/welcome-info')
-    //         }
-    // }
+    $: if ($starbased_user_settings != undefined &&
+            $starbased_user_settings.last_test_completion_date != undefined &&
+            $starbased_user_settings.current_page != undefined &&
+            $starbased_user_settings.current_page.toString() === '/thank-you') {
+            let lastDateUNIX: number = parseInt($starbased_user_settings.last_test_completion_date.toString())
+            // ...
+            const currentDate = Date.now();
+            const dateDiff = (((currentDate - lastDateUNIX) / 1000) / (3600 * 24))
+            // ... DEBUGGING;
+            if (dev) console.debug('date difference from last-test is', dateDiff)
+            // ... act-accordingly;
+            if (dateDiff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString())) {
+                // ... next-test;
+                starbased_user_settings.updateTestCounter()
+                starbased_user_settings.updateUserLastPage('/welcome-info')
+                // ... redirect-user-to-new-test-start;
+                goto('/welcome-info')
+            }
+    }
 
     // ... [REACTIVIY]
     // ... check that the header-logo to be shown;
