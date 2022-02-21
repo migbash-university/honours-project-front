@@ -317,8 +317,8 @@
     <!-- ... text-chunck-box-container ... -->
     <div 
         id='text-learning-container'
-        on:mouseenter={() => incrementVisualTimerSection()}
-        on:mouseleave={() => stopModelVisualTimer()} >
+        on:mouseenter={() => incrementTextTimerSection()}
+        on:mouseleave={() => stopModelTextTimer()} >
 
         <!-- ... info / help btn ... -->
         <div 
