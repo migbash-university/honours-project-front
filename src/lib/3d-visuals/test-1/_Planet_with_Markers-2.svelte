@@ -544,7 +544,7 @@
     // ...
     setTimeout(async() => {
       error_test3 = false;
-    }, 5000)
+    }, 7500)
   }
 
   // ... when html page is loaded;
@@ -627,9 +627,9 @@
     <!-- ... -->
     <p 
       class='s-14 color-white'>
-      You cannot interat with the model on this test via clicking,
+      You cannot interact with the model on this test via clicking,
       <br />
-      Please ask the agent a question containing a planet-point label tag name
+      Please ask the agent a question with a label tag name
     </p>
   </div>
 {/if}
