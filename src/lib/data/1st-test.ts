@@ -62,17 +62,18 @@ export const first_test_data = {
         <br />
         <br />
         
-        <b> ➤ Structure </b>
-
-        <br />
-        <br />
-
-        Titan’s internal structure isn’t entirely known, but one model based on data from the Cassini-Huygens mission suggests Titan has five primary layers. The innermost 
-        layer is a core of rock (specifically, water-bearing silicate rock) about 2,500 miles (4,000 kilometers) in diameter. Surrounding the core is a shell of water ice—a 
-        special type called ice-VI that is only found at extremely high-pressures. The high-pressure ice is surrounded by a layer of salty liquid water, on top of which sits an
-        outer crust of water ice. This surface is coated with organic molecules that have rained or otherwise settled out of the atmosphere in the form of sands and liquids. The surface
-        is hugged by a dense atmosphere.
-        
+        <span 
+          id='formation-text'>
+          <b> ➤ Structure </b>
+          <br />
+          <br />
+          Titan’s internal structure isn’t entirely known, but one model based on data from the Cassini-Huygens mission suggests Titan has five primary layers. The innermost 
+          layer is a core of rock (specifically, water-bearing silicate rock) about 2,500 miles (4,000 kilometers) in diameter. Surrounding the core is a shell of water ice—a 
+          special type called ice-VI that is only found at extremely high-pressures. The high-pressure ice is surrounded by a layer of salty liquid water, on top of which sits an
+          outer crust of water ice. This surface is coated with organic molecules that have rained or otherwise settled out of the atmosphere in the form of sands and liquids. The surface
+          is hugged by a dense atmosphere.
+        </span>
+          
         <br />
         <br />
         
@@ -140,18 +141,19 @@ export const first_test_data = {
         <br />
         <br />
 
-        <b> ➤ Potential for Life </b>
-        
-        <br />
-        <br />
-
-        The Cassini spacecraft’s numerous gravity measurements of Titan revealed that the moon is hiding an underground ocean of liquid water (likely mixed with salts and ammonia). 
-        The European Space Agency’s Huygens probe also measured radio signals during its descent to the surface, in 2005, that strongly suggested the presence of an ocean 35 to 50 miles 
-        (55 to 80 kilometers) below the icy ground. The discovery of a global ocean of liquid water adds Titan to the handful of worlds in our solar system that could potentially contain 
-        habitable environments. Additionally, Titan’s rivers, lakes and seas of liquid methane and ethane might serve as a habitable environment on the moon’s surface, though any life there 
-        would likely be very different from Earth’s life. Thus, Titan could potentially harbor environments with conditions suitable for life—meaning both life as we know it (in the subsurface ocean) 
-        and life as we don’t know it (in the hydrocarbon liquid on the surface). Although there is so far no evidence of life on Titan, its complex chemistry and unique environments are certain to make 
-        it a destination for continued exploration.
+        <span 
+          id='potential-text'>
+          <b> ➤ Potential for Life </b>
+          <br />
+          <br />
+          The Cassini spacecraft’s numerous gravity measurements of Titan revealed that the moon is hiding an underground ocean of liquid water (likely mixed with salts and ammonia). 
+          The European Space Agency’s Huygens probe also measured radio signals during its descent to the surface, in 2005, that strongly suggested the presence of an ocean 35 to 50 miles 
+          (55 to 80 kilometers) below the icy ground. The discovery of a global ocean of liquid water adds Titan to the handful of worlds in our solar system that could potentially contain 
+          habitable environments. Additionally, Titan’s rivers, lakes and seas of liquid methane and ethane might serve as a habitable environment on the moon’s surface, though any life there 
+          would likely be very different from Earth’s life. Thus, Titan could potentially harbor environments with conditions suitable for life—meaning both life as we know it (in the subsurface ocean) 
+          and life as we don’t know it (in the hydrocarbon liquid on the surface). Although there is so far no evidence of life on Titan, its complex chemistry and unique environments are certain to make 
+          it a destination for continued exploration.
+        </span>
 
         `,
     quiz: {

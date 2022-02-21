@@ -171,6 +171,26 @@ export const second_test_data = {
                     '5',
                 ]
             }
+            ,
+            // ... question-6
+            {
+                question_num: 6,
+                question_title: `What do think of the response time from the Conversational agent ?`,
+                question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Very Slow" and 5 = "Very Fast"`,
+                question_type: `radio-check`,
+                options_legend: [
+                    'Very Slow',
+                    'Very Fast',
+                ],
+                options: [
+                    '1',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                ]
+            }
         ]
     },
     welcome_info: {

@@ -18,6 +18,7 @@
   import titan_map_color from './assets/titan-texture.png'
   import info_vector from './assets/info-vector.svg'
   import leagend_vector from './assets/legend-icon.svg'
+  import disabled_vector from './assets/disabled-vector.svg'
 
   import * as THREE from 'three';
   import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -234,9 +235,9 @@
       
       // ... GENERATE LABELS;
       var text = _createMarkerTextLabel();
-      text.setHTML("Label " + _marker.userData.id);
+      text.setHTML(marker.label_name);
       text.setParent(_marker);
-      text.setID(_marker.userData.id)
+      text.setID(_marker.id)
       textlabels.push(text);
       container.appendChild(text.element);
     });
@@ -263,8 +264,12 @@
       // ...
       intersects.forEach(sel_marker => {
         // ...
-        onSelectedMarker(sel_marker)
-        if (dev) console.debug('sel_marker', sel_marker)
+        if (!test3) {
+          onSelectedMarker(sel_marker)
+          if (dev) console.debug('sel_marker', sel_marker)
+        } else {
+          test3CheckError()
+        }
       });
     }
     // --------------------------------
@@ -532,6 +537,16 @@
     
   }
 
+  let error_test3: boolean = false
+  // ...
+  function test3CheckError() {
+    error_test3 = true;
+    // ...
+    setTimeout(async() => {
+      error_test3 = false;
+    }, 5000)
+  }
+
   // ... when html page is loaded;
   onMount(async() => {
     if (browser) {
@@ -570,13 +585,51 @@
   <!-- content here -->
   <div
     id='info-container-box'
+    class:test3={test3}
     in:slide>
     <img 
       src={info_vector}
       alt="" 
       width="25px" height="25px" />
-    <p>
-      {marker_data.info.description}
+    <p
+      class='s-14 color-white'>
+      {#if !test3}
+        {marker_data.info.description}
+      {:else}
+        {marker_data.info.description_3}
+      {/if}
+    </p>
+  </div>
+{/if}
+
+<!-- ... warning error test3 prompt user 
+  test3 covnersational agent interact ... -->
+{#if error_test3}
+  <div
+    id='outer-error-box'>
+    <!-- content here -->
+  </div>
+
+  <div
+    id='error-message-test-3'
+    class='column-space-center'
+    in:slide
+    out:fade>
+    <!-- ... -->
+    <img 
+      src={disabled_vector}
+      alt="" />
+    <!-- ... -->
+    <p 
+      class='s-14 color-primary'>
+      Uh-oh!
+    </p>
+    <!-- ... -->
+    <p 
+      class='s-14 color-white'>
+      You cannot interat with the model on this test via clicking,
+      <br />
+      Please ask the agent a question containing a planet-point label tag name
     </p>
   </div>
 {/if}
@@ -607,6 +660,31 @@
     right: 28px;
   }
 
+  div#outer-error-box {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 50vw;
+    z-index: 90000000;
+    background: #2D2D2D;
+    opacity: 0.5;
+    filter: blur(50px);
+  } div#error-message-test-3 {
+    height: fit-content;
+    position: absolute;
+    top: 0;
+    width: fit-content;
+    background-color: #393939;
+    border-radius: 5px;
+    padding: 25px 15px;
+    z-index: 100000000000000000;
+    bottom: 0;
+    margin: auto;
+    right: 0;
+    left: 0;
+    text-align: center;
+  }
+
   div#info-container-box {
     width: 300px;
     position: absolute;
@@ -617,5 +695,9 @@
     border-radius: 2.5px;
     top: 150px;
     right: 25px;
+  } div#info-container-box.test3 {
+    width: 632px;
+    top: 109px;
+    right: 33px
   }
 </style>

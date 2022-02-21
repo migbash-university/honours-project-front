@@ -238,6 +238,15 @@
           // ...
           selectedQuestion = 1
           $session.label_ID = 5
+      } else if (user_input.toLowerCase().includes('structure')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 6
+      } else if (user_input.toLowerCase().includes('potential') ||
+        user_input.toLowerCase().includes('life')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 7
       }
   }
 
@@ -492,7 +501,7 @@
         <h1 
             id='test-title'
             class='s-42'> 
-            Conversational Agent
+            Conversational Agent with Multimodal Interactions
         </h1>
 
         <!-- ... conversational=agent-user-interaction ... -->

@@ -115,7 +115,7 @@ export const third_test_data = {
             // ... question-3
             {
                 question_num: 3,
-                question_title: `How easy did you find learning with the Conversational Agent rather than extracting information from text ?`,
+                question_title: `How easy did you find learning with the Conversational Agent rather than extracting information from a text passage ?`,
                 question_hint: `please select a number between 1-5`,
                 question_range_meaning: `1 = "Very Difficult" and 5 = "Very Easy"`,
                 question_type: `radio-check`,
@@ -182,6 +182,26 @@ export const third_test_data = {
                 options_legend: [
                     'Beginner',
                     'Expert',
+                ],
+                options: [
+                    '1',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                ]
+            }
+            ,
+            // ... question-7
+            {
+                question_num: 7,
+                question_title: `What do think of the response time from the Conversational agent ?`,
+                question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Very Slow" and 5 = "Very Fast"`,
+                question_type: `radio-check`,
+                options_legend: [
+                    'Very Slow',
+                    'Very Fast',
                 ],
                 options: [
                     '1',
