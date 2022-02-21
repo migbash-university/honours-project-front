@@ -23,7 +23,7 @@ export const planet_markers = [
     // ... #atmosphere-text
     id: '2',
     label_name: 'Atmosphere',
-    coord: [ 49.524167, -80.650833 ],
+    coord: [ 49.524167, 0.650833 ],
     target_text: 'atmosphere-text',
     info: {
         icon_img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Kennedy_Space_Center_composite_photograph.jpg/450px-Kennedy_Space_Center_composite_photograph.jpg',

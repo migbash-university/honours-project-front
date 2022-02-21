@@ -63,7 +63,7 @@ export const first_test_data = {
         <br />
         
         <span 
-          id='formation-text'>
+          id='structure-text'>
           <b> ➤ Structure </b>
           <br />
           <br />
