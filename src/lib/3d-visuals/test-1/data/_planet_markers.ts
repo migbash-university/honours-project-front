@@ -103,7 +103,7 @@ export const planet_markers = [
     target_text: 'structure-text',
     info: {
         icon_img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Kennedy_Space_Center_composite_photograph.jpg/450px-Kennedy_Space_Center_composite_photograph.jpg',
-        description: `itan’s internal structure isn’t entirely known, but one model based on data from the Cassini-Huygens mission suggests Titan has five primary layers.`,
+        description: `Titan’s internal structure isn’t entirely known, but one model based on data from the Cassini-Huygens mission suggests Titan has five primary layers.`,
         description_3: `Titan’s internal structure isn’t entirely known, but one model based on data from the Cassini-Huygens mission suggests Titan has five primary layers. The innermost 
         layer is a core of rock (specifically, water-bearing silicate rock) about 2,500 miles (4,000 kilometers) in diameter. Surrounding the core is a shell of water ice—a 
         special type called ice-VI that is only found at extremely high-pressures. The high-pressure ice is surrounded by a layer of salty liquid water, on top of which sits an

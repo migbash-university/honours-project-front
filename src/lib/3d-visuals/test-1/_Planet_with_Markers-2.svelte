@@ -334,12 +334,13 @@
 
     // ... change-color-of-marker-label;
     textlabels.forEach(label => {
-      label.element.style.backgroundColor = '#000000'
       // ...
       if (label.id === marker_data.id) {
         // ...
         // console.log(label)
         label.element.style.backgroundColor = '#ff0000'
+      } else {
+        label.element.style.backgroundColor = '#000000'
       }
     });
 
