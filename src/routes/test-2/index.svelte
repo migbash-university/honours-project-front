@@ -304,13 +304,13 @@
 
                       <span
                           class='color-secondary underline'>
-                          • Which planets and moons is Titan larger/smaller than ?
+                          • Is Titan larger or smaller than Mercury ?
                           <br />
                           • How long does Titan take to make a single rotation around Saturn ?
                           <br />
-                          • The atmospheric pressure on Titan is roughly… ?
+                          • What is the atmospheric pressure on Titan ?
                           <br />
-                          • The surface temperature of Titan is … ?
+                          • What is the surface temperature on Titan ?
                           <br />
                           • What is Titan's atmosphere composed of ?
                         </span>
