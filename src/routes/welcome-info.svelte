@@ -120,7 +120,7 @@
         In this project, <b>S T A R - B A S E D </b> will be teaching you on the topic of outer space on 2 different celestial objects (planet) : <b>TItan</b>
         <br />
         <br />
-        During this process, you will attempt 3 different test in the span of 6 days. 1 test now, another in 3 days week and then in another 3 days since the last test attempted test. Before each test, you will be presented with the information necessary to understand the upcoming procedure and what is to be expected to be done.
+        During this process, you will attempt 3 different test in the span of 4 days. 1 test now, another in 2 days and then in another 2 days since the last test attempted test. Before each test, you will be presented with the information necessary to understand the upcoming procedure and what is to be expected to be done.
         <br />
         <br />
         As a base-skeleton for these procedures, each test will have the same general outline procedure:
