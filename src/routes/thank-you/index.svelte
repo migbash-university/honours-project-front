@@ -150,6 +150,11 @@
                     style='padding: 0 20px;'>
                     You will be notified by email you provided at the start of this project. 
                 </p>
+                <p
+                    class='s-16 color-black m-b-5'
+                    style='padding: 0 20px;'>
+                    For SurveyCircle users (www.surveycircle.com): The Survey Code is: TSB1-YR82-M7MY-K3H1
+                </p>
             </div>
         <!-- ... show - no more tests ... -->
         {:else}
