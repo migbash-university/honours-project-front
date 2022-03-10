@@ -207,7 +207,7 @@
 
             <br/>
             <br/>
-            For questions regarding the research study, please contact Miguel Bacharov at 40416445@live.napier.ac.uk.
+            For questions regarding the research study, please contact at 40416445@live.napier.ac.uk.
         </p>
 
         <!-- ... consent-form-submit ... -->
