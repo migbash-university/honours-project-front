@@ -208,6 +208,10 @@
             <br/>
             <br/>
             For questions regarding the research study, please contact at 40416445@live.napier.ac.uk.
+
+            <br/>
+            <br/>
+            P.S.: This survey contains a completion code for SurveySwap.io
         </p>
 
         <!-- ... consent-form-submit ... -->
