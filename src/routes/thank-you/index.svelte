@@ -114,7 +114,7 @@
             <p
               class='s-16 color-black m-b-5'
               style='padding: 0 20px;'>
-              <span class='color-primary'> <b> For SurveySwap users: </b> </span> https://surveyswap.io/sr/39KP-4GU2-QYR0 
+              <span class='color-primary'> <b> For SurveySwap users: </b> </span> https://surveyswap.io/sr/IGK9-ZMAP-5LND
             </p>
         </div>
         
