@@ -25,7 +25,7 @@
     // ... submit FORM DATA;
     async function onSubmit(e?) {
         // ... persist-user-email;
-        starbased_user_settings.setUserEmail(userEmail);
+        // starbased_user_settings.setUserEmail(userEmail);
         // ...
         await goto("/welcome-info");
     }
@@ -234,25 +234,6 @@
                     class='m-r-20' 
                     required />
                 <span class="checkmark"></span>
-            </label>
-            <!-- ... label-for-email-submission ... -->
-            <label 
-                class="row-space-start">
-                <!-- ... user-input-email ... -->
-                <input 
-                    id="email-input"
-                    type='email' 
-                    name='user-email'
-                    placeholder='Your email'
-                    bind:value={userEmail}
-                    class='m-r-10' 
-                    required />
-                <!-- ... submit-button ... -->
-                <button
-                    id='submit-response'
-                    type="submit"
-                    >
-                </button>
             </label>
         </form>
     </div>

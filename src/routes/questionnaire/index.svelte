@@ -88,7 +88,7 @@
         // starbased_user_settings.updateTestProgressCompletionStatus('')
         starbased_user_settings.updateUserLastPage('/thank-you')
         starbased_user_settings.updateLastCompletedTest(Date.now())
-        starbased_user_settings.toggleEmailSent()
+        // starbased_user_settings.toggleEmailSent()
         data = $starbased_user_settings
         // ... pass-on-the-data-to-the-backend-server;
         const response = await post(`/api/record-test.json`, {

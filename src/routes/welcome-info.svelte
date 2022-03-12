@@ -15,15 +15,15 @@
 
 <script lang="ts">
     import { goto } from '$app/navigation';
-	import { amp, browser, dev, mode, prerendering } from '$app/env';
+	  import { amp, browser, dev, mode, prerendering } from '$app/env';
     import { starbased_user_settings } from '$lib/store/userData';
-    import starbased_logo from '$lib/starbased-icon.svg'
+    import starbased_logo from '$lib/starbased-icon.svg';
 
     // ... next-page;
     async function nextPage() {
-        let test_page: string = "/test-" + $starbased_user_settings.current_test_status.toString()
-        starbased_user_settings.updateUserLastPage(test_page)
-        await goto(test_page)
+        let test_page: string = "/test-" + $starbased_user_settings.current_test_status.toString();
+        starbased_user_settings.updateUserLastPage(test_page);
+        await goto(test_page);
     }
 </script>
 
@@ -120,7 +120,7 @@
         In this project, <b>S T A R - B A S E D </b> will be teaching you on the topic of outer space on 2 different celestial objects (planet) : <b>TItan</b>
         <br />
         <br />
-        During this process, you will attempt 3 different test in the span of 4 days. 1 test now, another in 2 days and then in another 2 days since the last test attempted test. Before each test, you will be presented with the information necessary to understand the upcoming procedure and what is to be expected to be done.
+        <!-- During this process, you will attempt 3 different test in the span of 4 days. 1 test now, another in 2 days and then in another 2 days since the last test attempted test. Before each test, you will be presented with the information necessary to understand the upcoming procedure and what is to be expected to be done. -->
         <br />
         <br />
         As a base-skeleton for these procedures, each test will have the same general outline procedure:
@@ -129,7 +129,7 @@
     <p 
         class='m-l-30 s-14 m-b-40' 
         style="letter-spacing: 0.05em;">
-        1. Spend 15 minutes interacting with the test and learning on a given nice topic on Titan,
+        1. Spend 5-10 minutes interacting with the test and learning on a given nice topic on Titan,
         <br/>
         2. Answer end of topic questions curated for the learned material,
         <br/>
@@ -149,12 +149,6 @@
                 padding: 9px 5px;'>
                 <!-- {import.meta.env.VITE_TEST_NUMBER.toString()} -->
                 {$starbased_user_settings.current_test_status.toString()}
-            </span>
-            <span>
-                /
-            </span>
-            <span>
-                {import.meta.env.VITE_TOTAL_TEST_NUMBER.toString()}
             </span>
         </p>
     </div>

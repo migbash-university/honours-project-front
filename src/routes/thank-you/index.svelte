@@ -92,94 +92,31 @@
             Your responses have been recorded and you can now close and exit this website
         </p>
 
-        <!-- ... test-end-reminder-container ... -->
+        <!-- content here -->
+        <!-- ... next-up-container-info ... -->
         <div
-            id='test-id-container'
-            class='m-b-40'>
+            id='extra-info-box'>
+            <!-- <p
+                id='next-up-title'
+                class='s-20 color-secondary bold m-b-10'>
+                Next up!
+            </p> -->
             <p 
-                class='s-14'>
-                <b>THIS IS THE END OF TEST NUMBER</b>
-                <span
-                    style='
-                    color: black;
-                    background-color: #00FFB2;
-                    padding: 9px 5px;'>
-                    <!-- {import.meta.env.VITE_TEST_NUMBER.toString()} -->
-                    {#if $starbased_user_settings != undefined &&
-                        $starbased_user_settings.current_test_status != undefined}
-                        {$starbased_user_settings.current_test_status.toString()}
-                    {/if}
-                </span>
-                <span>
-                    /
-                </span>
-                <span>
-                    {import.meta.env.VITE_TOTAL_TEST_NUMBER.toString()}
-                </span>
+                class='s-16 color-black m-b-5'
+                style='padding: 0 20px;'>
+                <b> You are completely done! </b>
+            </p>
+            <p
+              class='s-16 color-black m-b-5'
+              style='padding: 0 20px;'>
+              <span class='color-primary'> <b> For SurveyCircle users: </b> </span> TSB1-YR82-M7MY-K3H1
+            </p>
+            <p
+              class='s-16 color-black m-b-5'
+              style='padding: 0 20px;'>
+              <span class='color-primary'> <b> For SurveySwap users: </b> </span> https://surveyswap.io/sr/39KP-4GU2-QYR0 
             </p>
         </div>
-
-        <!-- ... show only if tests 1 & 2 ... -->
-        {#if $starbased_user_settings != undefined &&
-            $starbased_user_settings.current_test_status != undefined &&
-            parseInt($starbased_user_settings.current_test_status.toString()) < 3}
-            <!-- content here -->
-            <!-- ... next-up-container-info ... -->
-            <div
-                id='extra-info-box'>
-                <p
-                    id='next-up-title'
-                    class='s-20 color-secondary bold m-b-10'>
-                    Next up!
-                </p>
-                <p 
-                    class='s-16 color-black m-b-5'
-                    style='padding: 0 20px;'>
-                    The next test will be available to you in {import.meta.env.VITE_TEST_INTERVAL.toString()} days from now, on the
-                    {#if convertedDate != undefined}
-                        <b> {convertedDate.getDate()}/{convertedDate.getMonth()}/{convertedDate.getUTCFullYear()} </b>
-                    {/if}
-                </p>
-                <p
-                    class='s-16 color-black m-b-5'
-                    style='padding: 0 20px;'>
-                    Accessible on the following link, <a href="https://starbased-front.herokuapp.com/" style="text-decoration: underline; color: blue;"> https://starbased-front.herokuapp.com/ </a>
-                </p>
-                <p
-                    class='s-16 color-black m-b-5'
-                    style='padding: 0 20px;'>
-                    You will be notified by email you provided at the start of this project. 
-                </p>
-            </div>
-        <!-- ... show - no more tests ... -->
-        {:else}
-            <!-- content here -->
-            <!-- ... next-up-container-info ... -->
-            <div
-                id='extra-info-box'>
-                <p
-                    id='next-up-title'
-                    class='s-20 color-secondary bold m-b-10'>
-                    Next up!
-                </p>
-                <p 
-                    class='s-16 color-black m-b-5'
-                    style='padding: 0 20px;'>
-                    You are completely done!
-                </p>
-                <p
-                  class='s-16 color-black m-b-5'
-                  style='padding: 0 20px;'>
-                  For SurveyCircle users (www.surveycircle.com): The Survey Code is: TSB1-YR82-M7MY-K3H1
-                </p>
-                <p
-                  class='s-16 color-black m-b-5'
-                  style='padding: 0 20px;'>
-                  https://surveyswap.io/sr/39KP-4GU2-QYR0 
-                </p>
-            </div>
-        {/if}
-            
         
     </div>
 </section>
@@ -216,7 +153,7 @@
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         border-radius: 5px;
         overflow: hidden;
-        padding: 0 0 15px 0;
+        padding: 15px 0 15px 0;
         text-align: left;
     } div#extra-info-box #next-up-title {
         background-color: #000000;

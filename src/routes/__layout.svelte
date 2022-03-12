@@ -64,6 +64,9 @@
                 let userUID: string = response.userUID;
                 // ... save value for user-UID;
                 starbased_user_settings.setUserUID(userUID)
+                // ... randomly-pick-a-user-test-out of the 3 available test; [increased to 2 - 3 bias due to more 1 data]
+                const randomTestNum: number = Math.floor(Math.random() * (4 - 2) + 2);
+                starbased_user_settings.updateTestCounter(randomTestNum);
                 // ...
                 goto('/')
             }
@@ -86,25 +89,27 @@
     // ... [REACTIVIY]
     // ... check-user-has-waited-X-days-before-next-test;
     // let currentDateUNIX: number = Date.now()
-    $: if ($starbased_user_settings != undefined &&
-            $starbased_user_settings.last_test_completion_date != undefined &&
-            $starbased_user_settings.current_page != undefined &&
-            $starbased_user_settings.current_page.toString() === '/thank-you') {
-            let lastDateUNIX: number = parseInt($starbased_user_settings.last_test_completion_date.toString())
-            // ...
-            const currentDate = Date.now();
-            const dateDiff = (((currentDate - lastDateUNIX) / 1000) / (3600 * 24))
-            // ... DEBUGGING;
-            if (dev) console.debug('date difference from last-test is', dateDiff)
-            // ... act-accordingly;
-            if (dateDiff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString())) {
-                // ... next-test;
-                starbased_user_settings.updateTestCounter()
-                starbased_user_settings.updateUserLastPage('/welcome-info')
-                // ... redirect-user-to-new-test-start;
-                goto('/welcome-info')
-            }
-    }
+    // $: if ($starbased_user_settings != undefined &&
+    //         $starbased_user_settings.last_test_completion_date != undefined &&
+    //         $starbased_user_settings.current_page != undefined &&
+    //         $starbased_user_settings.current_page.toString() === '/thank-you') {
+    //         let lastDateUNIX: number = parseInt($starbased_user_settings.last_test_completion_date.toString())
+    //         // ...
+    //         const currentDate = Date.now();
+    //         const dateDiff = (((currentDate - lastDateUNIX) / 1000) / (3600 * 24))
+    //         // ... DEBUGGING;
+    //         if (dev) console.debug('date difference from last-test is', dateDiff)
+    //         // ... act-accordingly;
+    //         if (dateDiff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString())) {
+    //             // ... next-test;
+    //             starbased_user_settings.updateTestCounter()
+    //             starbased_user_settings.updateUserLastPage('/welcome-info')
+    //             // ... redirect-user-to-new-test-start;
+    //             goto('/welcome-info')
+    //         }
+    // }
+
+    // ... [REACTIVITY]
 
     // ... [REACTIVIY]
     // ... check that the header-logo to be shown;
@@ -177,7 +182,7 @@
     <!-- ... User-Auth when no LocalStorage() found -->
     {#if showUserAuth}
         <!-- ... content-here ... -->
-        <UserAuth />
+        <!-- <UserAuth /> -->
     {/if}
 
     <main

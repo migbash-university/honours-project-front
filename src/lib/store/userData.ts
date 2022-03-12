@@ -67,7 +67,7 @@ const user_settings: User_Setting = {
     current_test_status: 1,
     current_page: undefined,
     last_test_completion_date: undefined,
-    emailNotified: false,
+    emailNotified: true,
     test_data: {
         test_1: {
             timer_data: {
@@ -407,7 +407,7 @@ function createLocalStore(key: any): any {
             set(existing_data);
         },
 
-        /**
+    /**
 		 * Description:
 		 * ~~~~~~~~~~~~~~~~~
 		 * ... [WORKING]
@@ -415,13 +415,13 @@ function createLocalStore(key: any): any {
 		 * ... to the localStoage & application store
 		 * ... @param {*} test_uid
 		*/
-		updateTestCounter: () => {
+		updateTestCounter: (value: number) => {
             // ... GET DATA FROM LOCALSTORAGE();
             const existing: string = localStorage.getItem(key);
             // ... CONVERT TO JSON;
             const existing_data: User_Setting = JSON.parse(existing);
             // ... UPDATE THE DATA FOR LANG;
-            existing_data.current_test_status = existing_data.current_test_status + 1
+            existing_data.current_test_status = value
             // ... UPDATE THE LOCALSTORAGE();
             localStorage.setItem(key, JSON.stringify(existing_data));
             // ... update the `set()` data;
