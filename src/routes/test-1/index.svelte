@@ -326,7 +326,7 @@
             <!-- ... action-btn ... -->
             <button 
                 on:click={() => toggleHelpTips()}
-                class='help-btn'>
+                class='help-btn help-button-pulsate'>
                 <h1 
                     class='s-18 color-white'>
                     <b>HELP</b>
