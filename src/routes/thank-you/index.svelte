@@ -8,15 +8,16 @@
     import { dev } from '$app/env';
     import { starbased_user_settings } from '$lib/store/userData';
 
-    let convertedDate: Date;
+    let convertedDate: Date = undefined;
     // ... 
     $: if ($starbased_user_settings != undefined &&
-            $starbased_user_settings.last_test_completion_date != undefined) {
+            $starbased_user_settings.last_test_completion_date != undefined &&
+            convertedDate == undefined) {
             // ...
             let convertedDateUNIX = new Date(parseInt($starbased_user_settings.last_test_completion_date.toString()));
             // ... determine-difference-in-days;
             convertedDate = new Date(convertedDateUNIX); // convert string date to Date object
-            convertedDate.setDate(convertedDate.getDate() + 4);
+            convertedDate.setDate(convertedDate.getDate() + parseInt(import.meta.env.VITE_TEST_INTERVAL.toString()));
     }
 </script>
 
@@ -104,44 +105,81 @@
                     background-color: #00FFB2;
                     padding: 9px 5px;'>
                     <!-- {import.meta.env.VITE_TEST_NUMBER.toString()} -->
-                    {$starbased_user_settings.current_test_status.toString()}
+                    {#if $starbased_user_settings != undefined &&
+                        $starbased_user_settings.current_test_status != undefined}
+                        {$starbased_user_settings.current_test_status.toString()}
+                    {/if}
                 </span>
                 <span>
                     /
                 </span>
                 <span>
-                    3
+                    {import.meta.env.VITE_TOTAL_TEST_NUMBER.toString()}
                 </span>
             </p>
         </div>
 
-        <!-- ... next-up-container-info ... -->
-        <div
-            id='extra-info-box'>
-            <p
-                id='next-up-title'
-                class='s-20 color-secondary bold m-b-10'>
-                Next up!
-            </p>
-            <p 
-                class='s-16 color-black m-b-5'
-                style='padding: 0 20px;'>
-                The next test will be available to you in 4 days from now, on the
-                {#if convertedDate != undefined}
-                    <b> {convertedDate.getDate()}/{convertedDate.getMonth()}/{convertedDate.getUTCFullYear()} </b>
-                {/if}
-            </p>
-            <p
-                class='s-16 color-black m-b-5'
-                style='padding: 0 20px;'>
-                Accessible on the following link - _____________________
-            </p>
-            <p
-                class='s-16 color-black m-b-5'
-                style='padding: 0 20px;'>
-                You will be notified by email you provided at the start of this project. 
-            </p>
-        </div>
+        <!-- ... show only if tests 1 & 2 ... -->
+        {#if $starbased_user_settings != undefined &&
+            $starbased_user_settings.current_test_status != undefined &&
+            parseInt($starbased_user_settings.current_test_status.toString()) < 3}
+            <!-- content here -->
+            <!-- ... next-up-container-info ... -->
+            <div
+                id='extra-info-box'>
+                <p
+                    id='next-up-title'
+                    class='s-20 color-secondary bold m-b-10'>
+                    Next up!
+                </p>
+                <p 
+                    class='s-16 color-black m-b-5'
+                    style='padding: 0 20px;'>
+                    The next test will be available to you in {import.meta.env.VITE_TEST_INTERVAL.toString()} days from now, on the
+                    {#if convertedDate != undefined}
+                        <b> {convertedDate.getDate()}/{convertedDate.getMonth()}/{convertedDate.getUTCFullYear()} </b>
+                    {/if}
+                </p>
+                <p
+                    class='s-16 color-black m-b-5'
+                    style='padding: 0 20px;'>
+                    Accessible on the following link, <a href="https://starbased-front.herokuapp.com/" style="text-decoration: underline; color: blue;"> https://starbased-front.herokuapp.com/ </a>
+                </p>
+                <p
+                    class='s-16 color-black m-b-5'
+                    style='padding: 0 20px;'>
+                    You will be notified by email you provided at the start of this project. 
+                </p>
+            </div>
+        <!-- ... show - no more tests ... -->
+        {:else}
+            <!-- content here -->
+            <!-- ... next-up-container-info ... -->
+            <div
+                id='extra-info-box'>
+                <p
+                    id='next-up-title'
+                    class='s-20 color-secondary bold m-b-10'>
+                    Next up!
+                </p>
+                <p 
+                    class='s-16 color-black m-b-5'
+                    style='padding: 0 20px;'>
+                    You are completely done!
+                </p>
+                <p
+                  class='s-16 color-black m-b-5'
+                  style='padding: 0 20px;'>
+                  For SurveyCircle users (www.surveycircle.com): The Survey Code is: TSB1-YR82-M7MY-K3H1
+                </p>
+                <p
+                  class='s-16 color-black m-b-5'
+                  style='padding: 0 20px;'>
+                  https://surveyswap.io/sr/39KP-4GU2-QYR0 
+                </p>
+            </div>
+        {/if}
+            
         
     </div>
 </section>
@@ -179,10 +217,11 @@
         border-radius: 5px;
         overflow: hidden;
         padding: 0 0 15px 0;
+        text-align: left;
     } div#extra-info-box #next-up-title {
         background-color: #000000;
         width: 100%;
         padding: 8px 0;
         text-align: center;
     }
-</style>
+</style> 

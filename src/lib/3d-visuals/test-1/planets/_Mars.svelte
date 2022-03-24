@@ -13,8 +13,7 @@
     import { onMount } from "svelte";
     import { fade } from "svelte/transition";
 
-    import planet_stats from './assets/planet-stats.svg'
-    import temperature_data from './assets/temperature-data.svg'
+    import mars_texture from './assets/mars-texture.jpg'
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // SPACEKIT-JS SIMULATION INTEGRATION
@@ -29,20 +28,19 @@
         recreateSimulation()
         toggleGalaxy()
         toggleTitan()
-        toggleRotationalSpeed()
     });
 
     // ... 
     const recreateSimulation = () => {
         // ... create the visualization and put it in our div.
-        viz = new Spacekit.Simulation(document.getElementById('main-container'), {
+        viz = new Spacekit.Simulation(document.getElementById('main-container-mars'), {
             basePath: 'https://typpo.github.io/spacekit/src',
             jdPerSecond: 1
         });
         viz.createStars();
     }
 
-    let titan;              // ... global paramater for satellite selection and targeting,
+    let mars;              // ... global paramater for satellite selection and targeting,
     let all_obj = []        // ... all visualization objects,
     let planet_info;
     let sat_info;
@@ -52,11 +50,11 @@
      * Function - Renders the Earth alone
     */
     const toggleTitan = () => {
-        viz_option = 'titan'
+        viz_option = 'mars'
         clearSimulation()
-        titan = viz.createSphere('titan', {
-            textureUrl: './assets/img/planets/titan-texture.png',
-            radius: 2.5, /* default to 1 */
+        mars = viz.createSphere('mars', {
+            textureUrl: mars_texture,
+            radius: 3, /* default to 1 */
             rotation: {
                 speed: 0.25
             },
@@ -64,8 +62,8 @@
                 showAxes: false,
             },
         });
-        all_obj.push(titan)
-        titan.startRotation();
+        all_obj.push(mars)
+        mars.startRotation();
     }
     
     /**
@@ -74,34 +72,10 @@
     const toggleGalaxy = () => {
         viz_option = 'solar_sys'
         clearSimulation()
-        const titan =  viz.createObject('titan', Spacekit.SpaceObjectPresets.EARTH);
-        all_obj.push(titan)
+        const mars =  viz.createObject('mars', Spacekit.SpaceObjectPresets.EARTH);
+        all_obj.push(mars)
     }
 
-    const toggleRotationalSpeed = () => {
-        const spaceship = viz.createObject('my spaceship', {
-        labelText: '15.8 Days for Complete Rotation',
-        ephem: new Spacekit.Ephem(
-            {
-            // These parameters define orbit shape.
-            a: 0.3,
-            e: 0.5,
-            i: 0,
-
-            // These parameters define the orientation of the orbit.
-            w: 15,
-            particleSize: 50,
-            om: 150,
-
-            // Where the object is in its orbit.
-            epoch: 20000000,
-            },
-            'deg',
-        ),
-        });
-        spaceship.orbitAround(titan);
-    }
-    
     /**
      * clear off the current interactive SpaceKitJs Simulation of off the
      * planets visualized and their images, ready for the next visualizations,
@@ -128,41 +102,70 @@
 <div 
     in:fade
     out:fade 
-    id='main-container' 
-    />
-
-<!-- Temperature Reading Data -->
-<img 
-    id='planet-stats'
-    src={planet_stats} 
-    alt="planet_stats">
-
-<img 
-    id='temp-stats'
-    src={temperature_data}
-    alt="temperature_data">
+    id='main-container-mars' 
+    >
+    <!-- ... planet-name ... -->
+    <div
+        id='planet-name-box'>
+        <p
+            class='s-14 bold color-white'>
+            Mars
+        </p>
+    </div>
+    <!-- ... planet-info-stats ... -->
+    <div
+        id='planet-dimensions-box'
+        class='row-space-out'
+        style="width: fit-content;">
+        <!-- ... radius ... -->
+        <p
+            class='s-12 m-r-10 bold color-secondary'>
+            Radius
+        </p>
+        <p
+            class='s-12 m-r-10 color-white'>
+            3,389.5 km
+        </p>
+        <!-- ... diameter ... -->
+        <p
+            class='s-12 m-r-10 bold color-secondary'>
+            Diameter
+        </p>
+        <p
+            class='s-12 color-white'>
+            6,779 km
+        </p>
+    </div>
+</div>
 
 <!-- ===================
 	COMPONENT STYLE
 =================== -->
 
 <style>
-    #main-container {
-		height: 100vh;
+    #main-container-mars {
+        height: 100%;
+        width: 100%;
+        position: relative;
     }
-    img#planet-stats,
-    img#temp-stats {
+    div#planet-name-box {
         position: absolute;
-        z-index: 5000;
+        top: 50%;
+        left: 0;
+        background: #0085FF;
+        box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+        border-radius: 0px 5px 0px 0px;
+        padding: 10px 16px;
     }
-    img#planet-stats {
-        top: 28px;
+    div#planet-dimensions-box {
+        position: absolute;
+        bottom: 0;
         right: 0;
         left: 0;
         margin: auto;
-    }
-    img#temp-stats {
-        top: 25%;
-        right: 25%;
+        padding: 10px;
+        background: #292929;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
     }
 </style>

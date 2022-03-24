@@ -64,7 +64,7 @@
 
     let startModelViewTimer: NodeJS.Timer
     async function incrementVisualTimerSection() {
-        console.debug('console! Incrementing Timer!')
+        if (dev) console.debug('console! Incrementing Timer!')
         // ...
         startModelViewTimer = setInterval(async() => {
             starbased_user_settings.addTimerTestSections(
@@ -76,13 +76,13 @@
     }
 
     function stopModelVisualTimer() {
-        console.debug('Timer Stopped!')
+        if (dev) console.debug('Timer Stopped!')
         clearInterval(startModelViewTimer)
     }
 
     let startTextViewTimer: NodeJS.Timer
     async function incrementTextTimerSection() {
-        console.debug('console! Incrementing Timer!')
+        if (dev) console.debug('console! Incrementing Timer!')
         // ...
         startTextViewTimer = setInterval(async() => {
             starbased_user_settings.addTimerTestSections(
@@ -94,7 +94,7 @@
     }
 
     function stopModelTextTimer() {
-        console.debug('Timer Stopped!')
+        if (dev) console.debug('Timer Stopped!')
         clearInterval(startTextViewTimer)
     }
 
@@ -165,11 +165,13 @@
     }
 
     // ...
-    function submitReading(): void {
+    async function submitReading(): Promise < void > {
         // ...
         // starbased_user_settings.updatePageCompletionStatus('test_2')
         // ... update-last-page-visit;
         starbased_user_settings.updateUserLastPage('/quiz')
+        // ... redirect
+        await goto('/quiz')
     }
 
     // ... [REACTIVITY]
@@ -273,7 +275,7 @@
             <!-- ... action-btn ... -->
             <button 
                 on:click={() => toggleHelpTips()}
-                class='help-btn'>
+                class='help-btn help-button-pulsate'>
                 <h1 
                     class='s-18 color-white'>
                     <b>HELP</b>
@@ -295,25 +297,30 @@
                         </b>
                     </p>
                     <p
-                        class='color-white s-14'>
-                        please interact with the Conversational agent using the input text box below, and prepare for an upcoming short quiz from the knowledge you have gathered from the conversations with the AI;
-                        <br />
-                        <br />
-                        The following questions will be asked on the quiz:
-                        <br />
-                        <br />
-                        • What is the temperature on Titan ?
-                        <br />
-                        • Is Titan larger than the planet Mercury ?
-                        <br />
-                        • How long is the day on Titan (in Earth days) ?
-                        <br />
-                        • What is the atmospheric pressure on Titan ? 
-                        <br />
-                        • What is Titan's atmosphere composed of ?
-                        <br />
-                        <br />
-                        You may ask these questions to prepare for the test, or ask them in your own way.
+                      class='color-white s-14'>
+                      1. please interact with the Conversational agent using the input text box below, and prepare for an upcoming short quiz from the knowledge you have gathered from the conversations with the AI;
+                      <br />
+                      <br />
+
+                      <span
+                          class='color-secondary underline'>
+                          • Is Titan larger or smaller than Mercury ?
+                          <br />
+                          • How long does Titan take to make a single rotation around Saturn ?
+                          <br />
+                          • What is the atmospheric pressure on Titan ?
+                          <br />
+                          • What is the surface temperature on Titan ?
+                          <br />
+                          • What is Titan's atmosphere composed of ?
+                        </span>
+
+                      <br />
+                      <br />
+                      2. when ready, proceed to the next page to answer some end of test questions based on the passage below
+                      <br />
+                      <br />
+                      3. once you complete the end of the topic test, you will be prompted to answer a simple 4 question questionnaire on your experience.
                     </p>
                 </div>
             {/if}
@@ -403,7 +410,8 @@
             class='row-space-end'>
             <fieldset
                 class='m-r-10'
-                style="width: -webkit-fill-available;">
+                style="width: -webkit-fill-available;
+                        position: relative;">
                 <input 
                     id='user-input'
                     class="s-14 color-black bold"
@@ -412,7 +420,16 @@
                     style='width: 100%'
                     type="text" 
                     required 
-                    autocomplete="off"/>
+                    autocomplete="off" />
+                {#if user_input != ''}
+                    <!-- content here -->
+                    <img 
+                        id='clear-input-btn'
+                        src="./assets/svg/cross-vector.svg" 
+                        alt="cross-vector" 
+                        width="24px" height="24px" 
+                        on:click={() => user_input = ''}/>
+                {/if}
             </fieldset>
             <button
                 id='submit-response'
@@ -514,6 +531,13 @@
         border-radius: 2.5px;
         padding: 2.5px 5px;
         width: fit-content;
+    }
+
+    img#clear-input-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 500;
     }
 
     /*

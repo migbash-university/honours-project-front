@@ -151,11 +151,11 @@
             Each experiment is broken down into 3 parts:
             <br/>
             <br/>
-            … a reading, or (conversational-bot) section where the user interacts with a passage and or the conversational agent, to extract the answers from the passage, and or bot, answering the questions presented in the “HELP” button on the `”reading-page”
+            a) … a reading, or (conversational-bot) section where the user interacts with a passage and or the conversational agent, to extract the answers from the passage, and or bot, answering the questions presented in the “HELP” button on the `”reading-page”
             <br/>
-            … a quiz page, which will allow you the opportunity to answer the questions that you have obtained from the previous-reading section of the website,
+            b) … a quiz page, which will allow you the opportunity to answer the questions that you have obtained from the previous-reading section of the website,
             <br/>
-            … a questionnaire, which will allow you to express your opinion on the conducted test in the form of a likert-scale.
+            c) … a questionnaire, which will allow you to express your opinion on the conducted test in the form of a likert-scale.
 
             <br/>
             <br/>
@@ -207,7 +207,11 @@
 
             <br/>
             <br/>
-            For questions regarding the research study, please contact Miguel Bacharov at 40416445@live.napier.ac.uk.
+            For questions regarding the research study, please contact at 40416445@live.napier.ac.uk.
+
+            <br/>
+            <br/>
+            P.S.: This survey contains a completion code for SurveySwap.io
         </p>
 
         <!-- ... consent-form-submit ... -->
@@ -219,16 +223,16 @@
             <label 
                 id='terms-and-agreement-checkbox'
                 class="container row-space-start m-b-30">
-                <input 
-                    type='radio' 
-                    name='tems_and_cond'
-                    value='tems_and_cond'
-                    class='m-r-20' 
-                    required />
                 <p
                     class='color-white s-14 bold'>
                     I have read and understood the information above, and agree to proceed on this basis.
                 </p>
+                <input 
+                    type='checkbox' 
+                    name='tems_and_cond'
+                    value='tems_and_cond'
+                    class='m-r-20' 
+                    required />
                 <span class="checkmark"></span>
             </label>
             <!-- ... label-for-email-submission ... -->
@@ -341,8 +345,6 @@
         position: absolute;
         opacity: 0;
         cursor: pointer;
-        height: 0;
-        width: 0;
     }
 
     /* Create a custom checkbox */

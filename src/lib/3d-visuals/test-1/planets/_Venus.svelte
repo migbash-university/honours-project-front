@@ -13,7 +13,7 @@
     import { onMount } from "svelte";
     import { fade } from "svelte/transition";
 
-    import earth_texture from './assets/earth-texture.jpg'
+    import venus_texture from './assets/venus-texture.jpg'
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // SPACEKIT-JS SIMULATION INTEGRATION
@@ -33,14 +33,14 @@
     // ... 
     const recreateSimulation = () => {
         // ... create the visualization and put it in our div.
-        viz = new Spacekit.Simulation(document.getElementById('main-container-earth'), {
+        viz = new Spacekit.Simulation(document.getElementById('main-container-venus'), {
             basePath: 'https://typpo.github.io/spacekit/src',
             jdPerSecond: 1
         });
         viz.createStars();
     }
 
-    let titan;              // ... global paramater for satellite selection and targeting,
+    let venus;              // ... global paramater for satellite selection and targeting,
     let all_obj = []        // ... all visualization objects,
     let planet_info;
     let sat_info;
@@ -50,11 +50,11 @@
      * Function - Renders the Earth alone
     */
     const toggleTitan = () => {
-        viz_option = 'titan'
+        viz_option = 'venus'
         clearSimulation()
-        titan = viz.createSphere('titan', {
-            textureUrl: earth_texture,
-            radius: 4, /* default to 1 */
+        venus = viz.createSphere('venus', {
+            textureUrl: venus_texture,
+            radius: 3, /* default to 1 */
             rotation: {
                 speed: 0.25
             },
@@ -62,8 +62,8 @@
                 showAxes: false,
             },
         });
-        all_obj.push(titan)
-        titan.startRotation();
+        all_obj.push(venus)
+        venus.startRotation();
     }
     
     /**
@@ -72,8 +72,8 @@
     const toggleGalaxy = () => {
         viz_option = 'solar_sys'
         clearSimulation()
-        const titan =  viz.createObject('titan', Spacekit.SpaceObjectPresets.EARTH);
-        all_obj.push(titan)
+        const venus =  viz.createObject('venus', Spacekit.SpaceObjectPresets.VENUS);
+        all_obj.push(venus)
     }
 
     /**
@@ -102,14 +102,14 @@
 <div 
     in:fade
     out:fade 
-    id='main-container-earth' 
+    id='main-container-venus' 
     >
     <!-- ... planet-name ... -->
     <div
         id='planet-name-box'>
         <p
             class='s-14 bold color-white'>
-            Earth
+            Venus
         </p>
     </div>
     <!-- ... planet-info-stats ... -->
@@ -124,7 +124,7 @@
         </p>
         <p
             class='s-12 m-r-10 color-white'>
-            6,371 km
+            6,051.8 km
         </p>
         <!-- ... diameter ... -->
         <p
@@ -133,7 +133,7 @@
         </p>
         <p
             class='s-12 color-white'>
-            12,742 km
+            12,104 km
         </p>
     </div>
 </div>
@@ -143,7 +143,7 @@
 =================== -->
 
 <style>
-    #main-container-earth {
+    #main-container-venus {
         height: 100%;
         width: 100%;
         position: relative;

@@ -24,9 +24,12 @@ export const first_test_data = {
                 
         <br />
         <br />
-        
-        Titan’s dense atmosphere, as well as gravity roughly equivalent to Earth’s Moon, mean that a raindrop falling through Titan’s sky would fall more slowly 
-        than on Earth - about six times more slowly than Earth’s rain.
+
+        <span 
+          id='gravity-info'>
+          Titan’s dense atmosphere, as well as gravity roughly equivalent to Earth’s Moon, mean that a raindrop falling through Titan’s sky would fall more slowly 
+          than on Earth - about six times more slowly than Earth’s rain.
+        </span>
                 
         <br />
         <br />
@@ -44,58 +47,62 @@ export const first_test_data = {
         <br />
         <br />
         
-        <b> ➤ Orbit and Rotation </b>
-
-        <br />
-        <br />
-
-        Titan takes 15 days and 22 hours to complete a full orbit of Saturn. Titan is also tidally locked in synchronous rotation with Saturn, meaning that, 
-        like Earth’s Moon, Titan always shows the same face to the planet as it orbits. Saturn takes about 29 Earth years to orbit the Sun (a Saturnian year),
-        and Saturn’s axis of rotation is tilted like Earth’s, resulting in seasons. But Saturn’s longer year produces seasons that each last more than seven Earth years. 
-        Since Titan orbits roughly along Saturn’s equatorial plane, and Titan’s tilt relative to the sun is about the same as Saturn’s, Titan’s seasons are on the same 
-        schedule as Saturn’s—seasons that last more than seven Earth years, and a year that lasts 29 Earth years.
+        <span 
+          id='orbit-and-rotation-text'>
+          <b> ➤ Orbit and Rotation </b>
+          <br />
+          <br />
+          Titan takes 15 days and 22 hours to complete a full orbit of Saturn. Titan is also tidally locked in synchronous rotation with Saturn, meaning that, 
+          like Earth’s Moon, Titan always shows the same face to the planet as it orbits. Saturn takes about 29 Earth years to orbit the Sun (a Saturnian year),
+          and Saturn’s axis of rotation is tilted like Earth’s, resulting in seasons. But Saturn’s longer year produces seasons that each last more than seven Earth years. 
+          Since Titan orbits roughly along Saturn’s equatorial plane, and Titan’s tilt relative to the sun is about the same as Saturn’s, Titan’s seasons are on the same 
+          schedule as Saturn’s—seasons that last more than seven Earth years, and a year that lasts 29 Earth years.
+        </span>
         
         <br />
         <br />
         
-        <b> ➤ Structure </b>
-
-        <br />
-        <br />
-
-        Titan’s internal structure isn’t entirely known, but one model based on data from the Cassini-Huygens mission suggests Titan has five primary layers. The innermost 
-        layer is a core of rock (specifically, water-bearing silicate rock) about 2,500 miles (4,000 kilometers) in diameter. Surrounding the core is a shell of water ice—a 
-        special type called ice-VI that is only found at extremely high-pressures. The high-pressure ice is surrounded by a layer of salty liquid water, on top of which sits an
-        outer crust of water ice. This surface is coated with organic molecules that have rained or otherwise settled out of the atmosphere in the form of sands and liquids. The surface
-        is hugged by a dense atmosphere.
-        
-        <br />
-        <br />
-        
-        <b> ➤ Formation </b>
-
-        <br />
-        <br />
-
-        Scientists aren’t certain about Titan’s origin. However, its atmosphere provides a clue. Several instruments on the NASA and ESA Cassini-Huygens mission measured the isotopes 
-        nitrogen-14 and nitrogen-15 in Titan’s atmosphere. The instruments found Titan’s nitrogen isotope ratio most resembles that found in comets from the Oort Cloud—a sphere of hundreds 
-        of billions of icy bodies thought to orbit the Sun at a distance between 5,000 and 100,000 astronomical units from the Sun (Earth is about one astronomical unit from the Sun—roughly 
-        93 million miles or 150 million kilometers). Titan’s atmospheric nitrogen ratio suggests the moon’s building blocks formed early in the solar system's history, in the same cold disk of 
-        gas and dust that formed the Sun (called the protosolar nebula), rather than forming in the warmer disk of material that Saturn later formed from (called the Saturn sub-nebula).
-        
+        <span 
+          id='structure-text'>
+          <b> ➤ Structure </b>
+          <br />
+          <br />
+          Titan’s internal structure isn’t entirely known, but one model based on data from the Cassini-Huygens mission suggests Titan has five primary layers. The innermost 
+          layer is a core of rock (specifically, water-bearing silicate rock) about 2,500 miles (4,000 kilometers) in diameter. Surrounding the core is a shell of water ice—a 
+          special type called ice-VI that is only found at extremely high-pressures. The high-pressure ice is surrounded by a layer of salty liquid water, on top of which sits an
+          outer crust of water ice. This surface is coated with organic molecules that have rained or otherwise settled out of the atmosphere in the form of sands and liquids. The surface
+          is hugged by a dense atmosphere.
+        </span>
+          
         <br />
         <br />
         
-        <b> ➤ Surface </b>
-
+        <span 
+          id='formation-text'>
+          <b> ➤ Formation </b>
+          <br />
+          <br />
+          Scientists aren’t certain about Titan’s origin. However, its atmosphere provides a clue. Several instruments on the NASA and ESA Cassini-Huygens mission measured the isotopes 
+          nitrogen-14 and nitrogen-15 in Titan’s atmosphere. The instruments found Titan’s nitrogen isotope ratio most resembles that found in comets from the Oort Cloud—a sphere of hundreds 
+          of billions of icy bodies thought to orbit the Sun at a distance between 5,000 and 100,000 astronomical units from the Sun (Earth is about one astronomical unit from the Sun—roughly 
+          93 million miles or 150 million kilometers). Titan’s atmospheric nitrogen ratio suggests the moon’s building blocks formed early in the solar system's history, in the same cold disk of 
+          gas and dust that formed the Sun (called the protosolar nebula), rather than forming in the warmer disk of material that Saturn later formed from (called the Saturn sub-nebula).
+        </span>
+        
         <br />
         <br />
 
-        The surface of Titan is one of the most Earthlike places in the solar system, albeit at vastly colder temperatures and with different chemistry. Here it is so cold (-290 degrees 
-        Fahrenheit or -179 degrees Celsius) that water ice plays the role of rock. Titan may have volcanic activity as well, but with liquid water “lava” instead of molten rock. Titan’s 
-        surface is sculpted by flowing methane and ethane, which carves river channels and fills great lakes with liquid natural gas. No other world in the solar system, aside from Earth, 
-        has that kind of liquid activity on its surface.
-                
+        <span 
+          id='temperature-text'>
+          <b> ➤ Surface </b>
+          <br />
+          <br />
+          The surface of Titan is one of the most Earthlike places in the solar system, albeit at vastly colder temperatures and with different chemistry. Here it is so cold (-290 degrees 
+          Fahrenheit or -179 degrees Celsius) that water ice plays the role of rock. Titan may have volcanic activity as well, but with liquid water “lava” instead of molten rock. Titan’s 
+          surface is sculpted by flowing methane and ethane, which carves river channels and fills great lakes with liquid natural gas. No other world in the solar system, aside from Earth, 
+          has that kind of liquid activity on its surface.
+        </span>
+                  
         <br />
         <br />
         
@@ -108,64 +115,66 @@ export const first_test_data = {
         <br />
         <br />
 
-        <b> ➤ Atmosphere </b>
-
-        <br />
-        <br />
-        
-        Our solar system is home to more than 150 moons, but Titan is unique in being the only moon with a thick atmosphere. At the surface of Titan, the atmospheric pressure is about 60 percent 
-        greater than on Earth—roughly the same pressure a person would feel swimming about 50 feet (15 meters) below the surface in theocean on Earth. Because Titan is less massive than Earth, its 
-        gravity doesn't hold onto its gaseous envelope as tightly, so the atmosphere extends to an altitude 10 times higher than Earth's—nearly 370 miles (600 kilometers) into space.
-        
-        Titan's atmosphere is mostly nitrogen (about 95 percent) and methane (about 5 percent), with small amounts of other carbon-rich compounds. High in Titan’s atmosphere, methane and nitrogen 
-        molecules are split apart by the Sun's ultraviolet light and by high-energy particles accelerated in Saturn's magnetic field. The pieces of these molecules recombine to form a variety of 
-        organic chemicals (substances that contain carbon and hydrogen), and often include nitrogen, oxygen and other elements important to life on Earth.
-        
-        Some of the compounds produced by that splitting and recycling of methane and nitrogen create a kind of smog—a thick, orange-colored haze that makes the moon's surface difficult 
-        to view from space. (Spacecraft and telescopes can, however, see through the haze at certain wavelengths of light outside of those visible to human eyes.) Some of the heavy, 
-        carbon-rich compounds settle to the moon’s surface—these hydrocarbons play the role of “sand” in Titan’s vast dune fields. And methane condenses into clouds that occasionally 
-        drench the surface in methane storms.
-        
-        The methane in Titan’s atmosphere is what makes its complex atmospheric chemistry possible, but where all that methane comes from is a mystery. Because sunlight continuously breaks 
-        down methane in Titan’s atmosphere, some source must be replenishing it or it would be depleted over time. Researchers suspect methane could be belched into Titan's atmosphere by 
-        cryovolcanism—volcanoes releasing chilled water instead of molten rock lava—but they’re not certain if this or some other process is responsible.
-        
-        <br />
-        <br />
-
-        <b> ➤ Potential for Life </b>
+        <span 
+          id='atmosphere-text'>
+          <b> ➤ Atmosphere </b>
+          <br />
+          <br />
+          Our solar system is home to more than 150 moons, but Titan is unique in being the only moon with a thick atmosphere. At the surface of Titan, the atmospheric pressure is about 60 percent 
+          greater than on Earth—roughly the same pressure a person would feel swimming about 50 feet (15 meters) below the surface in theocean on Earth. Because Titan is less massive than Earth, its 
+          gravity doesn't hold onto its gaseous envelope as tightly, so the atmosphere extends to an altitude 10 times higher than Earth's—nearly 370 miles (600 kilometers) into space.
+          
+          Titan's atmosphere is mostly nitrogen (about 95 percent) and methane (about 5 percent), with small amounts of other carbon-rich compounds. High in Titan’s atmosphere, methane and nitrogen 
+          molecules are split apart by the Sun's ultraviolet light and by high-energy particles accelerated in Saturn's magnetic field. The pieces of these molecules recombine to form a variety of 
+          organic chemicals (substances that contain carbon and hydrogen), and often include nitrogen, oxygen and other elements important to life on Earth.
+          
+          Some of the compounds produced by that splitting and recycling of methane and nitrogen create a kind of smog—a thick, orange-colored haze that makes the moon's surface difficult 
+          to view from space. (Spacecraft and telescopes can, however, see through the haze at certain wavelengths of light outside of those visible to human eyes.) Some of the heavy, 
+          carbon-rich compounds settle to the moon’s surface—these hydrocarbons play the role of “sand” in Titan’s vast dune fields. And methane condenses into clouds that occasionally 
+          drench the surface in methane storms.
+          
+          The methane in Titan’s atmosphere is what makes its complex atmospheric chemistry possible, but where all that methane comes from is a mystery. Because sunlight continuously breaks 
+          down methane in Titan’s atmosphere, some source must be replenishing it or it would be depleted over time. Researchers suspect methane could be belched into Titan's atmosphere by 
+          cryovolcanism—volcanoes releasing chilled water instead of molten rock lava—but they’re not certain if this or some other process is responsible.
+        </span>
         
         <br />
         <br />
 
-        The Cassini spacecraft’s numerous gravity measurements of Titan revealed that the moon is hiding an underground ocean of liquid water (likely mixed with salts and ammonia). 
-        The European Space Agency’s Huygens probe also measured radio signals during its descent to the surface, in 2005, that strongly suggested the presence of an ocean 35 to 50 miles 
-        (55 to 80 kilometers) below the icy ground. The discovery of a global ocean of liquid water adds Titan to the handful of worlds in our solar system that could potentially contain 
-        habitable environments. Additionally, Titan’s rivers, lakes and seas of liquid methane and ethane might serve as a habitable environment on the moon’s surface, though any life there 
-        would likely be very different from Earth’s life. Thus, Titan could potentially harbor environments with conditions suitable for life—meaning both life as we know it (in the subsurface ocean) 
-        and life as we don’t know it (in the hydrocarbon liquid on the surface). Although there is so far no evidence of life on Titan, its complex chemistry and unique environments are certain to make 
-        it a destination for continued exploration.
+        <span 
+          id='potential-text'>
+          <b> ➤ Potential for Life </b>
+          <br />
+          <br />
+          The Cassini spacecraft’s numerous gravity measurements of Titan revealed that the moon is hiding an underground ocean of liquid water (likely mixed with salts and ammonia). 
+          The European Space Agency’s Huygens probe also measured radio signals during its descent to the surface, in 2005, that strongly suggested the presence of an ocean 35 to 50 miles 
+          (55 to 80 kilometers) below the icy ground. The discovery of a global ocean of liquid water adds Titan to the handful of worlds in our solar system that could potentially contain 
+          habitable environments. Additionally, Titan’s rivers, lakes and seas of liquid methane and ethane might serve as a habitable environment on the moon’s surface, though any life there 
+          would likely be very different from Earth’s life. Thus, Titan could potentially harbor environments with conditions suitable for life—meaning both life as we know it (in the subsurface ocean) 
+          and life as we don’t know it (in the hydrocarbon liquid on the surface). Although there is so far no evidence of life on Titan, its complex chemistry and unique environments are certain to make 
+          it a destination for continued exploration.
+        </span>
 
         `,
     quiz: {
         test_id: `Test 1.0`,
         questions: [
             // ... question-1
-            {
-                question_num: 1,
-                question_title: `What is the approximate radius of Titan ?`,
-                question_hint: `please select one of the following:`,
-                question_type: `radio check`,
-                options: [
-                    '1,600 miles',
-                    '1,000 miles',
-                    '10,600 miles'
-                ]
-            }
-            ,
+            // {
+            //     question_num: 1,
+            //     question_title: `What is the approximate radius of Titan ?`,
+            //     question_hint: `please select one of the following:`,
+            //     question_type: `radio check`,
+            //     options: [
+            //         '1,600 miles',
+            //         '1,000 miles',
+            //         '10,600 miles'
+            //     ]
+            // }
+            // ,
             // ... question-2
             {
-                question_num: 2,
+                question_num: 1,
                 question_title: `Which of the following statements is correct ?`,
                 question_hint: `please select one of the following:`,
                 question_type: `radio check`,
@@ -178,8 +187,8 @@ export const first_test_data = {
             ,
             // ... question-3
             {
-                question_num: 3,
-                question_title: `How long does Titan take to make a rotation around the Sun ?`,
+                question_num: 2,
+                question_title: `How long does Titan take to make a rotation around Saturn ?`,
                 question_hint: `please select one of the following:`,
                 question_type: `radio check`,
                 options: [
@@ -191,7 +200,7 @@ export const first_test_data = {
             ,
             // ... question-4
             {
-                question_num: 4,
+                question_num: 3,
                 question_title: `The atmospheric pressure on Titan is roughly… ?`,
                 question_hint: `please select one of the following:`,
                 question_type: `radio check`,
@@ -204,7 +213,7 @@ export const first_test_data = {
             ,
             // ... question-5
             {
-                question_num: 5,
+                question_num: 4,
                 question_title: `The surface temperature of Titan is:`,
                 question_hint: `please select one of the following:`,
                 question_type: `radio check`,
@@ -217,7 +226,7 @@ export const first_test_data = {
             ,
             // ... question-6
             {
-                question_num: 6,
+                question_num: 5,
                 question_title: `Titans atmosphere is mostly composed of:`,
                 question_hint: `please select one of the following:`,
                 question_type: `radio check`,
@@ -237,6 +246,7 @@ export const first_test_data = {
                 question_num: 1,
                 question_title: `How did you find this method of learning ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = Not for me and 5 = Perfect`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Not for me',
@@ -256,6 +266,7 @@ export const first_test_data = {
                 question_num: 2,
                 question_title: `How difficult was it to obtain answers from the text ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Very Difficult" and 5 = "Very Easy"`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Very Difficult',
@@ -275,6 +286,7 @@ export const first_test_data = {
                 question_num: 3,
                 question_title: `Has the visual interactive model made learning easier ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Definite no" and 5 = "Definitely yes"`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Definite no',
@@ -294,6 +306,7 @@ export const first_test_data = {
                 question_num: 4,
                 question_title: `How familiar with this domain of space ?`,
                 question_hint: `please select a number between 1-5`,
+                question_range_meaning: `1 = "Beginner" and 5 = "Expert"`,
                 question_type: `radio-check`,
                 options_legend: [
                     'Beginner',

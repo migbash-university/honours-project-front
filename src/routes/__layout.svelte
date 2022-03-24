@@ -27,6 +27,12 @@
     // ON-LOAD INSTANT
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    // ... upgrade to `https:`
+    // $: if (!dev && $page.url.protocol === 'http:') {
+    //     // ...
+    //     goto('https://' + $page.url.host + $page.url.pathname)
+    // }
+
     // ... background-color-check;
     let light_bg: boolean = false;
     // ... check what page the user is on:
@@ -58,6 +64,8 @@
                 let userUID: string = response.userUID;
                 // ... save value for user-UID;
                 starbased_user_settings.setUserUID(userUID)
+                // ...
+                goto('/')
             }
         }
     })
@@ -84,15 +92,12 @@
             $starbased_user_settings.current_page.toString() === '/thank-you') {
             let lastDateUNIX: number = parseInt($starbased_user_settings.last_test_completion_date.toString())
             // ...
-            let lastDate = new Date(lastDateUNIX * 1000);
-            // ... determine-difference-in-days;
-            let newDate = new Date(lastDate).getDate(); //convert string date to Date object
-            let currentDate = new Date().getDate();
-            let diff = currentDate - newDate;
+            const currentDate = Date.now();
+            const dateDiff = (((currentDate - lastDateUNIX) / 1000) / (3600 * 24))
             // ... DEBUGGING;
-            if (dev) console.debug('date difference from last-test is', diff)
+            if (dev) console.debug('date difference from last-test is', dateDiff)
             // ... act-accordingly;
-            if (diff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString())) {
+            if (dateDiff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString())) {
                 // ... next-test;
                 starbased_user_settings.updateTestCounter()
                 starbased_user_settings.updateUserLastPage('/welcome-info')
@@ -163,17 +168,18 @@
     <UserUid />
 {/if}
 
-<!-- ... User-Auth when no LocalStorage() found -->
-{#if showUserAuth}
-    <!-- ... content-here ... -->
-    <UserAuth />
-{/if}
 
 {#if showHeaderLogo}
     <Header />
 {/if}
 
 {#if !touchDevice}
+    <!-- ... User-Auth when no LocalStorage() found -->
+    {#if showUserAuth}
+        <!-- ... content-here ... -->
+        <UserAuth />
+    {/if}
+
     <main
         class:light-bg={light_bg === true}>
         <slot />

@@ -88,6 +88,7 @@
         // starbased_user_settings.updateTestProgressCompletionStatus('')
         starbased_user_settings.updateUserLastPage('/thank-you')
         starbased_user_settings.updateLastCompletedTest(Date.now())
+        starbased_user_settings.toggleEmailSent()
         data = $starbased_user_settings
         // ... pass-on-the-data-to-the-backend-server;
         const response = await post(`/api/record-test.json`, {
@@ -192,7 +193,11 @@
                             class='s-12 color-grey m-b-15'>
                             {item.question_hint}
                         </p>
-                        <!-- ... question input ... -->
+                        <!-- ... question numbers meaning ... -->
+                        <p
+                            class='s-12 color-grey m-b-15'>
+                            {item.question_range_meaning}
+                        </p>
                         <!-- ... likert-scale-input ... -->
                         <ul 
                             class='likert row-space-start'>
@@ -247,7 +252,7 @@
         content: "";
         position: absolute;
         height: 5px;
-        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #00FFB2 51.31%, rgba(0, 0, 0, 0) 102.61%);
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #EB00FF 51.31%, rgba(0, 0, 0, 0) 102.61%);
         width: 100%;
         top: 125%;
         right: 0;

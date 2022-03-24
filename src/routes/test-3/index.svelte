@@ -14,227 +14,243 @@
 =================== -->
 
 <script lang="ts">
-	import { amp, browser, dev, mode, prerendering } from '$app/env'
-    import { fade, slide } from 'svelte/transition'
-    import { onDestroy, onMount } from 'svelte'
+  import { getStores, navigating, page, session, updated } from '$app/stores';
+  import { fade, slide } from 'svelte/transition'
+  import { onDestroy, onMount } from 'svelte'
+  import { dev } from '$app/env';
 
-    import { post } from '$lib/utils/api'
-    import { first_test_data } from '$lib/data/1st-test'
-    import { starbased_user_settings } from '$lib/store/userData';
+  import { post } from '$lib/utils/api'
+  import { first_test_data } from '$lib/data/1st-test'
+  import { starbased_user_settings } from '$lib/store/userData';
+  import { goto } from '$app/navigation';
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // TIMER COUNTER [AUTO]
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const { session } = getStores();
 
-    let interval;
-    // ... user-time-to-interact-with-test;
-    onMount(async() => {
-        // ... run every 1000ms (1-second)
-        interval = setInterval(() => {
-            // ... increment-QUIZ-timer;
-            starbased_user_settings.addTimer(
-                1,
-                'test_3',
-                'reading'
-            )
-            // ... increment-total-timer;
-            starbased_user_settings.addTimer(
-                1,
-                'test_3',
-                'timer_total'
-            )
-        }, 1000)
-    })
-    // ... on page change;
-    onDestroy(async() => {
-        // ... destroy setInterval()
-        clearInterval(interval)
-    })
+  import VisualQ_1 from '$lib/3d-visuals/test-1/_Visual-q-1.svelte';
+  import VisualQ_2 from '$lib/3d-visuals/test-1/_Visual-q-2.svelte';
+  import PlanetWithMarkers_2 from '$lib/3d-visuals/test-1/_Planet_with_Markers-2.svelte';
 
-    let startModelViewTimer: NodeJS.Timer
-    async function incrementVisualTimerSection() {
-        console.debug('console! Incrementing Timer!')
-        // ...
-        startModelViewTimer = setInterval(async() => {
-            starbased_user_settings.addTimerTestSections(
-                1,
-                'test_3',
-                'model_view_timer'
-            )
-        }, 1000)
-    }
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // TIMER COUNTER [AUTO]
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    function stopModelVisualTimer() {
-        console.debug('Timer Stopped!')
-        clearInterval(startModelViewTimer)
-    }
+  let interval;
+  // ... user-time-to-interact-with-test;
+  onMount(async() => {
+      // ... run every 1000ms (1-second)
+      interval = setInterval(() => {
+          // ... increment-QUIZ-timer;
+          starbased_user_settings.addTimer(
+              1,
+              'test_3',
+              'reading'
+          )
+          // ... increment-total-timer;
+          starbased_user_settings.addTimer(
+              1,
+              'test_3',
+              'timer_total'
+          )
+      }, 1000)
+  })
+  // ... on page change;
+  onDestroy(async() => {
+      // ... destroy setInterval()
+      clearInterval(interval)
+      clearInterval(startModelViewTimer)
+      clearInterval(startTextViewTimer)
+  })
 
-    let startTextViewTimer: NodeJS.Timer
-    async function incrementTextTimerSection() {
-        console.debug('console! Incrementing Timer!')
-        // ...
-        startTextViewTimer = setInterval(async() => {
-            starbased_user_settings.addTimerTestSections(
-                1,
-                'test_3',
-                'text_bot_timer'
-            )
-        }, 1000)
-    }
+  let startModelViewTimer: NodeJS.Timer
+  async function incrementVisualTimerSection() {
+      if (dev) console.debug('console! Incrementing Timer!')
+      // ...
+      startModelViewTimer = setInterval(async() => {
+          starbased_user_settings.addTimerTestSections(
+              1,
+              'test_3',
+              'model_view_timer'
+          )
+      }, 1000)
+  }
 
-    function stopModelTextTimer() {
-        console.debug('Timer Stopped!')
-        clearInterval(startTextViewTimer)
-    }
+  function stopModelVisualTimer() {
+      if (dev) console.debug('Timer Stopped!')
+      clearInterval(startModelViewTimer)
+  }
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // PAGE USER-ACTIONS
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  let startTextViewTimer: NodeJS.Timer
+  async function incrementTextTimerSection() {
+      if (dev) console.debug('console! Incrementing Timer!')
+      // ...
+      startTextViewTimer = setInterval(async() => {
+          starbased_user_settings.addTimerTestSections(
+              1,
+              'test_3',
+              'text_bot_timer'
+          )
+      }, 1000)
+  }
 
-    let helpTipsShow: boolean = false;
-    // ... toggle-hide-show-button-info;
-    function toggleHelpTips() {
-        helpTipsShow = !helpTipsShow
-    }
+  function stopModelTextTimer() {
+      if (dev) console.debug('Timer Stopped!')
+      clearInterval(startTextViewTimer)
+  }
 
-    // ...
-    let processing: boolean = false
-    let user_input: string
-    let conversationData: ResponseData[] = []
-    interface ResponseData {
-        text: string
-        user: 'agent' | 'user'
-    }
-    let responseData: ResponseData;
-    // ... send-over-the-response-to-website-server;
-    // ... and further processing of data;
-    async function sendResponse(): Promise < void > {
-        // ...
-        processing = true
-        starbased_user_settings.incTotalMessagesExchanged('test_3')
-        // ...
-        responseData = {
-            text: user_input,
-            user: 'user'
-        }
-        conversationData = [...conversationData, responseData]
-        // ...
-        starbased_user_settings.addToConversationHistory('test_3', conversationData)
-        // ...
-        let endpointBackend: string = import.meta.env.VITE_BACKEND_URL.toString()
-        // if (dev) endpointBackend = 'http://192.168.0.40:9000'
-        const resposne = await post(endpointBackend + `/post_question`, {
-            user_input: user_input
-        })
-        // ... DEBUGGING;
-        if (dev) console.debug('resposne', resposne)
-        // ...
-        responseData = {
-            text: resposne['data'],
-            user: 'agent'
-        }
-        // ...
-        conversationData = [...conversationData, responseData]
-        starbased_user_settings.addToConversationHistory('test_3', conversationData)
-        // ...
-        processing = false
-    }
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // PAGE USER-ACTIONS
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    // ... [REACTIVITY]
-    // ... re-load-conversation-if-stored-in-local-storage;
-    $: if ($starbased_user_settings != undefined &&
-            $starbased_user_settings['test_data']['test_3']['conversation_history']['history'].length != 0 &&
-            conversationData.length == 0) {
-        conversationData = $starbased_user_settings['test_data']['test_3']['conversation_history']['history']
-        // ...
-        scrollBottom()
-    }
+  // ...
+  async function submitReading(): Promise < void > {
+      // ...
+      // starbased_user_settings.updatePageCompletionStatus('test_2')
+      // ... update-last-page-visit;
+      starbased_user_settings.updateUserLastPage('/quiz')
+      // ... redirect
+      await goto('/quiz')
+  }
 
-    // ... function keep-scroll-bottom;
-    function scrollBottom() {
-        setTimeout(async() => {
-            var element = document.getElementById("text-learning-container");
-            element.scrollTop = element.scrollHeight;
-        }, 50)
-    }
+  let helpTipsShow: boolean = false;
+  // ... toggle-hide-show-button-info;
+  function toggleHelpTips() {
+      helpTipsShow = !helpTipsShow
+  }
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // SPACEKIT-JS SIMULATION INTEGRATION
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ...
+  let processing: boolean = false
+  let user_input: string
+  let conversationData: ResponseData[] = []
+  // ...
+  interface ResponseData {
+      text: string
+      user: 'agent' | 'user'
+      response_time: number
+  }
+  let responseData: ResponseData;
+  // ... send-over-the-response-to-website-server;
+  // ... and further processing of data;
+  async function sendResponse(): Promise < void > {
+      // ...
+      processing = true
+      starbased_user_settings.incTotalMessagesExchanged('test_3')
+      let timerCounter: number = 0
+      let responseInterval: NodeJS.Timer = setInterval(async () => {
+          timerCounter = timerCounter + 1
+      }, 1000)
+      // ...
+      responseData = {
+          text: user_input,
+          user: 'user',
+          response_time: null
+      }
+      conversationData = [...conversationData, responseData]
+      // ...
+      starbased_user_settings.addToConversationHistory('test_3', conversationData)
+      // ...
+      scrollBottom()
+      // ...
+      let endpointBackend: string = import.meta.env.VITE_BACKEND_URL.toString()
+      // if (dev) endpointBackend = 'http://192.168.0.40:9000'
+      const resposne = await post(endpointBackend + `/post_question`, {
+          user_input: user_input
+      })
+      // ... DEBUGGING;
+      if (dev) console.debug('resposne', resposne)
+      // ...
+      responseData = {
+          text: resposne['data'],
+          user: 'agent',
+          response_time: timerCounter
+      }
+      // ...
+      conversationData = [...conversationData, responseData]
+      starbased_user_settings.addToConversationHistory('test_3', conversationData)
+      // ... reset;
+      processing = false
+      scrollBottom()
+      clearInterval(responseInterval)
+      identifyUserContext()
+  }
 
-    let viz, n;
-    let viz_option;
-    let earthPinsView = false;
+  // ... [REACTIVITY]
+  // ... re-load-conversation-if-stored-in-local-storage;
+  $: if ($starbased_user_settings != undefined &&
+          $starbased_user_settings['test_data']['test_3']['conversation_history']['history'].length != 0 &&
+          conversationData.length == 0) {
+      conversationData = $starbased_user_settings['test_data']['test_3']['conversation_history']['history']
+      // ...
+      scrollBottom()
+  }
 
-    // ... re-draw the simulation onMount() PAGE;
-    onMount(async () => {
-        recreateSimulation()
-        toggleGalaxy()
-        toggleEarth()
-    });
+  // ... function keep-scroll-bottom;
+  function scrollBottom() {
+      setTimeout(async() => {
+          var element = document.getElementById("text-learning-container");
+          element.scrollTop = element.scrollHeight;
+      }, 50)
+  }
 
-    // ... 
-    const recreateSimulation = () => {
-        // ... create the visualization and put it in our div.
-        viz = new Spacekit.Simulation(document.getElementById('main-container'), {
-            basePath: 'https://typpo.github.io/spacekit/src',
-            jdPerSecond: 1
-        });
-        viz.createStars();
-    }
+  // ...
+  let viewMode: string = 'interactive'
+  // ...
+  function toggleViewMode(viewSet: string) {
+      viewMode = viewSet;
+  }
 
-    let earth;       // ... global paramater for satellite selection and targeting,
-    let all_obj = [] // ... all visualization objects,
-    let planet_info;
-    let sat_info;
-    let sat_counter = 0;
+  let selectedQuestion: number = 1
+  // ...
+  function selectOptionQ(opt: number) {
+      // ...
+      // if (selectedQuestion == opt) {
+      //     selectedQuestion = undefined
+      // } else {
+      selectedQuestion = opt
+      // }
+  }
 
-    /**
-     * Function - Renders the Earth alone
-    */
-    const toggleEarth = () => {
-        viz_option = 'earth'
-        clearSimulation()
-        earth = viz.createSphere('earth', {
-            textureUrl: './assets/img/planets/titan-texture.png',
-            rotation: {
-                speed: 0.25
-            },
-            debug: {
-                showAxes: false,
-            },
-        });
-        all_obj.push(earth)
-        earth.startRotation();
-    }
-    
-    /**
-     * Function - Renders the Galaxy (Solar System) Visualization
-    */
-    const toggleGalaxy = () => {
-        viz_option = 'solar_sys'
-        clearSimulation()
-        const earth =  viz.createObject('earth', Spacekit.SpaceObjectPresets.EARTH);
-        all_obj.push(earth)
-    }
+  // ... [REACTIVITY]
+  function identifyUserContext() {
+      if (user_input.toLowerCase().includes('temperature')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 1
+      } else if (user_input.toLowerCase().includes('mercury') || 
+              user_input.toLowerCase().includes('earth') ||
+              user_input.toLowerCase().includes('size') || 
+              user_input.toLowerCase().includes('dimension') ) {
+          // ...
+          selectedQuestion = 2
+      } else if (user_input.toLowerCase().includes('atmosphere')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 2
+      } else if (user_input.toLowerCase().includes('gravity')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 3
+      } else if (user_input.toLowerCase().includes('orbit') ||
+              user_input.toLowerCase().includes('rotation')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 4
+      } else if (user_input.toLowerCase().includes('formation')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 5
+      } else if (user_input.toLowerCase().includes('structure')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 6
+      } else if (user_input.toLowerCase().includes('potential') ||
+        user_input.toLowerCase().includes('life')) {
+          // ...
+          selectedQuestion = 1
+          $session.label_ID = 7
+      }
+  }
 
-    /**
-     * clear off the current interactive SpaceKitJs Simulation of off the
-     * planets visualized and their images, ready for the next visualizations,
-     */
-    const clearSimulation = () => {
-        for (n in all_obj) {
-            viz.removeObject(all_obj[n])
-        }
-        planet_info = undefined
-        // Make sure that the other simulation is hidden:
-        if (earthPinsView != false) {
-            earthPinsView = false
-            setTimeout(() => {
-                recreateSimulation()
-            }, 2000)
-        }
-    }
+  let hiddenBtnPhoto = false
 </script>
 
 <!-- ===================
@@ -298,11 +314,124 @@
         on:mouseenter={() => incrementVisualTimerSection()}
         on:mouseleave={() => stopModelVisualTimer()}>
         <!-- ... canvas for interactive visualization ... -->
-        <div 
-            in:fade
-            out:fade 
-            id='main-container' 
-        />
+        {#if selectedQuestion == 1}
+            <!-- content here -->
+            <PlanetWithMarkers_2 />
+        {:else}
+            <!-- content here -->
+            <VisualQ_2 />
+        {/if}
+        <!-- ... planet-view-info-option-box ... -->
+        {#if selectedQuestion == 1}
+            <div
+                id='option-view-box'>
+                <p>
+                    Planet Info Stats View
+                </p>
+            </div>
+        {:else if selectedQuestion == 2} 
+            <div
+                id='option-view-box'>
+                <p>
+                    Planet Size Comparison View
+                </p>
+            </div>
+        {/if}
+        <!-- ... planet-view-3D-toggle-info ... -->
+        <div
+            id='options-questions-box'>
+            <!-- ... option-view-text ... -->
+            <p
+                class='s-14 text-center color-white m-b-10 bold'>
+                Toggle
+                <br>
+                3D 
+                <br>
+                Views
+            </p>
+            <!-- ... option-view-1 -->
+            <div
+                on:click={() => selectOptionQ(1)}
+                class='row-space-center m-b-10 option-3d-toggle-view'
+                class:active-view={selectedQuestion === 1}>
+                <img 
+                    src="./assets/svg/planet-info-icon.svg" 
+                    alt=""
+                    title="Planet Info Stats View" />
+            </div>
+            <!-- ... option-view-2 -->
+            <div
+                on:click={() => selectOptionQ(2)}
+                class='row-space-center m-b-10 option-3d-toggle-view'
+                class:active-view={selectedQuestion === 2}>
+                <img 
+                    src="./assets/svg/planet-size-icon.svg" 
+                    alt=""
+                    title="Planet Size Comparison View" />
+            </div>
+        </div>
+        <!-- ... change view types ... -->
+        <div
+            id='change-interactive-views'
+            class='row-space-out'>
+            <!-- ... interactive toggle ... -->
+            <button
+                on:click={() => toggleViewMode('interactive')}
+                class:selectedView={viewMode === 'interactive'}
+                class='toggle-view-btn column-space-center m-r-10'>
+                <!-- ... image-asset ... -->
+                {#if viewMode === 'interactive'}
+                    <img 
+                        src="./assets/svg/3D-icon-selected.svg" 
+                        alt="" 
+                        class='m-b-10'
+                        width="39.38px" height="39.38px"
+                    />
+                {:else}
+                    <img 
+                        src="./assets/svg/3D-icon-idle.svg" 
+                        alt="" 
+                        class='m-b-10'
+                        width="39.38px" height="39.38px"
+                    />
+                {/if}
+                <!-- ... button-text-action ... -->
+                <p>
+                    interactive 3D 
+                    <br/>
+                    model
+                </p>
+            </button>
+            <!-- ... photo gallery toggle ... -->
+            {#if hiddenBtnPhoto}
+                    <!-- content here -->
+                <button
+                    on:click={() => toggleViewMode('photo')}
+                    class:selectedView={viewMode === 'photo'}
+                    class='toggle-view-btn column-space-center'>
+                    <!-- ... image-asset ... -->
+                    {#if viewMode === 'photo'}
+                        <img 
+                            src="./assets/svg/photo-gallery-icon-selected.svg" 
+                            alt=""
+                            class='m-b-10'
+                            width="38px" height="32px"
+                        />
+                    {:else}
+                        <img 
+                            src="./assets/svg/photo-gallery-icon-idle.svg" 
+                            alt="" 
+                            class='m-b-10'
+                            width="38px" height="32px"
+                        />
+                    {/if}
+                    <!-- ... button-text-action ... -->
+                    <p>
+                        photo gallery
+                    </p>
+                </button>
+            {/if}
+        </div>
     </div>
 
     <!-- ... conversational-agent-interaction-chunck-box-container ... -->
@@ -317,7 +446,7 @@
             <!-- ... action-btn ... -->
             <button 
                 on:click={() => toggleHelpTips()}
-                class='help-btn'>
+                class='help-btn help-button-pulsate'>
                 <h1 
                     class='s-18 color-white'>
                     <b>HELP</b>
@@ -339,25 +468,30 @@
                         </b>
                     </p>
                     <p
-                        class='color-white s-14'>
-                        please interact with the Conversational agent using the input text box below, and prepare for an upcoming short quiz from the knowledge you have gathered from the conversations with the AI;
+                      class='color-white s-14'>
+                      1. please interact with the Conversational agent using the input text box below, and prepare for an upcoming short quiz from the knowledge you have gathered from the conversations with the AI;
+                      <br />
+                      <br />
+
+                      <span
+                        class='color-secondary underline'>
+                        • Is Titan larger or smaller than Mercury ?
                         <br />
+                        • How long does Titan take to make a single rotation around Saturn ?
                         <br />
-                        The following questions will be asked on the quiz:
+                        • What is the atmospheric pressure on Titan ?
                         <br />
-                        <br />
-                        • What is the temperature on Titan ?
-                        <br />
-                        • Is Titan larger than the planet Mercury ?
-                        <br />
-                        • How long is the day on Titan (in Earth days) ?
-                        <br />
-                        • What is the atmospheric pressure on Titan ? 
+                        • What is the surface temperature on Titan ?
                         <br />
                         • What is Titan's atmosphere composed of ?
-                        <br />
-                        <br />
-                        You may ask these questions to prepare for the test, or ask them in your own way.
+                      </span>
+
+                      <br />
+                      <br />
+                      2. when ready, proceed to the next page to answer some end of test questions based on the passage below
+                      <br />
+                      <br />
+                      3. once you complete the end of the topic test, you will be prompted to answer a simple 4 question questionnaire on your experience.
                     </p>
                 </div>
             {/if}
@@ -367,7 +501,7 @@
         <h1 
             id='test-title'
             class='s-42'> 
-            Conversational Agent
+            Conversational Agent with Multimodal Interactions
         </h1>
 
         <!-- ... conversational=agent-user-interaction ... -->
@@ -378,11 +512,38 @@
                     class:user_chat_bubble={item.user === 'user'}
                     class:agent_chat_bubble={item.user === 'agent'}>
                     <p
-                        class='s-14 color-white'>
+                        class='s-16 color-white'>
                         {item.text} 
                     </p>
+                    <!-- ... response-timer ... -->
+                    {#if item.user === 'agent'}
+                        <!-- content here -->
+                        <div
+                            id='response-time'
+                            class='row-space-out m-t-10'>
+                            <p
+                                class='s-12 color-white m-r-5'>
+                                response time
+                            </p>
+                            <p
+                                class='s-12'
+                                style="color: #EB00FF;">
+                                {item.response_time} s
+                            </p>
+                        </div>
+                    {/if}
                 </div>
             {/each}
+            <!-- ... bot-is-processing-response ... -->
+            {#if processing}
+                <!-- content here -->
+                <img 
+                    src='/assets/svg/loading/loading-bot-res-animated.svg' 
+                    alt='bot-loading'
+                    aria-label='bot-loading'
+                    class='m-t-20'
+                    width="93px" height="40px" />
+            {/if}
         </div>
     </div>    
 
@@ -404,6 +565,7 @@
                 sveltekit:prefetch
                 href='/quiz'>
                 <button 
+                    on:click={() => submitReading()}
                     class='continuation-btn'>
                     <h1 
                         class='s-18'>
@@ -419,7 +581,8 @@
             class='row-space-end'>
             <fieldset
                 class='m-r-10'
-                style="width: -webkit-fill-available;">
+                style="width: -webkit-fill-available;
+                        position: relative;">
                 <input 
                     id='user-input'
                     class="s-14 color-black bold"
@@ -428,7 +591,16 @@
                     style='width: 100%'
                     type="text" 
                     required 
-                    autocomplete="off"/>
+                    autocomplete="off" />
+                {#if user_input != ''}
+                    <!-- content here -->
+                    <img 
+                        id='clear-input-btn'
+                        src="./assets/svg/cross-vector.svg" 
+                        alt="cross-vector" 
+                        width="24px" height="24px" 
+                        on:click={() => user_input = ''}/>
+                {/if}
             </fieldset>
             <button
                 id='submit-response'
@@ -456,7 +628,7 @@
         height: 100vh;
         position: relative;
     } section #model-galaxy #main-container {
-		height: 100vh;
+		    height: 100vh;
     }
 
     section #text-learning-container {
@@ -518,6 +690,81 @@
         padding: 12px 18px;
     }
 
+    div#response-time {
+        background: #000000;
+        border-radius: 2.5px;
+        padding: 2.5px 5px;
+        width: fit-content;
+    }
+
+    img#clear-input-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 500;
+    }
+
+    div#option-view-box {
+        position: absolute;
+        top: 28px;
+        right: 0;
+        left: 0;
+        width: fit-content;
+        margin: auto;
+        padding: 10px 22px;
+        background: #005BAF;
+        border: 2px solid #0085FF;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+    }
+
+    div.option-3d-toggle-view {
+        background: #141414;
+        border: 1px solid #373737;
+        box-sizing: border-box;
+        border-radius: 2.5px 0px 0px 2.5px;
+        padding: 12px 8px;
+        transition: all ease 0.3s;
+        cursor: pointer;
+    } div.option-3d-toggle-view:hover {
+        background-color: white;
+    }
+    div.active-view {
+        border: 2.5px solid #00FFB2;
+        background-color: black;
+    }
+
+    div#options-questions-box {
+        position: absolute;
+        padding: 15px 7px;
+        right: 0px;
+        top: 50%;
+        transform: translate(-0, -50%);
+        background: #2D2D2D;
+        border-radius: 5px 0px 0px 5px;
+    }
+
+    div#contuniation-container {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 50vw;
+        z-index: 10;
+        padding: 45px 62px;
+        background-color: #2D2D2D;
+        box-shadow: 0px -5px 5px rgb(0 0 0 / 25%);
+    }
+
+    div#change-interactive-views {
+        position: absolute;
+        bottom: 27px;
+        margin: auto;
+        right: 0;
+        left: 0;
+        width: fit-content;
+    }
+
     /*
     ~~~~~~~~~~~~~~~~ 
     scrollbar STYLE */
@@ -567,5 +814,23 @@
         background-image: url('/assets/svg/input-vector.svg');
         background-position: 50% 50%;
         background-repeat: no-repeat;
+    }
+
+    button.toggle-view-btn {
+        background-color: transparent;
+        border: 1px solid #FFFFFF !important;
+        border-radius: 5px;
+        padding: 10px;
+        width: 109px;
+        height: 98px;
+    }
+    button.toggle-view-btn.selectedView,
+    button.toggle-view-btn:hover {
+        border: none !important;
+        background-color: #252525;
+    }
+    button.toggle-view-btn.selectedView p,
+    button.toggle-view-btn:hover p {
+        color: #00FFB2;
     }
 </style>

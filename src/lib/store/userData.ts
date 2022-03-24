@@ -428,7 +428,7 @@ function createLocalStore(key: any): any {
             set(existing_data);
         },
 
-        /**
+    /**
 		 * Description:
 		 * ~~~~~~~~~~~~~~~~~
 		 * ... [WORKING]
@@ -448,6 +448,29 @@ function createLocalStore(key: any): any {
             // ... update the `set()` data;
             set(existing_data);
         },
+
+    /**
+		 * Description:
+		 * ~~~~~~~~~~~~~~~~~
+		 * ... [WORKING]
+		 * ... method to update the completion-time-of-test
+		 * ... to the localStoage & application store
+		 * ... @param {*} test_uid
+		*/
+		toggleEmailSent: () => {
+      // ... GET DATA FROM LOCALSTORAGE();
+      const existing: string = localStorage.getItem(key);
+      // ... CONVERT TO JSON;
+      const existing_data: User_Setting = JSON.parse(existing);
+      // ... UPDATE THE DATA FOR LANG;
+      existing_data.emailNotified = false
+      // ... UPDATE THE LOCALSTORAGE();
+      localStorage.setItem(key, JSON.stringify(existing_data));
+      // ... update the `set()` data;
+      set(existing_data);
+  }
+        
+    
 	};
 }
 

@@ -10,6 +10,7 @@ const Handlebars = require('handlebars');
 const path = require('path');
 
 import { dev } from '$app/env';
+import { init } from '$lib/mongodb/init';
 
 // ~~~~~~~~~~~~
 // ... EMAIL CONFIG,
@@ -32,108 +33,87 @@ const template = Handlebars.compile(email_template);
 
 /**
  * Description:
- * ~~~~~~~~~~~~
- * ... an ASYNC/AWAIT function-method
- * ... for reading files SEQUENTIALLY;
- * 
- * ... @param {*} fileName 
- * ... @returns 
-*/
-async function loadFileContents(fileName) {
-    let data = await fs.promises.readFile(
-        fileName, 
-        "utf8", 
-        function(err, fileData) {
-            // check-for-reading-errors
-            if (err) {
-                throw new Error(err)
-            }
-            return fileData
-    });
-    data = JSON.parse(data);
-    return data;
-}
-
-/**
- * Description:
  * ~~~~~~~~~~
  * ... assign a Unique ID number-string to the participant;
 */
 export async function get(): Promise < any > {
     try {
+        // ... GET ALL PARTICIPANTS;
+        const { db } = await init();
         // ...
-        const path = 'data/'
+        const data: any[] = await db.collection("participants")
+          .find().toArray()
+          .then(function(result) {
+            if (result) {
+              if (dev) console.log('result', result)
+              return result;
+            }
+          });
         // ...
-        fs.readdir(path, (err, files) => {
-            files.forEach(async file => {
-                if (file.toString().includes('.json')) {
-                    // ...
-                    const fileUserData = await loadFileContents(path + file)
-                    // ...
-                    const userEmail: string = fileUserData.userEmail
-                    const lastTestDate: number = fileUserData.last_test_completion_date
-                    // ...
-                    const lastDate = new Date(lastTestDate * 1000);
-                    // ... determine-difference-in-days;
-                    const newDate = new Date(lastDate).getDate(); //convert string date to Date object
-                    const currentDate = new Date().getDate();
-                    const diff = currentDate - newDate;
-                    // ... act-accordingly;
-                    if (diff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString()) &&
-                        parseInt(fileUserData.current_test_status.toString()) < parseInt(import.meta.env.VITE_TEST_NUMBER.toString()) &&
-                        fileUserData.emailNotified == null ||
-                        !fileUserData.emailNotified) {
-                        // ...
-                        fileUserData["emailNotified"] = true;
-                        // ~~~~~~~~~~
-                        // ... declare VARs;
-                        const from = 'StarBased Project <starbasedproject@gmail.com>'
-                        const subject = 'Welcome next StarBased Test!'
-                        // ~~~~~~~~~~
-                        // ... attachments of the email;
-                        const attachments = [
-                            // ~~~~~~~~~~
-                            // ... ENUCS LOGO ICONS FOOTER
-                            {
-                                filename: 'starbased-logo.png',
-                                path: 'static/email/assets/starbased-logo.png',
-                                cid: 'starbasedLogo'     // same cid value as in the html img src
-                            },
-                        ]
-                        // ... declare email opts. ;
-                        const mailOptions = {
-                            from: from,                                 // ... FROM email;
-                            to: userEmail,                              // ... TO - Member email;
-                            subject: subject,                           // ... EMAIL SUBJECT / TITLE;
-                            attachments: attachments,                   // ... necessary IMGs & FILES for the EMAIL;
-                            html: template(fileUserData)                // ... process template with locals - {passwordResetAddress};
-                        };
-                        // ~~~~~~~~~~
-                        // ... finalize the POST request & send out email;
-                        // res.setHeader('Content-Type', 'application/json');
-                        // ...
-                        transporter.sendMail(mailOptions, function(error, info){
-                            if (error) {
-                                console.log(error);
-                                // res.end(JSON.stringify(error));
-                            } else {
-                                // res.end(JSON.stringify(info.response));
-                                // console.log('Email sent: ' + info.response);
-                            }
-                        });
-                        // ~~~~~~~~~~
-                        //... write back NEW DATA to the MEMBERS LIST FILE;
-                        fs.writeFile(path + file, JSON.stringify(fileUserData, null, 4), err => {
-                            // ... checking for errors in the READING file;
-                            if (err) throw err;
-                            // ... success, EVENT ATTENDANCE UPDATED;
-                            console.log("Participant email-sent parameter updated!")
-                            // res.setHeader('Content-Type', 'application/json');
-                            // res.end(JSON.stringify({"Member already sent email to": "TRUE!"}));
-                        });
+        if (dev) console.debug('data', data)
+        // ...
+        data.forEach(async (fileUserData: any) => {
+            // ...
+            if (dev) console.debug('fileUserData', fileUserData)
+            // ...
+            const userEmail: string = fileUserData.userEmail
+            const lastTestDate: number = fileUserData.last_test_completion_date // ... in milliseconds
+            // ... determine-difference-in-days;
+            const currentDate = Date.now();
+            const dateDiff = (((currentDate - lastTestDate) / 1000) / (3600 * 24))
+            console.log(dateDiff)
+            // ... act-accordingly;
+            if (dateDiff > parseInt(import.meta.env.VITE_TEST_INTERVAL.toString()) &&
+                parseInt(fileUserData.current_test_status.toString()) < parseInt(import.meta.env.VITE_TOTAL_TEST_NUMBER.toString()) &&
+                !fileUserData.emailNotified) {
+                // ...
+                fileUserData.emailNotified = true;
+                // ~~~~~~~~~~
+                // ... declare VARs;
+                const from = 'StarBased Project <starbasedproject@gmail.com>'
+                const subject = 'Welcome next StarBased Test!'
+                // ~~~~~~~~~~
+                // ... attachments of the email;
+                const attachments = [
+                    // ~~~~~~~~~~
+                    // ... ENUCS LOGO ICONS FOOTER
+                    {
+                        filename: 'starbased-logo.png',
+                        path: 'static/email/assets/starbased-logo.png',
+                        cid: 'starbasedLogo'     // same cid value as in the html img src
+                    },
+                ]
+                // ... declare email opts. ;
+                const mailOptions = {
+                    from: from,                                 // ... FROM email;
+                    to: userEmail,                              // ... TO - Member email;
+                    subject: subject,                           // ... EMAIL SUBJECT / TITLE;
+                    attachments: attachments,                   // ... necessary IMGs & FILES for the EMAIL;
+                    html: template(fileUserData)                // ... process template with locals - {passwordResetAddress};
+                };
+                // ~~~~~~~~~~
+                // ... finalize the POST request & send out email;
+                // res.setHeader('Content-Type', 'application/json');
+                // ...
+                transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                        console.log(error);
+                        // res.end(JSON.stringify(error));
+                    } else {
+                        // res.end(JSON.stringify(info.response));
+                        // console.log('Email sent: ' + info.response);
                     }
-                }
-            });
+                });
+                // ~~~~~~~~~~
+                //... write back NEW DATA to the MEMBERS LIST FILE;
+                delete fileUserData['_id'];
+                // ...
+                await db.collection("participants").update(
+                  { 'userUID': fileUserData.userUID },
+                  { '$set': fileUserData },
+                  { upsert: true }
+                );
+            }
         });
         // ...
         return {
