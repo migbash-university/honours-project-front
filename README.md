@@ -24,6 +24,8 @@ This application has been developed as a `Docker Application` , so it can be jus
 
 ## 📊 Project Graph
 
+![image](https://user-images.githubusercontent.com/20924663/160024662-04f0ccf8-0491-4242-b75a-6e5425837286.png)
+
 https://whimsical.com/honours-project-development-graph-E62ncTCRaqLE5rMWiwMjVw
 
 ## 🎨 Project Design
