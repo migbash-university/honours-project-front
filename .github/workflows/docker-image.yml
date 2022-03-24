@@ -1,7 +1,6 @@
 # ....................................
 # ... GITHUB ACIONS CI/CD WORKFLOW ...
 # ....................................
-
 name: Docker Image CI
 # ... when to trigger this project
 on:
@@ -10,8 +9,14 @@ on:
   pull_request:
     branches: [main, dev]
 # ... declaring ENV variables to be used in the project-CI/CD
-# env:
-#   VITE_HASURA_DB_URL: ${{secrets.VITE_HASURA_DB_URL}}
+env:
+  VITE_TOTAL_TEST_NUMBER: ${{secrets.VITE_TOTAL_TEST_NUMBER}}
+  VITE_TEST_INTERVAL: ${{secrets.VITE_TEST_INTERVAL}}
+  VITE_BACKEND_URL: ${{secrets.VITE_BACKEND_URL }}
+  VITE_EMAIL: ${{secrets.VITE_EMAIL}}
+  VITE_EMAIL_PASSWORD: ${{secrets.VITE_EMAIL_PASSWORD}}
+  VITE_MONGO_URI: ${{secrets.VITE_MONGO_URI}}
+  VITE_MONGO_DB: ${{secrets.VITE_MONGO_DB}}
 # ... JOBS TO DO WITH GITHUB WORFLOWS;
 jobs:
   build:
@@ -19,10 +24,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       # ... instantiate a `.env` file for the JOB to access;
-#       - name: create env file
-#         run: |
-#           touch .env
-#           echo VITE_HASURA_DB_URL="${{secrets.VITE_HASURA_DB_URL}}" >> .env
+      - name: create env file
+        run: |
+          touch .env
+          echo VITE_TOTAL_TEST_NUMBER="${{secrets.VITE_TOTAL_TEST_NUMBER}}" >> .env
+          echo VITE_TEST_INTERVAL="${{secrets.VITE_TEST_INTERVAL}}" >> .env
+          echo VITE_BACKEND_URL="${{secrets.VITE_BACKEND_URL}}" >> .env
+          echo VITE_EMAIL="${{secrets.VITE_EMAIL}}" >> .env
+          echo VITE_EMAIL_PASSWORD="${{secrets.VITE_EMAIL_PASSWORD}}" >> .env
+          echo VITE_MONGO_URI="${{secrets.VITE_MONGO_URI}}" >> .env
+          echo VITE_MONGO_DB="${{secrets.VITE_MONGO_DB}}" >> .env
       # ... build the DOCKER IMAGE CONTAINER;
       - name: Build the Docker image
         run: |
